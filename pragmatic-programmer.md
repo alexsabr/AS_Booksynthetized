@@ -1,5 +1,7 @@
 Core ideas :
-- Gradual changes rule.
+- Gradual changes rules.
+
+- Being even able to change rules.
 
 - Small improvements one at the time are key to success.
 
@@ -9,7 +11,9 @@ Core ideas :
 
 - Knowledge in the information era can be bought at the price of lead and sold at the price of gold. Make " I don't know but I'll find out " your adage.
 
-- Jack of all Trades, Master of one : have core technologies, yet dab in many.
+- "Ain't good carpenter without good tools" get to know your tool and you will increase your productivity by several magnitudes.
+
+- Jack of all Trades, Master of one : have  one or few core technologies, yet dab in many.
 
 
 What Makes a pragmatic Programmer ? 
@@ -131,5 +135,137 @@ Second the reader may be able to trace back why it is no longer done this way.
 Generally, each function should be documented as follows  :
 What are the valid arguments 
 What will be  answered given valid arguments
-What it does 
+What it does (read carefully, WHAT it does, not HOW it does, there is code for that !)
 Edge case and errors.
+
+### 8. Essence of good design , ETC 
+Easy to change. The essence of a good design is allowing ease of modification. Ideologies come and go, methodologies evolve, but all great ones share a common denominator, they promote adaptability. By doing so, they prevent rust, rot and any other pejorative name you can find for  immutable systems.
+If you think about it many software development motto promote ETC : 
+Separation of Concern, Dependency Inversion, Liskov ,DRY, code factorisation,encapsulation, the Agile Manifesto... .
+
+### 9. DRY and the Devil of duplication
+**D**on't **R**epeat **Y**ourself. Have only one source of truth. This applies in Software development, documentation creation, and team management. 
+When you have two or more  source of truth, you are guaranteed that one day they will contradict each other. Them all being "source of truth" you'll then have an insurmountable dilemma and will have to repudiate one of them, which will effectively  jeopardize credibility of any work which relied on the repudiated source of truth.
+
+### 10. Orthogonality 
+Another name for "maintain  encapsulation" or "separate concern" or " use modularity".
+If you modify a portion of code, any unrelated portion should not have to be changed. If by modifying the way a shipping fee is calculated you have to also change  the customer Account display settings, you are in big trouble.
+Doesn't Orthogonality principle and DRY contradicts each other ? 
+Quit the contrary in fact, if you modify the source of truth, it  literally means you are modifying related components.
+If you  are modifying something that is not  the source of truth of a piece of code, then this thing should not change at all, which respects the orthogonality principle.
+
+### 11. Reversibility
+This rule is the sum of 
+- [[#8. Essence of good design , ETC]] 
+- [[#10. Orthogonality]]
+You never know when one core dependency will go unmaintained,
+one of your core feature no longer supported by a seller, etc. 
+By having clean modular design, you can ensure that this does not pose an insurmountable challenge in the future.
+Also as stated in the definition of a pragmatic programmer,
+beware of fads and passing trends.
+
+### 12.Tracer Bullets 
+Key Idea here is to have short iteration cycle with visible results,
+to be able to quickly and cheaply get a hold for your idea. 
+Attention, this is not about building a prototype that will be scrapped, the moment a proof of concept is made. This is about Checking early, and often that you are developing in the right direction.
+Continuous Integration and TDD-based development are big proponents of this idea.
+
+### 13. Prototypes and Post it Notes
+A PROTOTYPE IS NOT CODE TO BE USED.
+IT IS <u>DISPOSABLE</u> CODE 
+A prototype values lies in the lessons learned by producing it.
+It can be janky, barely hold together, crash when used in a slightly 
+different way than planned that's okay.
+The only thing that matters 
+Taken precedent paragraph into account, when you prototype here are some tricks you are permitted to use : 
+- Wrong data 
+- Static Data 
+- Incomplete results 
+- Ugly UI / terrible UX  ( although particular care should be given to metrics, to learn more lessons )
+- placeholder / cookie cutter solutions  to mock up interactions "just to try and see if it works"
+
+### 14. Domain Languages
+ The way we speak influence the way we think. 
+ Taking this premise, by using well thought names when programming,
+ (that is names which relates to the  business domain to which we bring a solution)  
+ we allow ourselves  (or even the client when he works with us !) to spot caveats and  nonsense  in the of the software. 
+ For example  you work on a Cooking robot,
+ by using the words "Stew"  and "clear soup" for example  you can easily spot  nonsense  like if you try to decant a clear soup or to homogenize a stew.
+It also ease the communication with the client, removing the need of a translator between what he states and the Architecture of the Software. 
+
+### 15.Estimating
+Such a controversial topic, lying clear estimates which are respected throughout. The **Planning fallacy Theory** states that humans are bad ad estimating and if you ask the the time it will take to travel from point A to point B in town by car people will have very similar answer for best case scenario (no traffic jams, only green lights)  and average case scenario. 
+Consquently,to enhance the accuracy of your estimates (or lower the consequences if they reveal themselves false by acting in good faith) you can 
+- clearly state assumptions necessary to make your estimate , 
+		By doing so you can check for errors, and have an explanation to give to an angry customer when things do not go out as planned.
+		"
+		\ - How many times would it take to download the whole content of this  server ? 
+		 \- Assuming there are X Petabytes of data, using a link with a transfer rate 
+		of Y Gb/s and  the Hard drive write speed is "Z Gb/s" we can hope that it will take  Result hours. 
+		"
+- Use the correct time granularity
+	Let's say you plan a software development cycle to have a duration of three months. If you express your estimate in terms of days that makes 90 days, an overshoot of 10 days will bring more spotlight than if you laid the estimate in months. It will be no longer "90 days +10 days "
+	but "three months plus a bit of overtime"
+	
+- breakdown your assumption into multiple components
+	Just like  ships, by breaking down your assumptions by components, in case of time flood you can mitigate impact and perform a better damage assessment useful for the next time or for planning a new action course.
+	
+-  Take the time of thinking  
+	Giving  an answer out of the blue in a half panicked state rarely comes out accurate, applying all the tips stated asks for calm and  meticulous thinking
+	When asked, answer "I'll get back to you in x minutes " and put yourself in the best conditions  to produce the less worst  estimate possible.
+
+- Update your estimate over time 
+	Refine them as you go along, it will force you to have difficult conversations but also help other people plan around your shortcomings.
+
+You are a professional, estimate like one. And don't forget if you don't know say "I don't know yet ... but I'll find out !"
+
+
+### 16. The power or plain text
+Fads go, Software goes extinct, business fails, UI is hard to automatize.
+What is immune to all of this ? plain text. Save file  Data of a long extinct software can be exploited in plain text.
+What is plain text ? Text readable AND understandable by human. Field496=276 is readable yet does not convey much information,Cat_id=276 is immediately understandable.
+Plain text does not mean unstructured; JSON,XML and HTTP are all structured yet plain text data formats / protocols.
+Moreover, plain text is easily workable with, say hello to all GNU UNIX utilities, text based search, lexical automaton, version control system ... .
+
+### 17.Shell Games
+What if we take the power of plain text and apply it to executable ? we get shell. The shell is at the same time 
+- A text engine on steroids
+- The most powerful interface to communicate with your operating system
+	(by powerful we mean modular, and expressive, that is you can do almost everything pertaining to the OS with it.)
+Unlike a GUI, you can compose command at will,
+you are able make a long list of simple steps" just a few characters away
+Unlike a GUI, you are not limited to what you can do, because the limits of the shell are the limits of the system ! (When it is not just a problem of practicity)
+Consequently learn your shell
+
+### 18.Power Editing
+Just like the shell is the front door on your operating system,
+text editing is the front door of your code. Knowing this you should become a power-user when it comes to modifying text with your favorite text editor / IDE. 
+You are a power user of your text editor if you cando the following  using ONLY THE KEYBOARD:
+- move to , select and move character, word, line, paragraph, syntactic delimiter
+- re-indent selection 
+- comment selection in one key press 
+- Split editor window and navigate between them 
+- go to an exact line number, file start, file end 
+- search and / or replace by String or regex and repeat this operation on with one keypress
+- sort lines 
+- recompile / launch 
+Learn also how to make macros for your favourite text editor, it will save you on repetitive tasks.
+### 19. Version Control 
+In the 21st century I doubt any serious business still goes without Version Control on it's code repo. Any here's a list of what it can provide :
+- Allow you to see changes applied to code at any point in time, and 
+- Allows you and other to collaborate even when offline
+-  Allows the automation of testing, code merging, and even delivery to customer
+- Force the team to work by increments and to write something to keep track of modifications.
+- Helps collaborating when fixing bug or reviewing someone elses code
+### 20. Debugging
+### 21. Text Manipulation
+### 22. Engineering Daybooks
+### 23. Design by Contract
+### 24.Dead program tells no lies 
+### 25. Assertive Programming
+### 26. How to Balance Resources
+### 27. Don't Outrun your headlights
+### 28. Decoupling
+### 29. Juggling the real world
+### 30. Transforming programming
+

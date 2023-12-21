@@ -257,7 +257,72 @@ In the 21st century I doubt any serious business still goes without Version Cont
 -  Allows the automation of testing, code merging, and even delivery to customer
 - Force the team to work by increments and to write something to keep track of modifications.
 - Helps collaborating when fixing bug or reviewing someone elses code
+
 ### 20. Debugging
+The action of debugging is often emotionnally charged, it should not.
+Tackle the act of debugging as an intricate and interactive puzzle,
+or as an act of cleaning like checking for spelling error after you write an email; 
+not like a personal attack on your intelligence and your  ability to code.
+As such, if you find bug in the code of others do not 
+go on high horses, or mock them. Stay factual, fix the issue, explain them
+and behave as a professional.
+As such here are tips to be efficient.
+- Steer clear of emotions
+	the moment you start to feel anger or despair, stand up and go for a walk.
+	Programming is an intellectual feat that requires all your calm and attention,
+	not a half baked and incomplete solution built with anger.
+
+- check assumptions
+  	Unless it's an algorithmic problem, bugs are most of the time an the symptom of an incorrect
+  	assumption for example :  "I was sure this number would always fit in an short "
+  	or "By this point, this object is certainly in X state"
+  	maybe " This function call can be performed multiple times in a row without calling an initializer "
+   	or even "result cannot be Null"  ?
+
+- find how to reproduce it reliably
+  	When you know exactly when a bug is happening, you have done half the work.
+  	Indeed you can test later on  if your solution solved the bug, and 
+
+- Read the error message
+	You may be rolling your eyes at this point, but I cannot count the number of times I catched someone else
+	(or sadly even myself) get an error message, a crash, or a raised exception, who starts to panick and to try
+	to fix something right away WITHOUT EVEN READING THE MESSAGE,
+	EVEN WITH IT SITTING IN BIG CHARACTERS IN THE FRONT OF THE SCREEN.
+	The computer is saying to you what's the problem so no need to take out the ouija board or your crystal ball,
+	just listen to what it has to say ! 
+- Write down your thought
+	The act of debugging can sometimes take the form of a tree: spanning across different branches of varying depth.
+	When you have multiple hypothesis, it's best to write them all down so if writing one takes a lot of time / mental
+	resources, you still know what were you other hypothesis if it ends up being a dead end.
+- Logging will help you immensely
+	If only you had a debugger that was constantly running in your production app
+	 so you could track everything that happened prior to a crash.
+	This thing exists, it is called a logging system. You insert in your code various "notification"
+	which will then be saved by the logging system when they are raised, allowing you to see
+	what happened at any point in time.
+- Rubber ducking, don't bother your colleagues for nothing ! 
+	This real practice (see https://en.wikipedia.org/wiki/Rubber_duck_debugging ) allows you to find questions
+	to your answer and provide guidance. How come ?
+	By narrating step by step the problem you currently have, you'll certainly  fumble a bit  with your explanations on some details.
+  	If you fumble it means that you don't understand, if you don't understand, it means there is an unknown which needs to be cleared up.
+  	This process using exclusively talking, not listening, it means no need to bother a real human being for this,
+  	but because talking all alone can seem a bit strange or unintuitive, you can use a small rubber ducky to act as
+  	"an avid listener which never tires, always eager to learn more". 
+
+  - Do not stay stuck 
+	If after a certain amount time you still cannot find what the issue is ask for help.
+	Do not just say "I'm stuck i don't know why", explain what you have done so far :
+	what hypothesis  you have made
+	what you have done to test them
+	what conclusion you have drawn
+
+	A reasonnable amount of time is an arbitrary amount, but you can take for example 15 minutes.
+	When you are stuck spend 15 minutes searching new ideas, checking validity of your hypothesis testing,
+	etc. But after 15 minutes have elapsed, if you are still stuck you MUST (not should, MUST) ask for help
+	as you otherwise are just wasting your time.
+- Use Ockham's razor 
+
+    
 ### 21. Text Manipulation
 ### 22. Engineering Daybooks
 ### 23. Design by Contract

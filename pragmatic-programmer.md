@@ -1,9 +1,9 @@
 Core ideas :
-- Gradual changes rules.
+- Gradual changes is a much safer option than all or nothing.
 
 - Being even able to change rules.
 
-- Small improvements one at the time are key to success.
+- Small improvements one at the time is safer and adds up to be more than just the sum of them
 
 - Leveraging the power of the masses will get you anywhere.
 
@@ -320,13 +320,57 @@ As such here are tips to be efficient.
 	When you are stuck spend 15 minutes searching new ideas, checking validity of your hypothesis testing,
 	etc. But after 15 minutes have elapsed, if you are still stuck you MUST (not should, MUST) ask for help
 	as you otherwise are just wasting your time.
-- Use Ockham's razor 
 
-    
+- Use Ockham's razor 
+	When facing a bug there are more chances that it comes from your code rather than the legacy very popular library.
+  	There is more chance that the error comes from the legacy popular library rather than the OS' kernel .
+  	There is more chance that the error comes from the OS' kernel rather than the hardware implementation
+  	Not to say that kernel bugs / library bugs /  do not happen, but you'll waste far less time
+  	if you start by checking more probable error source rather than a 10 years old piece of code used everyday by millions. 
+
+
 ### 21. Text Manipulation
+A Wink to [[# 18.Power Editing]]  and [[#17.Shell Games]]   [[#16.The power of plain text]]
+You should know a text manipulation language like sed, awk  or even python / Ruby.
+They'll allow you to automate repetitive syntaxic change (like checking for CamelCase for example),
+changes that most of the text editor cannot perform. 
+
 ### 22. Engineering Daybooks
+The authors recommend to work with a small paper notebook with you at all time,
+it allows you to keep track informally of thoughts and design decision.
+Being informal, it is also easier to drop few words to remember something when you are in a hurry 
+rather than opening a rigorous but time consuming planning software.
+Of course, don't put passwords or sensitive informations in it !
+
 ### 23. Design by Contract
+By stating clearly what your function does, you sign a contract.
+It is therefore easy to ~~lie blame~~ find the source of problems when things go south. 
+A programming contract takes the following form 
+- Preconditions  : what inital parameters must be fed / the initial status of the program must be
+- Postconditions : what will be returned / what will be the obtained state
+- Class invariants Something that is true before the call and after the call (if also in the code we start to dab in algorithmics)
+Notice how it resembles very much what you may have been taught in algorithmic class.
+- penalties : Fancy word for what will happen if someone does not respect it's part of the contract, exception raised,
+  strange inter state mode, etc.
+
+" Be strict about what you accept and greedy about what your return,
+if you accept anything, and offer the world in return, you have a lot of code to write !" 
+
+Assertion are a great runtime way to check contract,but they come with limitations.
+For example 
+Also in Object Oriented Language, child class and functions will not inherit 
+your assertions, you'll have to write them again, violating the DRY principle.
+unless you are using 
+Moreover, in some languages assertions are deactivated by default or 
+limited to debugging mode, which slows down code execution.
+
+If you can, crash early. 
+This may avoid (or at least shorten) the following of a trail of clues to try to find out what caused the problem 
+
+
 ### 24.Dead program tells no lies 
+
+
 ### 25. Assertive Programming
 ### 26. How to Balance Resources
 ### 27. Don't Outrun your headlights

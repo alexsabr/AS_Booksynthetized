@@ -356,24 +356,41 @@ Notice how it resembles very much what you may have been taught in algorithmic c
 " Be strict about what you accept and greedy about what your return,
 if you accept anything, and offer the world in return, you have a lot of code to write !" 
 
-Assertion are a great runtime way to check contract,but they come with limitations.
-For example 
-Also in Object Oriented Language, child class and functions will not inherit 
-your assertions, you'll have to write them again, violating the DRY principle.
-unless you are using 
-Moreover, in some languages assertions are deactivated by default or 
-limited to debugging mode, which slows down code execution.
 
-If you can, crash early. 
-This may avoid (or at least shorten) the following of a trail of clues to try to find out what caused the problem 
+
 
 
 ### 24.Dead program tells no lies 
-
+Crash early. 
+This may avoid (or at least shorten) the following of a trail of clues to try to find out what caused the problem. 
+You also don't have to try to guess what strange state your program is in and how well it can still perform.
+Catch and release is for the fish. If you raise an exception while intending to crash early, it is useless
+to catch the raised exception just to output a log message, that's what the exception is  for ! 
+Morevoer 
 
 ### 25. Assertive Programming
+Ideally everytime you make an assumption it's because of two things
+- the programming languages ensures it for you ( for example in Kotlin variables cannot be null except particular conditions)
+- you have code that checks for the assumption 
+Assertions fall in the second category.
+They are a great runtime way to check assumptions,but they come with limitations.
+For example  in Object Oriented Language, child class and functions will not inherit 
+your assertions, you'll have to write them again, violating the DRY principle.
+Also, in some languages assertions are deactivated by default or 
+limited to debugging mode, which slows down code execution.
+
+
 ### 26. How to Balance Resources
+multiple tips to manage resources effectively (be it threads, cores, file descriptor, ...)
+- Finish what you start (the one reponsible for the allocation of a resource should also be responsible for it's freeing)
+- Deallocate from most recent to oldest ( nullyfing the risk of closing a resource still required by something else)
+- allocate the same way (If you have multiple resources that are required in the same time when used,
+  always allocate them in the same order, prohibiting any dead lock or race condtion ).
+
 ### 27. Don't Outrun your headlights
+Make small steps and don't make big leap of faith whether it be when planning, refactoring, testing, ... .
+
+
 ### 28. Decoupling
 ### 29. Juggling the real world
 ### 30. Transforming programming

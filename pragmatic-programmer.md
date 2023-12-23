@@ -507,4 +507,27 @@ Each time you write code is either
 You may notice how this way of thinking is very close to the paradigm promoted by functional programing,
 As little state as possible, function sharing data one after the other ... .
 
-###31. The inheritance tax
+### 31. The inheritance tax 
+We come back to inheritance after having opened the case at the end of  part [[# 28. Decoupling]]
+Inheritance can be bad because when using it two things are promoted 
+everything that the parent contains, the child contains it also the risk here is feature bloat.
+Also, since it contains everything from the parent, the child is dependant of everything the parent changes in the future.
+
+If what what was stated above is not a problem for you, or even better is a necessity,
+then by all mean go for inheritance. If not, here are three (more two really)  alternatives to inheritance
+
+- Use Standard Protocols to communicate
+  This breaks coupling. In Java this means using the "Interface"  keyword.
+  You have the opportunity to offer a "à la carte" service where you decide what you offer or not,
+  given that your interfaces aren't bloated.
+
+- Delegation
+  Basically it's just composition, you contain the object from which you want to share some code or features
+  and you pass calls or data whenever needed
+
+- Mixin and traits
+A mix of the two above points ,excepted that unlike protocols, here Parent code is at the center of the show
+and you add just some functionality by glueing some functions around.
+
+### 32.Configuration
+### 33.Breaking temporal coupling

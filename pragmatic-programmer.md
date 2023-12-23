@@ -1,7 +1,7 @@
 Core ideas :
 - Gradual changes is a much safer option than all or nothing.
 
-- Being even able to change rules.
+- Being  able to change without risking breaking unrelated parts is good.
 
 - Small improvements one at the time is safer and adds up to be more than just the sum of them
 
@@ -530,4 +530,18 @@ A mix of the two above points ,excepted that unlike protocols, here Parent code 
 and you add just some functionality by glueing some functions around.
 
 ### 32.Configuration
+Applications must react to change or be able to be setup by the client.
+Consquently they must configurable, the easier, the better.
+By providing the ability to configure it  externally, for example through an API or a file, you 
+allow yourself and other to automate configuration. What can / will be automated ? 
+- the saving 
+- the feeding (of a new configuration or the update of it)
+- the sharing to other software
+The API has the added benefit of not needing to restart the application to load configuration changes.
+
 ### 33.Breaking temporal coupling
+
+
+### 34. Share state is incorrect state 
+
+### 35. Actor and processes 

@@ -465,6 +465,46 @@ Always perform Composition unless you have a valid reason of inheriting parent.
 
 
 ### 29. Juggling the real world
+The book proposes in this section few methods to make responsive and adaptable program
+It could be more or less called 
+event driven development.
+An event is the information that something is happening 
+- the data requested is ready
+- the user clicked somewhere
+- ...
+Four methods are introduced
+- Finite State machines
+They describe all the possible states and make conditions on what happens
+when an event is received in any said state.
+
+They can represent a bit of heavy infrastructure if you have only like two states or be horrendous
+if you have 20 states all branching in multiple directions 
+
+- Observer pattern
+  Observers make themselves know to the event source that they would like to be notified
+  when new events are produced. You can stack many observers with little overhead,
+  but it may introduce coupling
+
+- publisher/subscriber
+Observer in more generic, coupling is gone but at the price of heavier infrastructure.
+Say hello to channels, the bridge between event emitter and receiver
+which ensures that one does not have to know the other.
+
+- Reactive programming and Streams
+A repetition of publisher ?
 
 ### 30. Transforming programming
+This part aims to change the way you view programming. It follows a simple yet powerful philosophy :
+let the data flow. 
+If you see each program like something that justs manipulates then pass it around,
+you'll have far less the will to create a "system". Indeed, why build a system with protocol and back checks
+and communication protocols when you can just have a one way pipeline ? 
+Each time you write code is either
+- to create new data
+- to modify it
+- to pass it around
 
+You may notice how this way of thinking is very close to the paradigm promoted by functional programing,
+As little state as possible, function sharing data one after the other ... .
+
+###31. The inheritance tax

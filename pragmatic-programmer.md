@@ -388,10 +388,83 @@ multiple tips to manage resources effectively (be it threads, cores, file descri
   always allocate them in the same order, prohibiting any dead lock or race condtion ).
 
 ### 27. Don't Outrun your headlights
-Make small steps and don't make big leap of faith whether it be when planning, refactoring, testing, ... .
+Make small steps and don't make big leap of faith whether it be when planning, refactoring, testing, ...
+or you'll find yourself overpromising, and underdelivering.
 
 
 ### 28. Decoupling
+You want your code to be flexible and modular, so when the day comes that you have to modify it 
+(and trust me it will come !) you are in the best  position to do so. 
+Decoupled code is a recurring theme of software development;
+in Object Oriented Programming, many features are here to help promote decoupled code :
+late dependency linking, abstract class, generalization and specialization, inheritance... .
+Functional programming by itself is a promotion of decoupled code : .
+
+As much as Three letters of the five  in the  S.O.L.I.D acronym talk expressly of decoupling 
+- the Open-closed principle Open to extension, closed to modification 
+- Interface Segregation states that you should have small interfaces so the client depends only
+  on what he really needs.
+- Dependency Inversion  states that you should depend on abstraction, not implementation
+
+It could even  be argued that the S, Single responsibility principle, stating
+that each part of code shall be responsible for one part, and one part only,
+is also fighting  coupled code .
+  
+The symptoms of overly coupled code are very talkative and cannot
+be confused with something else : 
+- everyone must attend meetings even if they aren't concerned,
+  because we don't know what might break next when changing a part of code 
+- Changes to one module breaks code in a semantically unrelated place
+
+In the code, tight coupling usually takes the following forms 
+
+Train wrecks : When you have chained method calls that traverse  multiple abstraction layer 
+for example let's look at the following 
+``` pseudocode
+UpdateLateStatus(Customer,12257){
+orders = Customer.getorders().getorder(12257)
+packages= order.getpackages()
+for each package in packages
+	if(package.expecteddeliverydate > order.fulldeliverydate ) is True :
+		Customer.notifyLate()
+		break
+}
+```
+Here we know that there are packages in an order, and many orders in a Customer 
+We also know how to check if a package is late package.expecteddeliverydate > order.fulldeliverydate
+We shouldn't know any of it, what if tomorrow the way the customer holds olders changes ? 
+or the internals of order changes  ? We have to update everything ?! 
+"Be strict about what you accept and greedy about what your return" [[# 23. Design by Contract]]
+See this corrected version : 
+``` pseudocode
+UpdateLateStatus(Customer,12257){
+order = Customer.getorder(12257)
+if order.checkifAnyPackageLate() is true
+	Customer.notifyLate()
+```
+Much better, now we get the order from means that only the customer knows,
+and we don't even have to know how are late packages calculated, just call the method !
+
+Globalization :
+Global variables are a disaster waiting to happen. Why so ? 
+Because they couple distant and unrelated part of the software together. 
+By doing so, they introduce software wide states that can change at any moment.
+An obvious symptom is when for each test, you have to setup the global variable beforehand.
+
+Putting your global variable inside a Singleton does not change anything. The problem has never been
+the number of instances but the very existence of the.
+
+A Global Constant fixed at compilation time is much less problematic,
+but beware of it as it can still insert multiple states, which means, more potential bugs.
+
+Inheritance :
+Fact : inheritance adds coupling. 
+It can be  "good coupling",that is, it is normal or even expected that this code is coupled, by semantic of it.
+It can be "bad coupling", usually you used inheritance by laziness or a bad adherence of Don't Repeat Yourself principle.
+Always perform Composition unless you have a valid reason of inheriting parent.
+
+
 ### 29. Juggling the real world
+
 ### 30. Transforming programming
 

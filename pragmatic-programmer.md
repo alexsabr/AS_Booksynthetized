@@ -541,7 +541,24 @@ The API has the added benefit of not needing to restart the application to load 
 
 ### 33.Breaking temporal coupling
 
+To perform concurrent programming you need first to understand which steps depends of which.
+To Draw an activity diagram first write each atomic step inside a square.
+Then for each step  draw arrows, from the step to other for service provided  and from others to the step for dependency.
+The steps which do not precedes nor follow each other can be ran in parallel or at least in concurrency (if for example they both exploit a shared ressource ).
+Steps which do not have dependency (no arrow pointing towards them) can be ran at any moment when you have 
+some downtown.
 
-### 34. Share state is incorrect state 
+### 34. Shared state is incorrect state 
+Resource management  is more difficult when the software is concurrent because you 
+now  have to ensure 
+- the resource is shared enough to be used by all who needs it, 
+- that two resource requester don't fight for said resource 
+To ease this problem we use the motto "Shared state is incorrect state".
+It means two agent requiring a shared resource must not make any assumption on it 
+until they have ensured that they control it. Otherwise it could lead to a very akward situation
+where one agent checks for the availability of a resource, finds out it is free
+setups itself for using it, only to found that that in the mean time it had been locked by another agent.
+
+
 
 ### 35. Actor and processes 

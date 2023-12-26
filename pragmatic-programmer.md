@@ -529,6 +529,7 @@ then by all mean go for inheritance. If not, here are three (more two really)  a
 A mix of the two above points ,excepted that unlike protocols, here Parent code is at the center of the show
 and you add just some functionality by glueing some functions around.
 
+
 ### 32.Configuration
 Applications must react to change or be able to be setup by the client.
 Consquently they must configurable, the easier, the better.
@@ -539,14 +540,15 @@ allow yourself and other to automate configuration. What can / will be automated
 - the sharing to other software
 The API has the added benefit of not needing to restart the application to load configuration changes.
 
-### 33.Breaking temporal coupling
 
+### 33.Breaking temporal coupling
 To perform concurrent programming you need first to understand which steps depends of which.
 To Draw an activity diagram first write each atomic step inside a square.
 Then for each step  draw arrows, from the step to other for service provided  and from others to the step for dependency.
 The steps which do not precedes nor follow each other can be ran in parallel or at least in concurrency (if for example they both exploit a shared ressource ).
 Steps which do not have dependency (no arrow pointing towards them) can be ran at any moment when you have 
 some downtown.
+
 
 ### 34. Shared state is incorrect state 
 Resource management  is more difficult when the software is concurrent because you 
@@ -561,4 +563,41 @@ setups itself for using it, only to found that that in the mean time it had been
 
 
 
-### 35. Actor and processes 
+### 35. Actor and processes (Actor and messages would be a more accurate name)
+Here is a Work Arrangment that can, without explicit concurrency checking, guarantee safety of execution.
+It Bears no shared state, it's the Actor and messages model.
+The models consists of two entitites 
+- Messages, which can be shared between actors, in one way only (messages are sent from A to B, if B wants to answer to A, it sends a message too)
+- Actors who take action when receiving a message 
+Actors can be started by other actors or by the program itself. The internal sate of any Actor is unknown to everyone else but itself
+
+Actors could as well be machines, process, processor' core or Thread, the model would work just the same.
+
+
+### 36. Black Boards
+The black board system differs a bit from [[# 35. Actor and processes (Actor and messages would be a more accurate name)]]
+Here Actors gather their work from one place and one place only, "a giant black board" which contains all information 
+which where deemed shareable at some point by an actor or the problem emitter.
+The black board is the only shared resource (or it's content), way easier to monitor for concurrency problems.
+This model is particularly useful when the work of some actors could trigger more work that cannot be planned in advance. 
+Here we have a "buffet à volonté " where everyone gathers and chooses what suits best his field of expertise to solve.
+
+### 37. Listen to your lizard Brain 
+Only interesting bit in this part is the fighting of the blank page syndrome 
+1. Write  on a post it "I'm prototyping"
+2. Write a comment or two in your empty file describing what you are trying to do 
+3. Start typing
+4. If you wonder what you are doing right now, look at the post it.
+Oh and by the way the "Lizard brain theory" is kind of looked down upon today, see:
+https://en.wikipedia.org/wiki/Triune_brain
+
+
+### 38. Programming by Coincidence 
+
+
+### 39. Algorithm speed
+
+
+### 40.
+
+

@@ -669,5 +669,43 @@ by games with gabe:
 https://youtu.be/o4-zpAI7qBc?si=lO8nNKBfQ9PeIZRS
 
 ### 40. Refactoring
+First a definition,
+Refactoring is restructuring / rewriting a body of code,
+without changing it's behaviour or results to an outside observer.
+
+Here a few tips to make this essential process painless 
+1 Refactoring is NOT for adding functionality, it is for checking on existing and working features
+2 We already said it a billion times but, small calculated steps, not big leap of faith
+3 A good testing set is almost mandatory for any non trivial refactor, how can reassure yourself  otherwise that the code still behaves as expected ? (Note, tests never have and never will prove that code is valid, only that it doesn't fail yet ! )
 
 
+### 41. Test to Code
+Test as a way to write code : TDD
+Test driven development is a way of writing code,
+first you write the test, then run it to ensure it fails
+then you write the code that makes the code succeed. 
+You should end up with working code, and  a test to reassure you when refactoring.
+
+But there is more to that, don't view testing only as a mean or hunting down bug,
+which it is not (still waiting for the mathematical proof that enough tests proves that a code is correct).
+Instead, view testing as a mean of sharing contract, communicating, and writing good code.
+- contract : like the one stated in [[# 23. Design by Contract]]
+  They can even be a basis on how to use features of your code, and you can point others to it for examples 
+- communicating : code never lies, comments sometimes do,
+  by using code to describe other code, we then ensure no lies shall be shared then ! 
+- writing good code : Testable code usually mean orthogonal code with clear input and output, just what we want !
+
+Don't get eaten by the test glowfish, 
+meaning don't get misguided by the bells and whistle of a test suit passing
+TDD is a tool to help you write better code, not to lose yourself in nitty gritty details
+and spending hours enlarging your test suite, just because it looks nice 
+"Just one more test bro ! "
+
+The best (and hardest) test to write are end to end tests.
+As such write your code end to end, it comes with the benefit 
+of having something to show to the client, and to avoid once again big leap of faith.
+Don't write it from top to bottom, you can't write everything in the specification.
+Don't write it from the bottom to the top,  you'll get drown in small details 
+without a clear direction
+
+### 42. Property based testing

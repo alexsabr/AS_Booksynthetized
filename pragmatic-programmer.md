@@ -593,11 +593,45 @@ https://en.wikipedia.org/wiki/Triune_brain
 
 
 ### 38. Programming by Coincidence 
+Programming by coincidence could be defined as 
+"not knowing why code works in the first place",
+either it be 
+- witnessing the program continue to execute "correctly", when an obvious fault is present 
+- Using misunderstood (by the programmer) technology, functions, keyword, and glueing them like seen on stack overflow
+- more subtle, making assumption based on thin air  before doing something
+  "of course the database cursor would be open by this point, there are tons of agent which would use it before me"
+- applying patchwork corrections without knowing from where the issue comes in the first place
+  "The result is always false, by just 1, so I am going to add 1 to the result every time "
+  
+
+It goes without saying that programming by coincidence is bad practice, the correctives for programming by 
+coincidence are also simple to ( != easy) 
+- If your program continues to execute when you see or have introduced a glaring mistake, something is off.
+  Check your assumptions
+  (
+  	Am i running / compiling the version I am currently editing ? 
+  	Is this function really called at this moment ?
+  	Is this invariant really respected ?
+  ...
+  )
+  "If your issue is gone without knowing why, you still have  an issue !"
+- If you use a technology without understanding what it does, you're just another cargo cult  follower !
+  Please, please, please, ***READ THE FUCKING MANUAL*** and never  ever just rely on the name of the function to deduce what it does !
+- As always, check your assumptions !
+- Error "off by 1"  can  be anything, from a small oversight, to a deep algorithmical error
+  "Close enough" is not an acceptable answer ! 
+
 
 
 ### 39. Algorithm speed
+We will here just remind the three algorithmic complexity notations :
+Big O 
+Big Omega 
+Big Theta 
 
+Complexity isn't everything ! 
+See https://youtu.be/o4-zpAI7qBc?si=lO8nNKBfQ9PeIZRS
 
-### 40.
+### 40. Refactoring
 
 

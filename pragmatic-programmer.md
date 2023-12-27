@@ -709,3 +709,20 @@ Don't write it from the bottom to the top,  you'll get drown in small details
 without a clear direction
 
 ### 42. Property based testing
+Writing unit test is tedious. 
+Unit tests have a limited scope.
+Most of the function we write could be ran a thousand times, without it taking too much time, 
+and it would strengthen our confidence in the test suite.
+The Answer ? Property based testing  !
+
+It is a type of fuzzing
+(see fuzzing https://en.wikipedia.org/wiki/Fuzzing )
+(that is, throwing random data to see if program crashes)
+Where you specify some interesting ranges of input, and let the software generate them,
+and send them to your program to see if it crashes. 
+It has the benefit of drastically focusing the test case on interesting points,
+which saves time. It is also a drawback, as fuzzing for random input best represents
+bug ocurrences and / or a malicious attacker.
+
+### 43. Stay Safe out There
+

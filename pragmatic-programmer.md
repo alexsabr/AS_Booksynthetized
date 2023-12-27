@@ -625,12 +625,48 @@ coincidence are also simple to ( != easy)
 
 ### 39. Algorithm speed
 We will here just remind the three algorithmic complexity notations :
-Big O 
-Big Omega 
-Big Theta 
+let f and g be two function valued in the Real set  
+(In algorithmic they usually take a parameter as the size of the problem
+and output the time it would take some algorithm to solve it, in arbitrary unit.)
+Big O  
+f O(g) (f is in big O of g ) if there exist x0 and k both valued in the real set 
+so that the following is true 
+for any x > x0 
+f(x) <= k * g(x)
 
-Complexity isn't everything ! 
-See https://youtu.be/o4-zpAI7qBc?si=lO8nNKBfQ9PeIZRS
+Omega 
+The same as big O except 
+that the end result is now 
+f(x) >= k * g(x)
+
+ Theta 
+f is big Theta G when it its at same time 
+Big O of g and Omega of g
+
+Three important notes 
+first do not get baited by O
+Let's say  f  Theta (log(x)) 
+it is AB-SO-LU-TE-LY valid to state that 
+f O(x^2), indeed you can take for example k = 10 and x0 = 25 (randomly chosen yet valid numbers)
+and check for yourself. Usually though  big O is used by the common programmer as big Theta,
+so be extra mindeful when you are talking algorithm complexity
+
+Second, this definitions is true for any given x > x0,
+be sure that the common case you code for uses data with a size greater than  x0 ! 
+Because usually those great algorithms require a bit of infrastructure which will only slow down the process
+for small datasets 
+
+Third point, which echoes with the second,
+the most optimum algorithms are usually the hardest to write, debug and maintain,
+think about it before using it on a non critical software part,
+which Would enhnance the project in no way by being sped up by 80 % 
+if it means being an absolute hell of an unmaintainable damage queen.
+
+
+I recommend this video titled 
+"BigO = Performance! And other lies programmers tell themselves!!"
+by games with gabe:
+https://youtu.be/o4-zpAI7qBc?si=lO8nNKBfQ9PeIZRS
 
 ### 40. Refactoring
 

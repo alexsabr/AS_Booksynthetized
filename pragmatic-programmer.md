@@ -725,4 +725,32 @@ which saves time. It is also a drawback, as fuzzing for random input best repres
 bug ocurrences and / or a malicious attacker.
 
 ### 43. Stay Safe out There
+Or How to make your code safe in this dangerous world
 
+- Minimize attack area
+Smaller code, smaller API, smaller number of open ports,
+smaller tolerance for protocol deviation results in smaller risks.
+Exterior  input is a commonly used attack vector, everything coming from  the outside should be treated as
+hostile until sanitised. Output data is also a potential attack vector, don't see what I mean ?
+"Sorry, your requested password is already used by xxxx" seems a reasonable sentence ?
+What do you think about "System crashed, STACK TRACE : ... SSH private key ... "
+
+- Least necessary privilege
+If something get's compromised, the less privilege it has, the less it will be able to pivot
+and do damage.
+
+- Secure Defaults
+  The default settings for your software should be the most secure one, by doing so any oversight
+  in settings does not transform into a ticking bomb. Let the (hopefully competent) user
+  decide security vs convenience tradeoff.
+
+- Encrypt everything sensitive 
+Got a breach and data was stolen ? It will slow the attacker or even fend them off.
+Just like least necessary privilege, spend the least amount of time with unencrypted
+data in the hands.
+
+- Maintain Security update
+You got breached by a software defect patched 9 years ago,
+how sad... . Make. Your. Security. Updates.
+
+### 44. Naming Things

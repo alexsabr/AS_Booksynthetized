@@ -17,7 +17,14 @@ Core ideas :
 
 - Check assumptions, provide proof for them and write them, unproven assumption is nothing ! 
 
-What Makes a pragmatic Programmer ? 
+- The object of your work is to enable others, you're a problem solver
+
+- Take pride in your work, and assume consequences. You're a professional, act like one.
+
+- Don't enable scumbags.
+
+What Makes a pragmatic Programmer ?
+
 In One sentence,
 Care about your Craft. Care about programming. Care about Technology.
 Why are  you even in the field if you don't ? 
@@ -843,16 +850,44 @@ everyone else juste because they do it.
 
 ### 51. pragmatic Starter Kit
 The following are three methods that, once implemented
-will free up developer time for more meaningfull and money bringing tasks 
+will free up developer time for more meaningful and money bringing tasks 
 - Have your Code in a version control system. Enough Said
-- Test relentlessly
+- Test early, test relentlessly, automate your testing
+  here is a list of different  testing level
+  	- Unit testing : the most precise, the most fastidious, yet without them are you really testing ?
+  	- Integration testing : Testing brick by brick is good, but do the brick glue together ?
+  	- end to end testing : Your user uses a product, not some modules 
+  	- performance testing : Because the result is wanted now, not in a week.
+  	  Also  thanks to them you can monitor what needs to be optimized.
+  	- Saboteur and agent of Chaos : Are you really into testing ? If so make a new branch,
+  	  add some bugs and see if they pass through the test suite without triggering an alarm.
+  	  You could also simulate failures and see how the software reacts, See https://fr.wikipedia.org/wiki/Chaos_Monkey
+	This goes without saying, but saying it is better, if you find a bug, create a test that will catch it
+	if it reproduces.
 - Automate.
+	Manual procedures are a	plague, "oops I forgot this part" or "I swear I did this ... oh well I didn't" or " I invented 		this procedure, I Know it by heart, there is no way I could ... and yet I did."
+	Automation provides a guarantee that something WILL be done the same way each time
+	Tedious and repetitive tasks which dont require a brain ? automate.
 
 
 ### 52. Delight your user
-
+Software for people other than developers, even more, for everyone except those who develops it,
+is a mean to an end. They don't care about technology, they don't care about code structure,
+they care that they needs are met. Consequently ask them 
+"How will you tell if this project has been successful ?"
+You're the enabler, the problem solver.
 
 
 ### 53. Pride and Prejudice
+Sign your work. 
+"I wrote this code to the best of my ability and I stand behind it."
+You're a professional, Act like one.
 
 
+### 54. Postface : The moral Compass
+Don't. Enable. Scumbags.
+
+Developers are gifted people. Programming is one if not the  only 
+field when someone can change the world and be a force multiplier, juste by the power of it's intellect.
+Have you protected the user, would you use the software yourself ? 
+First Do no harm, and don't. enable. scumbags.

@@ -15,6 +15,7 @@ Core ideas :
 
 - Jack of all Trades, Master of one : have  one or few core technologies, yet dab in many.
 
+- Check assumptions, provide proof for them and write them, unproven assumption is nothing ! 
 
 What Makes a pragmatic Programmer ? 
 In One sentence,
@@ -767,16 +768,91 @@ anyone to prosecute you for public insult.
 
 
 ### 45. The Requirement Pit 
+We will start this part by a bold stateemnt,
+,no one knows exactly what they want.
+Given that, we got a bulletproof argument to justify the following
+- make small incremental steps and show them to the client to keep in the right direction
+  "The job of a programmer is also to help people understand/find out what they want"
+  This will avoid you the headache of "It does WHAT I want but NOT HOW I want"
+- Things change, current business policy is  NOT the same as hard requirements,
+  even requirements may change over time, but business policy should almost be user-configurable.
+- Consequently, requirements should be specified as user stories cards explaining the
+  situation of the user and his problem we're trying to solve,
+  not being  encyclopedia sized hard to read file
+- Again, a Glossary built by developer and product owner alike
+  helps express tip top requirements and are easier to translate to code.
 
 
 ### 46. Solving impossible puzzles
+Not exactly sure why this section lies inside the book, but anyway
+When facing a particularly troublesome problem, first determine the limits of the problem
+and provide proof for them.  Use those limits to shape how to attack the problem.
+And like always don't panic, if you aren't finding an answer caml and focused,
+you won't surely find it angry and dissipated.
 
 ### 47. Working together
+You usually won't work alone on a project, let's make a benefit of it ! 
+You can for example pair programming,
+one person  with a keyboard, two brains working at the same problem.
+It is highly intensive so don't forget to take breaks.
+It should result in more maintainable code, with fewer bugs and bad practices,
+provided that the one without keyboard isn't slacking off, or that 
+if senior and junior developer are put together, ego is kept in check.
+
+Design usually reflect the structure of the  organization  which built it,
+you can take advantage of that fact by changing how work is split,
+make people work on different modules, rotate them, to ensure all round up code.
+
+Finally, criticize the work, not the person,
+you're here to produce great sotfware, not step on people.
+Also be open to criticism about your work, or you'll never learn.
+Your ego is not your amigo, period.
 
 ### 48. The essence of agility
+The "agile method" (see https://agilemanifesto.org/)
+is over twenty years old now. Widely recognized 
+it is ironically sometimes used to promote the exact opposite of it's core ideas.
+Stiff, inflexible, unadapted and sluggish  communication,work system and management style.
+Here is a reminder of what the manifesto promotes :
+
+- Individuals and interactions OVER processes and tools
+- Working software OVER comprehensive documentation
+- Custommer collaboration OVER contract negotiation
+- Responding to change OVER following plan
+  (Or how Helmuth von Moltke the Elder would state "No plan survives first contact with the enemy")
+
 
 ### 49. Pragmatic Teams 
+Small teams where trust exists among all of it's members 
+will perform better than a bigger team, 
+-  communication will flow better (peer to peer communication  link increase is in O(n^2) with n number of members)
+- the sense of community will be strong and no one will want to drop the ball on someone else
+- it is easier to find out if something is going unnoticed because their are less people to ask if they noticed it
+- Just like Fred brooks stated in his book "The mythical man month" stated " If man-hour unit was  valid, 9 women could deliver a baby in a month"
+
 
 ### 50. Coconuts don't cut it 
+Do you know why you do everything you do ? 
+Why particular framework was chosen, why this tool is used this way,
+why this piece of code is included in every file ? 
+https://en.wikipedia.org/wiki/Cargo_cult_programming
+Remember, your objective is to provide answers to someone problems,
+to provide them fast, and they ought to be reliable; not to do like 
+everyone else juste because they do it.
+
+
+### 51. pragmatic Starter Kit
+The following are three methods that, once implemented
+will free up developer time for more meaningfull and money bringing tasks 
+- Have your Code in a version control system. Enough Said
+- Test relentlessly
+- Automate.
+
+
+### 52. Delight your user
+
+
+
+### 53. Pride and Prejudice
 
 

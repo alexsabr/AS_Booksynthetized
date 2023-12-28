@@ -754,3 +754,29 @@ You got breached by a software defect patched 9 years ago,
 how sad... . Make. Your. Security. Updates.
 
 ### 44. Naming Things
+A good name convey much meaning in a little character.
+For example user vs buyer 
+what is user ? a client ? and administrator ? can he do this or this ?
+With buyer those questions are answered  in only five letters.
+A book (forgot it's title) recommended to have developers and product owners 
+share the same industry language , by doing so concepts are  easily conveyed.
+When naming, the bigger the scope the bigger the name,
+you could get away (please don't) with naming the counter of a one line loop 'i'
+but using this same name for a function in a public module should legally allow 
+anyone to prosecute you for public insult.
+
+
+### 45. The Requirement Pit 
+
+
+### 46. Solving impossible puzzles
+
+### 47. Working together
+
+### 48. The essence of agility
+
+### 49. Pragmatic Teams 
+
+### 50. Coconuts don't cut it 
+
+

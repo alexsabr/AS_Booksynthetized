@@ -2,6 +2,7 @@
 Andrew Tanenbaum, Nick Feamster, David J Wetherall
 
 ## Introduction
+
 ### Network sizes 
 #### PAN(Personal Area Network)
 Network which allows devices in very close proximity to communicate together ,
@@ -25,6 +26,7 @@ Country or even Continent Sized Network
 Sonet link
 Fiber optic Country backbone ?
 Starlink
+
 ### Brief History of networking  (or the history of internet)
 #### Arpanet
 The first Wide Area Network, spanning across the United states of America. 
@@ -62,6 +64,9 @@ link themselves to these to provide faster service.
 ## Physical Layer
 Note : As I'm no electronical engineer, 
 this part really does not interests me and I've felt free to oversee many pages about the physical Layer.
+
+### Brief introduction of the network of mobile phone systems.
+#### Cells
 
 
 ## Link Layer

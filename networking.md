@@ -117,12 +117,22 @@ Here we find problematics of
 - authentification (Proof that I am who I say and so is my recipient)
 - integrity ( My message is not altered in any form) 
 
+
+### Layering 
+####
+#### OSI Model
+#### TCP/IP Model
+#### Hybrid IP/OSI (the one of the book)
+
+### Standards and ethics 
+#### Standards
+
+#### Ethics
+
 ## Physical Layer
 
 Note : As I'm no electronical engineer, 
 this part really does not interests me and I've felt free to oversee many pages about the physical Layer.
-
-
 
 
 

@@ -43,11 +43,25 @@ of making Super computer computing power accessible to more universities.
 #### Internet
 The internet as we know it more or less appeard in 1989 With the apparition of Commercial ISP in the United States of America.
 the IP protocole suite which is a fundamental part of the Internet was introduced in January 1983.
+Today a packet navigating will go through the following infrastructure
+
+1 Emitted by the ISP's box of the client
+2  ISP's client Point of Presence aggregating traffick in his neighbourhood.
+3 Internal Network  of the ISP 
+4 Backbone (Massive networking infrastructure spanning across long distances)
+5 IXP Internet Exchange Point, where two or more ISP are interconnected  to exchange packets 
+And then repeat the same process in the other direction to reach the destination.
+
+Note : The ISP of the emitter and the receiver may not be directly interconnected by an IXP,
+in this case, packets will transit by one or multiple intermediary ISP (which will make pay the transit to the ISP).
+
+As you can see, these IXP have a key role to play in delivering packets,
+that's why content provider  like Amazon, Netflix, Google ...  and data center like OVH or Cloudflare,
+link themselves to these to provide faster service.
 
 ## Physical Layer
 Note : As I'm no electronical engineer, 
 this part really does not interests me and I've felt free to oversee many pages about the physical Layer.
-
 
 
 ## Link Layer

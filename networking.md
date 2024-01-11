@@ -124,7 +124,7 @@ Here we find problematics of
 To Satisfy the  easiness of evolution model, engineers have come up with the idea of "layering" protocols to make them  interchangeable.
 The idea goes as follows, each layer represents a protocol. 
 It provides something to the layer above it (or the user if it is the uppermost), this thing is called a service.
-It also .......FIXME........... the layer below it 
+It rely on a service provided by the layer below it 
 Between two protocols layer there is an interface which describes how data must be transferred between the two layers.
 This system is incredibly modular because each layer only knows about the layer above it,
 the work to change a protocol with another used is limited to the interface above and below.
@@ -156,7 +156,15 @@ packet one : \[FIBER OPTIC HEADER\]\[NETWORK HEADER\]\[HALF DATA\][\ NETWORK FOO
 packet two : \[FIBER OPTIC HEADER\]\[NETWORK HEADER\]\[OTHER HALF DATA\][\ NETWORK FOOTER\] \[FIBER OPTIC FOOTER\]
 It will be then the work of the network layer on the other side to reassemble the data before presenting it to the email application.
 
-
+#### Connection-full service
+Connection-full service characterizes network layers which 
+- locks resources needed to speak to it's distant counterparts and keeps them locked until the resource is released.
+  even if no one speaks (but the link is maintained)
+- ensure that all data sent is effectively received in the right order
+  
+#### Connection-less service
+- frees resources immediately when it does not need it anymore
+- does not guarantee the packet arrive at all or in order 
 #### OSI Model
 #### TCP/IP Model
 #### Hybrid IP/OSI (the one of the book)

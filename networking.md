@@ -179,9 +179,69 @@ connection-full reliable   : File Download (TCP)
 connection-less reliable   : Cell phone  text message (SMS)
 connection-less unreliable : UDP 
 
+
+
 #### OSI Model
+OSI model was designed after  TCP/IP and by different people,
+with the goal of unifying the description of any and all networks,
+regardless of technology employed.
+it is composed of 7 distinct layers 
+- Application
+  Interacting with the final user : for example mail
+- Presentation (obsolete)
+  Ensure data sended to the remote application is understandable by it 
+- Session (obsolete)
+  Ensure the connection is remained between the two host
+- Transport 
+  Provides [# Reliability], flow control (not overflooding a slow intermediary ) and [# Connection] service
+- Network
+  Provides routing and adressing service across the network
+- Link
+  Ensures data is correctly emitted and received between direct neighbour,
+  provides adressing service between neighbours ( != Adressing across network)
+- Hardware
+  Move bytes between emitter and receiver,
+  manages radio waves, light waves, electric waves, etc.
+  DSL/Color wave used in fiber optic/2.5Ghz modulation in  WiFi
+
+This model has some flaws 
+- It was designed when TCP/IP was already widely (for the time) implemented
+  meaning strong leaning against it's implementation as a lot of money has already been spent
+ (For a good norm to emerge the book states David Clark from the MIT the "apocalypse of the two elephant"
+  A good norm is implemented after many research on a field has been done, yet before much money has  been invested, OSI was designed when TCP/IP was invested in under the form of router and implementation in computer  OS  )
+- The layering is a bit strange, layer presentation and session which has been marked here obsolete
+  provide almost no service, where network and link are too full 
+  ( What do you get when you merge a gangster and an International Standard ?
+  Someone who makes a proposal you cannot understand )
+  The book states that the whole OSI norm height is about one meter height worth of paper
+- First implementation were pretty bad, where TCP/IP implementation were in contrast good
+- It felt paradropped by politics rather than built by researchers and developers.
+
 #### TCP/IP Model
+made of 4 layers 
+Application
+Transport
+Internet
+Link
+This model also has some flaws 
+- unlike OSI, implementation an specification are intermangled
+  this does not fit a generic networking model. Good luck describing
+  another network system with TCP/IP stack.
+-  the link layer as designed in TCP/IP is way closer to an interface between
+  the internet layer and hardware than a real layer
+- the hardware and the link layer aren't separated
+
 #### Hybrid IP/OSI (the one of the book)
+OSI  provides a framework
+TCP/IP provide a working implementation that roughly
+let's merge them together !
+from now on :
+Application
+
+Transport
+Netswork
+Link
+Hardware
 
 ### Standards and ethics 
 #### Standards

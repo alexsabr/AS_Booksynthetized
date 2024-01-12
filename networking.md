@@ -236,15 +236,61 @@ OSI  provides a framework
 TCP/IP provide a working implementation that roughly
 let's merge them together !
 from now on :
-Application
 
-Transport
-Netswork
-Link
-Hardware
+Application :
+Any Program which use the network to communicate.
+
+Transport : 
+flow control and connection-based/ connection-less 
+communication
+
+Network :
+How to communicate with entities which aren't direct neighbour,
+routing,adressing
+
+Link :
+Cut a message into bigger and smaller chunks and organize the communication
+between direct neighbours.
+
+Hardware :
+How to send  and receive bytes  on a physical medium
 
 ### Standards and ethics 
 #### Standards
+##### Norms
+Norms are ratified by normalization organism, recognized internationally.
+They define how different equipement interoperate when respecting the norm,
+and **nothing more**. This helps keeps competition for technology enhancement,
+while simultaneously ensuring different devices will work together.
+
+##### Standards
+Standards or "norms de facto" are practices that have reached 
+consensus among the industry, without having beeing formalized in norms.
+Usually, widespread standards are one day or another ratified into a norm ( for example HTTP).
+
+Various Normalization and standardization organism : 
+UIT  : International Union of Telecommunication 
+Ageny of the united nations for telecommunication
+
+ISO  : International Organization for Standardization
+World Wide  NGO promoting International standards.
+
+ISOC : Internet Society
+American Non profit promoting the use of Internet.
+
+IETF : Internet Engineering Task Force 
+Non profit developing technical standards for Internet.
+
+IEEE : Institute of Electrical and Electronics Engineers
+Oldest professional association.
+Promotes norms and research for electronics and electrics.
+
+W3C  : World Wide Web Consortium
+International Organization promoting Standards for the 
+world wide web.
+
+ICANN : Internet Corporation for Assigned Names and Numbers
+NGO responsible of maintaining name spaces on the web.
 
 #### Ethics
 

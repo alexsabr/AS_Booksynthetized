@@ -294,11 +294,47 @@ NGO responsible of maintaining name spaces on the web.
 
 #### Ethics
 
+##### Net Neutrality 
+- No blocking content
+- No slowing down connection
+  (for example if your customer uses another streaming service thant the one you promote)
+- No favoritism among packets
+- Transparency on any measure that would infringe one of the rules above
+
+
 ## Physical Layer
 
 Note : As I'm no electronical engineer, 
 this part really does not interests me and I've felt free to oversee many pages about the physical Layer.
 
+### Magnetic bands 
+A an LTO-7 magnetic band can carry 800 Go of data.
+A box of 60 by 60 by 60 centimeters can carry one thousand of those,
+giving 800 Terabytes of data.
+Such box can be sendby express mail in 24 hours anywhere in europe 
+giving  a bitrate of almost 10 Gigabyte per second,
+if the destination is only a mile away you have now a bitrate of more than
+200 Gigabyte per second.
+This, of course, provided that you read and write multiple tape at the same time,
+otherwise your chokepoint would be the R/W speed of those tapes, 300 megabyte/s.
+Never underestimate the bitrate of a semi-truck full of magnetic tapes.
+
+### twisted pair
+
+
+### coaxial cable
+
+### optical fiber
+
+### electromagnetic waves
+
+#### Radiowave
+
+#### Microwave
+
+#### Infrared
+
+#### light 
 
 
 ## Link Layer

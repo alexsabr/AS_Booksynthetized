@@ -307,7 +307,16 @@ NGO responsible of maintaining name spaces on the web.
 Note : As I'm no electronical engineer, 
 this part really does not interests me and I've felt free to oversee many pages about the physical Layer.
 
-### Magnetic bands 
+### Terminology
+#### Half duplex
+
+#### full duplex
+
+#### simplex
+
+### Means of communicating
+
+#### Magnetic bands 
 A an LTO-7 magnetic band can carry 800 Go of data.
 A box of 60 by 60 by 60 centimeters can carry one thousand of those,
 giving 800 Terabytes of data.
@@ -319,22 +328,43 @@ This, of course, provided that you read and write multiple tape at the same time
 otherwise your chokepoint would be the R/W speed of those tapes, 300 megabyte/s.
 Never underestimate the bitrate of a semi-truck full of magnetic tapes.
 
-### twisted pair
+#### twisted pair
+Twisted pair of two copper cables. 
+They are twisted to minimize their electromagnetic influence on each other.
+Most common use is in telephone lines. 
+Ethernet Cables are also using twisted pairs cables, made various number of  pairs of wires.
+
+#### coaxial cable
+Cable with a copper body, shieled with metal braid,
+the whole in a plastic protection. Very good noise tolerance,
+allowing bitrate of Gigabit/s
+
+#### optical fiber
+Cable made of glass itself wrapped in plastic, focusing a beam of 
+light or laser to convey data.
+
+#### electromagnetic waves
+The use of electromagnetic waves is tightly regulated around the globe.
+States have sliced the spectrum and sell parts of it for it's usage by 
+industry or keep it for state affairs. Other slices are publicly 
+available for the general public, like the Industrial Scientific Medical (ISM) band 
+(where we find among other things, wiFi) or the radio amateurs slices.
+Here an example of such spectrum slices :
+https://en.wikipedia.org/wiki/File:United_States_Frequency_Allocations_Chart_2016_-_The_Radio_Spectrum.pdf
+
+Some frequency are particularly useful, as they bounce on the ionosphere and can be heard
+at far away distances around the globe. In some instances, the moon can even be used as a reflector !
+Even by amateurs radio !
+This is called Earth-Moon-Earth communication.
 
 
-### coaxial cable
+##### Radiowave
 
-### optical fiber
+##### Microwave
 
-### electromagnetic waves
+##### Infrared
 
-#### Radiowave
-
-#### Microwave
-
-#### Infrared
-
-#### light 
+##### light 
 
 
 ## Link Layer

@@ -308,13 +308,22 @@ Note : As I'm no electronical engineer,
 this part really does not interests me and I've felt free to oversee many pages about the physical Layer.
 
 ### Terminology
+#### simplex
+Type of network link where there is 
+one emitter, and one receiver.
+The emitter can only emit, and the receiver can ony receive.
+
 #### Half duplex
+Type of network link where both participant 
+can both emit and receive, but only one at the time 
+(when one is emitting the other can only be  receiving and vice-versa).
 
 #### full duplex
+Type of network link where both participant 
+can both emit and receive simultaneously.
 
-#### simplex
 
-### Means of communicating
+### Means of communicating
 
 #### Magnetic bands 
 A an LTO-7 magnetic band can carry 800 Go of data.
@@ -343,6 +352,13 @@ allowing bitrate of Gigabit/s
 Cable made of glass itself wrapped in plastic, focusing a beam of 
 light or laser to convey data.
 
+It is lighter, more chemically stable, cheaper and offers far greater bandwith 
+than other copper-based cables. 
+There is far less risk of eaves dropping as there is no electro-magnetic noise generated
+and the attenuation of  signal compared to  copper cable 
+is far lesser.
+It cannot be bent as freely as coper wires though, otherwise it will break.
+
 #### electromagnetic waves
 The use of electromagnetic waves is tightly regulated around the globe.
 States have sliced the spectrum and sell parts of it for it's usage by 
@@ -360,11 +376,44 @@ This is called Earth-Moon-Earth communication.
 
 ##### Radiowave
 
+Easily generated they can reach a remote emitter located far away,
+regardless of the of absence of a medium (they propagate in vacuum)
+or it's presence (depending on frequency, they can propagate through walls and objects ).
+Some frequency allow to exploit earth curvature and ionosphere as a reflector to 
+extend range. 
+
 ##### Microwave
 
+Harder to generate, they can be focused in a beam,
+providing a better signal over noise ratio.
+They are also absorbed by water, which is very convenient if you are building an oven or a meteorological radar,
+much less if you try to transmit data in a rainy day.
+
 ##### Infrared
+Easy to generate, (you can buy freely emitter and receiver on internet for a few bucks)
+they don't traverse objects and have quite a short range.
+
 
 ##### light 
+An example of application laser and it's receiver placed further away.
+Beware of meteorological generated interference
+such as mist, fog, rain, and even heat which can generate mass of moving air disrupting the signal !
+
+### Theory of data transmission
+The french mathematician Jean-Baptiste Fourier in early XIX th century proved that 
+any periodic mathematical function (that is, which repeat itself)
+can be expressed in a (possibly infinite ) number 
+of sinusoid function. 
+Those decomposition are called "Fourier Series"
+and are widely used in electronics among other things, when talking about signal transmission, wether analogic or numeric. 
+Various frequency of a given signal on a given medium aren't attenuated over distance in the same way
+and thus can distort this signal. The bandwith of a given mean to transport data characterizes the width of the band of frequencies
+which aren't attenuated. NOT TO CONFUSE WITH IT'S HOMONYM WHICH DESCRIBE HOW MANY BYTES CAN BE TRANSFERRED IN A SECOND.
+
+[...] Some parts uninteresting to me here are left out. They concern signal multiplexing and modulation.
+
+### Commuted Telephonic Network
+
 
 
 ## Link Layer

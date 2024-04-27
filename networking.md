@@ -401,19 +401,30 @@ such as mist, fog, rain, and even heat which can generate mass of moving air dis
 
 ### Theory of data transmission
 The french mathematician Jean-Baptiste Fourier in early XIX th century proved that 
-any periodic mathematical function (that is, which repeat itself)
+any periodic mathematical function (that is, with a motive which repeats itself)
 can be expressed in a (possibly infinite ) number 
 of sinusoid function. 
 Those decomposition are called "Fourier Series"
 and are widely used in electronics among other things, when talking about signal transmission, wether analogic or numeric. 
 Various frequency of a given signal on a given medium aren't attenuated over distance in the same way
 and thus can distort this signal. The bandwith of a given mean to transport data characterizes the width of the band of frequencies
-which aren't attenuated. NOT TO CONFUSE WITH IT'S HOMONYM WHICH DESCRIBE HOW MANY BYTES CAN BE TRANSFERRED IN A SECOND.
+which aren't attenuated. **NOT TO CONFUSE WITH IT'S HOMONYM WHICH DESCRIBE HOW MANY BYTES CAN BE TRANSFERRED IN A SECOND.**
 
 [...] Some parts uninteresting to me here are left out. They concern signal multiplexing and modulation.
 
 ### Commuted Telephonic Network
 
+At the beginning of telephone networks, voice of the user was transmitted with an analogic signal,
+from one end to another by linking circuit together;
+The telephone of users were all linked to local dispatch centers which themselves were linked  by **arteries** to bigger and bigger dispatch centers, etc.
+Those dispatch center links the caller and the called with electric cables so an electric connection is made.
+This method is called **Circuit Switching**.
+If this operation was performed at first by hand by human operators, technology stepped  in at one point and replaced them.
+Later on, this method of transmitting was abandonned for instead  packet switching (the voice of the user is  digitalized and transmitted in small chunks, **packets** in a digital signal. If this was at first true only for the most dense and sollicitated part of the network,
+it's "heart", it spread to smaller and smaller dispatch center until even reaching the home of the user thanks to the "DSL" familly of techonologies, which job was to find a way to feed as much digital data as possible on a copper line made for analog signals.
+
+Consequently, in the beginning of the internet, the telephone lines were (and still are in many places in the world) exploited to
+bring network to the masses.
 
 
 ## Link Layer

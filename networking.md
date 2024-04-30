@@ -427,6 +427,50 @@ Consequently, in the beginning of the internet, the telephone lines were (and st
 bring network to the masses.
 
 
+#### Commuted Circuits versus Commuted Packets 
+Here is a comparison between those 2 types of networks.
+Full route must be determined before connection can be established
+- commuted circuits : Yes 
+- commuted packets  : No
+  
+Data packets follows the same route 
+- commuted circuits : Yes 
+- commuted packets : not mandatory
+  
+Data Packets arrive in order they are sent 
+- commuted circuits : Yes 
+- commuted packets : no guarantee
+  
+Failure of one of the link between the sender and the receiver stops the transmission
+- commuted circuits : Yes 
+- commuted packets : No
+  
+Available BandWith for communication
+- commuted circuits : Fixed
+- commuted packets : Varies with network congestion
+
+Bandwith can be needlessly spent
+- commuted circuits : Yes
+- commuted packets : No
+
+Congestion and subsequently wait time occurs 
+- commuted circuits : When trying to access the network
+- commuted packets : When using the network
+
+Data can be transmitted at a later time  / with variable latency 
+- commuted circuits : No
+- commuted packets : Yes
+
+### Cellular telephonic Network
+Mobile phone networks work as follows:
+An antenna (or a set of antenna) see the geographical space around it
+split into small cells. Each of those cells will have 
+a band of frequency assigned to it, on which cellphones will 
+communicate with the antenna. On the same cell the band of frequency is split into channels where
+cell phones can emit or listen for voice data  or configuration data. These channels are then split into a number of
+timeslots which repeat themselves over time.  A cellphone must wait for its timeslot to emit data. 
+3G is the first cellphone network to allow for data other than voice to be sent and received. 
+
 ## Link Layer
 
 

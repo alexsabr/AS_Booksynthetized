@@ -469,10 +469,32 @@ a band of frequency assigned to it, on which cellphones will
 communicate with the antenna. On the same cell the band of frequency is split into channels where
 cell phones can emit or listen for voice data  or configuration data. These channels are then split into a number of
 timeslots which repeat themselves over time.  A cellphone must wait for its timeslot to emit data. 
-3G is the first cellphone network to allow for data other than voice to be sent and received. 
+3G is the first cellphone network to allow for data other than voice to be sent and received.
+4G The core of the telephonic service provider is switched from commuted circuits to commuted packets,
+voice is now also carried  through IP packets (VoIP)  alongside data. Faster Speed and crunching every last possible bits in the
+existing frequency spectrum (also a bit widened)
+5G exploits a broader frequency spectrum  and  smaller cells to allow for bigger bandwith (can be down to 100 meters per cell vs few kilometers per cell  for 1g !)
+
+
 
 ## Link Layer
+The Goal of this layer is to allow two direct neighbours in the network to communicate efficiently.
+It uses the Physical layer to emit and receives big chunks of bytes which assembled together mean something,
+they are called data frames.
+This layer offers the following services to a higher layer :
+- separating flow of data in separate chunks in a  way  that allows other neighbours to make sense of them when they receive,
+    even in a disorganized manner
+- detecting and fixing some error in the frames 
+- managing the flow of data to avoid network congestion on the physical layer.
 
+
+### Frame 
+### Error Control 
+#### Detection
+#### Correction
+#### Sliding Windows
+#### MAC WiFI  and ADSL
+#### PPP 
 
 ## Media Access Control Layer
 

@@ -489,6 +489,28 @@ This layer offers the following services to a higher layer :
 
 
 ### Frame 
+In a continuous bit flow, multiple manners of slicing them into frames exists
+- counting how many data bits will be stored in a frame and specifying it in the header of said  frame.
+  The main issue with this technique lies in the case of  corruption of the number of data bits located in the header.
+  If this happens, the data link layer will be unable to find the end of the current frame and thus, also the start of next frame.
+  Desynchronization will occur. This is method is rarely used alone.
+
+- Using a whole byte as a starting / ending flag delimiting the frames. The issue of this technique is that you must also allocate another byte
+  called an escaping byte in case the byte chosen as a flag also appears as data. In this case, it will be preceded by the escaping byte,
+  to make the data link layer understand that this flag byte is to be interpreted as data and not as a flag closing a frame.
+  If the pattern of an escaping byte appears in the data, an another escaping byte is inserted before to tell that  the escaping
+  byte is to be understood as data.
+  This method is employed by PPP protocol.
+
+- Using a pre-existing pattern of bit. For example you can declare that in the data flow everytime you see this pattern "11111"
+  The next bit shall always be a zero and it will delimitate the end of a frame. The receiving data layer will understand that the
+  last zero is to be discarded. When this method is used, the size of frames
+  is dependent on the data, this pattern will be cut into multiple frames : "1111111111111111111111111111111111111"
+  while this pattern while fit into one single frame : "110000000000000000000000000000011111"
+  This method is employed by the USB protocol.
+
+
+
 ### Error Control 
 #### Detection
 #### Correction

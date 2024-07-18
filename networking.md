@@ -505,18 +505,34 @@ In a continuous bit flow, multiple manners of slicing them into frames exists
 - Using a pre-existing pattern of bit. For example you can declare that in the data flow everytime you see this pattern "11111"
   The next bit shall always be a zero and it will delimitate the end of a frame. The receiving data layer will understand that the
   last zero is to be discarded. When this method is used, the size of frames
-  is dependent on the data, this pattern will be cut into multiple frames : "1111111111111111111111111111111111111"
+  is dependent on the data, this pattern will be cut into five frames : "11111111111111111111111111111111111"
   while this pattern while fit into one single frame : "110000000000000000000000000000011111"
   This method is employed by the USB protocol.
 
+- Asking the physical layer to send "illegal" bit patterns which are easily recognizable that they carry no data
+  (strongly dependant on how the layer works)
 
 
 ### Error Control 
+If you wish to provide something better than a connectionless unsafe service,
+your link layer needs to : 
+- numerotate each frame sent so  if the same frame is retransmitted it is not understood as new data 
+- emit acknowledgment to confirm that a frame sent was received 
+- arm a timer each time a frame is sent, so in case a complete frame or acknoledgment is  lost the frame will be sent again 
+
+### Flow Control
+To be sure that a rapid send does not overflows a slow receiver with messages, control of the data flow needs to be implemented
+it can take two form :
+- feedback based flow control : the receiver says how much it is ready to receive at a given time and the sender reacts accordingly.
+- rate based flow control  : The sender constantly  guesses the maximum allowable flow  rate by  monitoring how many frames are lost at any given point,
+  if many frames are lost, it slows down the flow, if no frames are lost, it increases the flow until some are.
+
 #### Detection
+
 #### Correction
-#### Sliding Windows
-#### MAC WiFI  and ADSL
-#### PPP 
+### Sliding Windows
+### MAC WiFI  and ADSL
+### PPP 
 
 ## Media Access Control Layer
 

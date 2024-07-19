@@ -510,27 +510,63 @@ In a continuous bit flow, multiple manners of slicing them into frames exists
   This method is employed by the USB protocol.
 
 - Asking the physical layer to send "illegal" bit patterns which are easily recognizable that they carry no data
-  (strongly dependant on how the layer works)
-
+  (strongly dependant on how the physical layer works)
 
 ### Error Control 
-If you wish to provide something better than a connectionless unsafe service,
-your link layer needs to : 
-- numerotate each frame sent so  if the same frame is retransmitted it is not understood as new data 
-- emit acknowledgment to confirm that a frame sent was received 
-- arm a timer each time a frame is sent, so in case a complete frame or acknoledgment is  lost the frame will be sent again 
+The physical layer is not perfect, errors can happen and the signal can be altered,
+a few example of interferences sources  :
+- wrongly calibrated receiver
+- cosmic rays hitting electric cables
+- Magnetic fields from other devices charging the electric cable ...
 
-### Flow Control
-To be sure that a rapid send does not overflows a slow receiver with messages, control of the data flow needs to be implemented
-it can take two form :
+We need to have a method to detect/ correct error  in a data frame
+
+We first need to characterize what form errors can take : 
+-  one or multiple isolated bits can see their value  flipped
+-  multiple bits in a row can see their value flipped 
+-  A bit can be altered in a way  that the physical layer  can't guess their value, because the signal sent is illegal
+  (which is good because you know the message has been wrongfully altered)
+
+The type of error we want to protect against dictates the algorithm we will develop/use.
+
+Then we have to measure how frames,(here binary words), differ from each other.
+We can use the hamming code comes for it.
+Apply a XOR function between the binary two binary words. In the resulting binary word 
+- the number of bits with value 1 gives the hamming distance : how many bits needs to be flipped to go from
+  the first binary word to the other and vice versa
+- the position of bits with value 1 tells which bit needs to be flipped in order to do so.
+
+The general Idea behind every algorithm of error detection and correction is as follows:
+For a word of m bits (all data bits), r bits of redundancy are added, bringing what is transmitted to n bits.
+a word of n bits can have 2^n variants. The trick is that the r bits aren't random but related to the m bits,
+bringing the number of legal variants from 2^n to something lower. As such any pattern of bits received
+lying in the illegal side can be rejected. The objective is that with clever use of the r bits 
+the hamming  distances between one legal word and the other, noted d is big (an utopic word  d=n)
+such that you need many bit flips (d+1) for an incorrect message to be wrongfully tagged as correct.
+The goal is to maximise d while minimising r (and by doing so minimising n the size of the whole message)
+so you have a good ration between data sent vs redundancy added.
+
+Those algorithms guarantee you error detection up to x bits  (x depending on the algorithm) and sometimes they also offer
+error correction of up to y  bits (y depending on algorithm  but always x > y).
+They exploit polynomial, matrices, binary operations, and more generally, algebraic concepts.
+
+
+
+#### Flow Control
+The sender may send more data to the receiver than what it can handle. 
+We need flow control to stop this from happening.
+Here are some common measures :
+- The sender numerotates each frame sent so  if the same frame is retransmitted it is not understood as new data  by the receiver
+- The receiver emit acknowledgment to confirm that a frame was correctly received 
+- The sender arms a timer each time a frame is sent, so in case a complete frame or acknoledgment is lost the frame will be sent again
+  
+And also, the sender can adapt to the speed at which the receiver is able to process data via :
 - feedback based flow control : the receiver says how much it is ready to receive at a given time and the sender reacts accordingly.
 - rate based flow control  : The sender constantly  guesses the maximum allowable flow  rate by  monitoring how many frames are lost at any given point,
   if many frames are lost, it slows down the flow, if no frames are lost, it increases the flow until some are.
 
-#### Detection
+##### Sliding Windows
 
-#### Correction
-### Sliding Windows
 ### MAC WiFI  and ADSL
 ### PPP 
 

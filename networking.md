@@ -565,7 +565,30 @@ And also, the sender can adapt to the speed at which the receiver is able to pro
 - rate based flow control  : The sender constantly  guesses the maximum allowable flow  rate by  monitoring how many frames are lost at any given point,
   if many frames are lost, it slows down the flow, if no frames are lost, it increases the flow until some are.
 
+##### Piggy Backing
+If the receiver only send acknowledgements of received frame to an emitter on a separate simplex channel,
+a lot of available bandwidth is lost.Indeed a full simplex channel
+is used to only transmit small acknowledgments. If the acknowledgments are instead sent alongside some data, lost bandwidth
+is reclaimed. One caveat though, you need to be ready to send acknowledgements if no data for the emitter is presentend in a timely fashion,
+otherwise you run the risk of timing out the emitter and having it resend the frame for nothing.
+This  practice is called piggy backing. 
+
 ##### Sliding Windows
+Sliding windows protocol allows more flexibility in the sending and receiving of frames.
+Multiple frames can be "in flight"  between the sender and the receiver at a given time
+allowing for a potential better use of the bandwidth available.
+Sender and receiver agree on "a window" of allowed frame numbers;
+The sender can send frames as fast as it wishes as long as it does not overshoots the end of the frame.
+The reicver receives the frames and then transmits them to the network Layer,  IN THE CORRECT ORDER.
+If some frames are corrupted, the receiver only acknlowledges the frames that it received correctly to the shender.
+By doing so, the sender will understand that it needs to re send only the corrupted frames.
+The receiver waits for the corrupted frames if they lie before some correct frames received, so it
+can tranmit the data IN ORDER to the network layer. 
+The Sender and the receiver then agrees on moving on to some other allowed frame numbers
+and they deny the older ones. They "slide the window" further.
+In a system where the sender sends only one packet, then waits the acknowledgement of the receiver 
+before sending another packet, the window is of size one.
+
 
 ### MAC WiFI  and ADSL
 ### PPP 

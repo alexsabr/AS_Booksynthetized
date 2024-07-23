@@ -598,8 +598,32 @@ before sending another packet, the window is of size one.
 ### PPP 
 
 ## Media Access Control Layer
+Protocols in charge of managing how multiples entities access a shared single channel of communication on a physical  layer 
+are a sub-part of the link layer. They are called Medium Access Controll Protocols or MAC.
+
+To study the sharing of a canal of communication,
+We will lay some  properties which must be kept in mind while studying the following algorithms,
+they limit the domain of possibilities and  efficiency when  they are altered.
+- Each entity is independant from  other entities: and has it's own will wether it wishes to  emit traffic or not.
+  while emitting, it cannot receive traffic or do anything else. This hypothesis does not require explications.
+- Single Canal : All  communications happen on the studied canal, where entities send and receive messages. If it wasn't the case,
+  synchronization would be much easier.
+- Collisions of frames are witnessable : entities can detect that two or more frames from different entities are on the same channel at the same time,
+  jamming each other. This is hypothesis very important, as protocols must adapt heavily when this hypothesis changes.
+  It is generally True for cable-based links and false for Over The Air Electromagnetic waves based links.
+- Time can be  either discreet or continuous : Time can be alloted in slot where an entity has or hasn't the right to emit (discreet)
+  or it can be in the countrary thought as a continuous flow (continuous).
+- Listening or disregarding the state of the link before emitting : entities can listen the state of the link before emitting, or completely disregard it.
+
+### Aloha 
+### Pure Aloha
+### CSMA
+### Ethernet
+### WiFi
+### Bluetooth
 
 ## Network Layer 
+
 
 ## Transport Layer 
 

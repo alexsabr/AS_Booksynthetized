@@ -580,12 +580,16 @@ allowing for a potential better use of the bandwidth available.
 Sender and receiver agree on "a window" of allowed frame numbers;
 The sender can send frames as fast as it wishes as long as it does not overshoots the end of the frame.
 The reicver receives the frames and then transmits them to the network Layer,  IN THE CORRECT ORDER.
-If some frames are corrupted, the receiver only acknlowledges the frames that it received correctly to the shender.
-By doing so, the sender will understand that it needs to re send only the corrupted frames.
-The receiver waits for the corrupted frames if they lie before some correct frames received, so it
-can tranmit the data IN ORDER to the network layer. 
-The Sender and the receiver then agrees on moving on to some other allowed frame numbers
+If some frames are corrupted, two possibilities arises 
+- the receiver  acknowledges all the frames that it received correctly regardless of their continuity with the frame   number. By doing so, the sender will understand that it needs to re-send only the corrupted frames. This is **selective frame rejection.**. Useful when you have lot of memory to hold frames while waiting for the missing ones.
+- The receiver acnowledges the frames that it received correctly until it breaks the continuity of the frame number
+  the sender will re-send all frames after this number, even if some were correctly received by the receiver
+  (the sender can't know that.) This is **Global Rejection, go back n frames**. Useful when the receiver has little    memory for frames.
+
+Regardless of the chosen method, the link layer  always tranmits the data IN ORDER to the network layer.
+The Sender and the receiver then agrees on moving on to some other allowed frame numbers.
 and they deny the older ones. They "slide the window" further.
+If a modulo system is used where 
 In a system where the sender sends only one packet, then waits the acknowledgement of the receiver 
 before sending another packet, the window is of size one.
 

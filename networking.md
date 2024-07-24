@@ -615,9 +615,34 @@ they limit the domain of possibilities and  efficiency when  they are altered.
   or it can be in the countrary thought as a continuous flow (continuous).
 - Listening or disregarding the state of the link before emitting : entities can listen the state of the link before emitting, or completely disregard it.
 
-### Aloha 
-### Pure Aloha
+### ALOHA
+Developed  in the university of Hawaii, it is the first publicly demonstrated protocol of a wireless packet
+network. In this setup client entity emits data as they wish, to a central computer which is charged to broadcast
+the packet to the entirety of the network. A client entity knows it's message was correctly broadcasted if it then hear it back from the mother station.  Time is continuous and the state of the link is disregarded when emitting, consequently many collisions may ocurr and  the efficiency of the link when a great number of users is present is quite low, only around 16 %
+of all messages are correctly transmitted. Later the time was splitted into slots, reducing the possibility for collisions
+and doubling the rate of correctly transmitted messages to 36%.
+
 ### CSMA
+Carrier Sense Multiple Access is a protocol which exploits the initial foundation layed by ALOHA,
+while also benefiting from the fact that it was designed for wired networks. 
+On a wired network, entities can listen for traffic on the entirety of the link unlike wireless stations.
+Indeed, in a wireless network having the following Topology, A=====B=====C, if A and C are only in  range to talk to B,
+even if A listened while C was already emitting, A would not hear anything as it is  too far out C.
+then A would emit and walk on C  when it's signal reaches B. That's why aloha does not listen for already existing traffic.  In a Wired network with the same topology, A and C can both hear themselves (maybe with a delay bigger than to B), and consequently reduce the number of accidents if they hear for each other before emitting.
+This is exactly what promotes CSMA. If nevertheless a collision happens, stations wait a random delay before
+hearing again, then retransmitting their messages, ensuring that they do not keep bumping into each other indefinitely.
+This method can attain around 50% of correctly transmitted messages,  better than  ALOHA. 
+
+Nevertheless collisions can stil ocurr, for example if multiple entities wait for the link to be already empty before emitting
+they will all start emitting at the same time. An enhancement to this, brought by "non-persisting CSMA" is to perform not one but two checks of the emptiness of the link :
+Check if the link is empty, if so wait a random amount of time then listen again, if hte link is still empty, emit right away
+otherwise repeat the process.
+This enhancement runs the risk of slowing down the network a bit, although it can reach up to 80 % efficiency !
+
+#### CSMA CD
+
+#### CSMA CA
+
 ### Ethernet
 ### WiFi
 ### Bluetooth

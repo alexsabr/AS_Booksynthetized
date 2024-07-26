@@ -639,9 +639,29 @@ Check if the link is empty, if so wait a random amount of time then listen again
 otherwise repeat the process.
 This enhancement runs the risk of slowing down the network a bit, although it can reach up to 80 % efficiency !
 
-#### CSMA CD
+#### CSMA/CD (Collision Detection)
+A particular version of CSMA which can detect collisions as it transmits, thanks to the link hardware, and thus
+end the frame transmission early if it detects a collision. Used in early ethernet networks.
 
-#### CSMA CA
+#### CSMA/CA
+A particular version of CSMA where various entities collaborate to take turn in occupying the link.
+Unlike CSMA/CD this protocol does not require particular link hardware properties to work.
+- In  the bitmap protocol, a "table" passes where each entity notifies if it wishes to transmit a frame.
+  afterwards each entity transmits it's frame before waiting for everyone which registered in the table To do the same.
+  The entitity with the biggest adress emits first. The table then circles again.
+- In the Token Sharing protocol, a token travels among the entities. When the entity has the token it can emit a  frame.
+  Afterwards, the entity sends the token to the next entity. Entities are logically arranged in a loop
+  (it doesn't need to be the case at the physical layer)
+- In the binary counting protocol which works if the transmission time is negligeable, when the deciding phase begin,
+  every entity which wishes to emit a frame broadcasts it's adress bit after bit, starting with the largest bits first. The entity with the biggest adress 
+  emits it's frame, before the whole link enters a new adress emitting phase.
+
+
+We have this far seen two types of protcol:
+- those which manages collision gracefully, like CSMA/CD or ALOHA : They work well when a link is not very used
+- and those who avoid collision like CSMA/CA. : They work well when a link is very used, otherwise they incurr useless delay
+
+Another familly of protocol exists, "the best of both worlds" : protocol whit limited contentions.
 
 ### Ethernet
 ### WiFi

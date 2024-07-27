@@ -683,9 +683,21 @@ Word of caution though, that C does not stop B from emitting by jamming the CTS 
 
 
 ### Ethernet
+This protocol which combines functionalities of  OSI layer 1 and 2, is named after luminous aether, a substance which was supposed
+to be the medium used by electro-magnetic waves to travel in space, before discovering that they can travel through vacuum.
+It is defined by the norm IEEE 802.3 .
+Eternet  exploits CSMA-CD for MAC with exponential backoff.
+Exponential backoff means that when multiple collisions between entities occurs, the maximum number of slots entities must potentially wait before trying to emit again (they 
+pick randomly a number in the interval ) rises exponentially (usually a power of 2).
+
+With the rise  of the power of electronics alongside the fall of it's price, ethernet hubs, 
+which repeats the signal it receives along all of it ports, making a network behave like a single big ethernet cable
+were replaced by ethernet switches, which tranmits ethernet packets only to the relevant port, segmenting the network and limiting it's congestion.
+
 
 
 ### WiFi
+It is defined by the norm IEEE 802.11 .
 
 ### Bluetooth
 

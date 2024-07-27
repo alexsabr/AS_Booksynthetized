@@ -628,7 +628,7 @@ while also benefiting from the fact that it was designed for wired networks.
 On a wired network, entities can listen for traffic on the entirety of the link unlike wireless stations.
 Indeed, in a wireless network having the following Topology, A=====B=====C, if A and C are only in  range to talk to B,
 even if A listened while C was already emitting, A would not hear anything as it is  too far out C.
-then A would emit and walk on C  when it's signal reaches B. That's why aloha does not listen for already existing traffic.  In a Wired network with the same topology, A and C can both hear themselves (maybe with a delay bigger than to B), and consequently reduce the number of accidents if they hear for each other before emitting.
+then A would emit and walk on C  when it's signal reaches B. This problem is called **the problem of the hidden node**. That's why aloha does not listen for already existing traffic.  In a Wired network with the same topology, A and C can both hear themselves (maybe with a delay bigger than to B), and consequently reduce the number of accidents if they hear for each other before emitting.
 This is exactly what promotes CSMA. If nevertheless a collision happens, stations wait a random delay before
 hearing again, then retransmitting their messages, ensuring that they do not keep bumping into each other indefinitely.
 This method can attain around 50% of correctly transmitted messages,  better than  ALOHA. 
@@ -661,10 +661,32 @@ We have this far seen two types of protcol:
 - those which manages collision gracefully, like CSMA/CD or ALOHA : They work well when a link is not very used
 - and those who avoid collision like CSMA/CA. : They work well when a link is very used, otherwise they incurr useless delay
 
-Another familly of protocol exists, "the best of both worlds" : protocol whit limited contentions.
+Another familly of protocol exists, "the best of both worlds" : protocol with limited contention.
+Entities are split in small groups and compete against each other only inside of the group,
+the groups have a predetermined order of passage 
+
+
+### MACA (Multiple Access Collision Avoidance)
+We have talked so far of protocols more tuned for wired networks. Here's one for wireless networks.
+An  entity A which wishes to emit sends a small frame requesting to the target B the right to talk **RTS** or **Request to Send**.
+The target B answers positively **CTS** or **Clear to Send**. The entity A now knows it has the right to emit it's frame. 
+this situation mostly solves the **hidden node problem** as another entity C too far to hear the RTS of A will still be able to hear the 
+CTS of B and thus, know it must not talk. In the eventuality of B receiving multiple RTS at the same time which would become jammed,
+it does nothing. The emitters of the RTS will understand that something bad happened and will retry after waiting an random interval of time.
+
+This protocol however does not solve every problem, see this network topology A---B---C---D
+B wants to emit to A and C wants to emit to D 
+B sends RTS to A, C will hear the RTS of A and will not talk to D even though it totally could as C cannot jam A when emitting.
+this is the **exposed node problem**
+One solution is that if C does not hear the CTS of A nor knows A, it can assume that A is out of it's reach and emit to D.
+Word of caution though, that C does not stop B from emitting by jamming the CTS sent by A to B !
+
 
 ### Ethernet
+
+
 ### WiFi
+
 ### Bluetooth
 
 ## Network Layer 

@@ -694,6 +694,11 @@ With the rise  of the power of electronics alongside the fall of it's price, eth
 which repeats the signal it receives along all of it ports, making a network behave like a single big ethernet cable
 were replaced by ethernet switches, which tranmits ethernet packets only to the relevant port, segmenting the network and limiting it's congestion.
 
+If the first Ethernet norm provided 10 Mbit/s bitrate, standard have evolved and now ethernet exists in flavor of 100 Mbit/s  and 1 Gbit/s (40 and even
+100 Gbit/s ethernet exists but they currently used in datacenter and telecommunications operators backbones, and even faster ethernet is currently developed).
+All these standards are backwards compatible.
+
+Ethernet is implemented on twisted pair copper cables (improperly named RJ45) and on fiber optic.
 
 
 ### WiFi

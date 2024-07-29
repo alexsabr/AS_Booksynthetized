@@ -703,8 +703,26 @@ Ethernet is implemented on twisted pair copper cables (improperly named RJ45) an
 
 ### WiFi
 It is defined by the norm IEEE 802.11 .
+Initially with frequencies in the domain of IR waves  and 2.4 Ghz ( in the ISM band),
+the Bandwith spread with updates and now also has some right in the 45 and 60 Ghz bands.
+CSMA/CA is exploited to split the avaiable slots among stations. Since WiFi is very used by nomad devices,
+with limited battery life, some thought has been given in power saving, for example  
+- the AP emits a heart beat packet at a fixed interval, detailing network status,time, and among other things, a network map specifying if the AP has a packet
+  for a device in the network. Knowing this, a device can notify the AP that it goes sleeping, requesting all packets be saved by the AP until it wakes up.
+  The device can then only wake up for heartbeat packets and check if the AP has a packet for it, if not it can then go to sleep until the next heartbeat.
+-  a device can lay an agreement with the access point that the Access Point  will keep traffic for the device and send it only after it has received data from
+the device.
 
 ### Bluetooth
+First available to the public in 1998, Bluetooth own it's name and logo to Harald Gormsson, a Danish and Norwegian King.
+
+The wireless architecture of a bluetooth network consist of 1 master node linked to up to 7  active slave nodes and 255 sleeping, in a radius of 10 meters.
+Multiple master nodes can communicate together, usually linked by a bridge node, a slaved node shared by the two masters.
+Communication is centralized through the master nodes, two slaves cannot communicate directly among themselves, they need the master as an intermediary.
+Bluetooth does not respect the OSI model, it is made of various "profiles" which dictates how  the whole protocol will behave, depending on the application exploiting the link provided by bluetooth. This is a clear violation of the OSI model / of the layering principle where a layer
+focuses itself on providing a service and expressing needs to provide this service, regardless of the intended use for the protocol.
+
+
 
 ## Network Layer 
 

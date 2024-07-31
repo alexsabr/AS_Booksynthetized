@@ -721,8 +721,44 @@ Multiple master nodes can communicate together, usually linked by a bridge node,
 Communication is centralized through the master nodes, two slaves cannot communicate directly among themselves, they need the master as an intermediary.
 Bluetooth does not respect the OSI model, it is made of various "profiles" which dictates how  the whole protocol will behave, depending on the application exploiting the link provided by bluetooth. This is a clear violation of the OSI model / of the layering principle where a layer
 focuses itself on providing a service and expressing needs to provide this service, regardless of the intended use for the protocol.
+Bluetooth was built with the idea of a very low implementation costs which partly explains design choices.
 
+### Commucation at the data link level
+A network Bridge is a device (either physical or logical) that interconnects two networks at the link level. Ethernet switch are an example of bridge, here they
+are bridging two ethernet networks. An ethernet hub is not an example of bridge, as it does not link two different ethernet network but rather unifies them into a single one.
+Ideally, bridges when inserted should automatically determine where to route packets without configuration or update among any equipment in the network.
+This is possible thanks to two algorithms : Learning Bridges and Spanning Trees.
 
+#### Learning Bridges
+When a newly plugged bridge receives a packet from an emitting  device A for a receiving device B , it behaves as follows :
+- If the emitter A and the intended receiver B of the packet lie on the same port of the bridge
+  (for example if the bridge's port is linked to other devices on a bus or a hub)
+   the bridge drops the packet, an intervention of the bridge  is not needed here.
+- If the receiver B lies on a known different port than the emitter A, the bridge emits the packet to the correct port.
+- If the bridge does not know on what port lies the receiver B, it emits the packet on all of it's port except the port where the packet originated from, it "floods" it's port.
+Moreover, it takes good note of the date and  the port from which originated the packet of A , it now knows that A is on this port.
+Every few minutes, stale entries in the table of what devices lies on which port is freed from old entries, so if A is unplugged on another port ,
+the change will be automatically acknowledged within a few minutes. The Bridge is learning backward.
+
+This algorithm has a flaw, let's imagine two bridges linked together via two different ports, in case one physical link breaks.
+When the first bridges receives a packet for a recipient it does not know, it will emit it to all of it's port, excepted the on it received the packet on.
+The other bridge, will  receive the packet from the first bridge on a port, and if it also does not now where the recipient lies, will send it to all it's port
+except the one where it received the packet. Now the first bridge will receive the packet from the second bridge, and since it sill does not know  on what
+port to send it, it will send it everywhere. The second bridge will pick it up, rinse and repeat, the packet will loop forever in the network,
+and the more the shared port between the bridges, the worse. This is called a **switching loop** (**routing loop** describes the same phenomenon for protocols of layer 3 not 2).
+To remedy to this problem, backward learning is peered with spanning trees. 
+
+#### Spanning Trees
+All Bridges run a distributed algorithm to create a tree (algorithmical structure, a graph WITHOUT any loop)
+which describe to each bridge how to reach other bridges and what port to desactivate to not create a **switching loop** while still servicing all  devices.
+This algorithm is thoroughly defined in the norm IEE 802.1D .
+
+### Virtual Lans
+For many reason, you may want that  architecture at the Level 2 Link layer  differs from the real architecture (Level 1 physical layer).
+You can use VLAN to create "virtual cables" which tunnels the traffic according to your wish.
+VLAN packets are defined in the norm IEEE 802.1Q .
+For the following explanation, we will consider that VLAN are tagged using colors.
+Bridges need to be configured beforehand to know what VLAN are available on any given port.
 
 ## Network Layer 
 

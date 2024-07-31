@@ -693,6 +693,8 @@ pick randomly a number in the interval ) rises exponentially (usually a power of
 With the rise  of the power of electronics alongside the fall of it's price, ethernet hubs, 
 which repeats the signal it receives along all of it ports, making a network behave like a single big ethernet cable
 were replaced by ethernet switches, which tranmits ethernet packets only to the relevant port, segmenting the network and limiting it's congestion.
+This has been the downfall of point to many ethernet, toward a point to point architecture (even if the other point is a switch and not an end device !).
+
 
 If the first Ethernet norm provided 10 Mbit/s bitrate, standard have evolved and now ethernet exists in flavor of 100 Mbit/s  and 1 Gbit/s (40 and even
 100 Gbit/s ethernet exists but they currently used in datacenter and telecommunications operators backbones, and even faster ethernet is currently developed).
@@ -724,7 +726,7 @@ focuses itself on providing a service and expressing needs to provide this servi
 Bluetooth was built with the idea of a very low implementation costs which partly explains design choices.
 
 ### Commucation at the data link level
-A network Bridge is a device (either physical or logical) that interconnects two networks at the link level. Ethernet switch are an example of bridge, here they
+A network **Bridge** is a device (either physical or logical) that interconnects two networks at the link level. Ethernet switches are an example of bridge, here they
 are bridging two ethernet networks. An ethernet hub is not an example of bridge, as it does not link two different ethernet network but rather unifies them into a single one.
 Ideally, bridges when inserted should automatically determine where to route packets without configuration or update among any equipment in the network.
 This is possible thanks to two algorithms : Learning Bridges and Spanning Trees.
@@ -758,7 +760,20 @@ For many reason, you may want that  architecture at the Level 2 Link layer  diff
 You can use VLAN to create "virtual cables" which tunnels the traffic according to your wish.
 VLAN packets are defined in the norm IEEE 802.1Q .
 For the following explanation, we will consider that VLAN are tagged using colors.
-Bridges need to be configured beforehand to know what VLAN are available on any given port.
+Bridges can be configured beforehand to know what VLAN are available on any given port  (or auto-detect and configure themselves at runtime).
+When they receive a packet, this packet is  tagged with a VLAN color (or not tagged) at all.
+From this situation, the bridge can perform 3 actions
+- Add or remove the color of the packet before transmitting it to a port with the same /no color (for example if the packet originates or is for a device that does not know
+  VLAN protocols)
+- Route the packet to a port with the corresponding color (flooding all port having  the same color as the packet if necessary to find the receiver)
+- Drop the packet as no port of the color of the packet is configured  to be legally  emitted from any of the port of the hub
+
+Please note that two bridges linked together through a link can affect various color to their end of the link,
+for example if bridge 1 is linked to only gray vlan devices and bridge 2 is linked to gray and white vlan devices,  the following is valid :
+Bridge 1 GW ------ G Bridge 2 
+Here bridge 1 is able to forward any packet tagged Gray OR white to Bridge 2 , But Bridge two may only forward to bridge 1 packet tagged gray,
+packet tagged white will NOT be forwarded to bridge 1. 
+
 
 ## Network Layer 
 

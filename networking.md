@@ -814,6 +814,55 @@ Here is a comparison of virtual circuits versus packet routing :
    connection-full : easy to guarente, ressources have been pre-allocated
    connection-less :  hard to guarantee, again algorithms and heuristics hard at work 
 
+### Connection-less Routing algorithm 
+The One of the  objective of routing algorithms is to determine the best path for packet to follow.
+Depending on your need, the best path is a varying notion, do you want the best bandwidth ? The lowest latency ? The shortest
+geographical distance because you pay more if you use more infrastructure ? The smallest number of crossed devices to limit network congestion ?
+
+It all starts at the same point though : finding the shortest routes in a (possibly valued ) graph representing the network devices and links between them.
+For any given device, we want the shortest route  from anywhere toward this device. This takes the form of a Directed Acyclic Graph, a Tree.
+We luckily have few algorithm to solve this problem : for example the  Dijkstra Algorithm and the bellman-Ford Algorithm. The Dijkstra algorithm solves all shortest route from anywhere toward anywhere for all nodes in a graph.
+You also need that all router are agreeing together on what is the shortest path, this is called **convergence**.
+
+#### Flooding routing
+The simplest, almost naive algorithm. Yet one of the most robust, does not necessitate any prior knowledge of the network.
+When a packet is received, it is duplicated and sent to all links except the one it came through.  Measure should be taken to avoid
+routing loop where the same packet circles around a number of same router indefinetly, for example a life expectancy for the packet taking 
+the form of a decreasing number of  allowed crossing, or a sequence number. Also Useful if you need to broadcast  data 
+to all nodes of the network. 
+
+#### Routing by distance vector
+In this algorithm  (also known as the Bellman Ford-Algorithm ) each router maintains a vector
+of the shortest distance required to route a packet from itself to a destination, alongside the neighbour to which forward said packet.
+This algorithm in it's basic form has a regrettable flaw, if  good news, as a new shortcut appeared which speeds up the routing, travel fast among the network.
+Bad news on the other hand, like a router died and all traffic must be re-routed elsewhere travels slowly among the network.
+Indeed let us take the following network topology : A -- B  -- C -- D.
+If the link between C and D is broken, C will anounce that it no longer knows how to go to D, C has an infinite number of jump toward D.
+The problem lies in the fact that B will see this, and  sees that A broadcasts that it knows  a way to reach D in 3 jumps.
+Not knowing that the route that A broadcasts is stale and goes through B itself,  B will then update it's distance vector and set A as the go-to neighbour to reach D.
+A will see that B increased it's distance and will consequently update it's own vector to take the change broadcasted by B into account.
+The distance will slowly rise to infinity, when the network will finally understand that D is unreachable, but this may take some time.
+
+Enhancement have been proposed such as split horizon and reverse poison
+##### Split Horizon 
+For any node N able to reach node D with a shortest path going  through an Interface I 
+any change in distance from N to D should not be broadcasted by N on the Interface  I
+
+##### Reverse Poison
+For any node N able to reach node D with a shortest path going  through an Interface I  ,while I is the interface of the shortest route,
+N broadcasts on I that the shortest distance from N toward D is infinite.
+
+Note that Reverse Poison does not work in the following networking topology :  A linked to B, A linked to C, B linked to C , C linked to D, link between C and D broken.
+Here A B and C  will in turn believe that  one of the two other nodes knows how to reach D. 
+
+#### Routing by link information 
+
+#### Hierarchical Routing
+#### Broadcast Routing 
+#### Multicast Routing
+#### Anycast Routing 
+
+### Overflow Management
 
 ### MPLS , connection-full routing 
 

@@ -776,9 +776,57 @@ packet tagged white will NOT be forwarded to bridge 1.
 
 
 ## Network Layer 
+The Goal of this layer is to route packet from a sender through intermediaries to a receiver. The sender and the receiver can be 
+separated by multiple networks and devices, yet the network layer is to bring packets to their destination regardless.
+It uses the link layer to send packets to the correct closest intermediary which is one step closer to bring the packet to the destination
+This layer offers the following services to a higher layer :
+- routing
+- 
+- 
+
+### packet routing versus virtual circuits
+Two big  routing methods exists,
+connection-less,
+where packets of data are each being indepently routed. As long as they arrive to the receiver,
+the sender couldn't care less about the path they follow (he can't specify it neither).
+
+connection-full or virtual circuits, where all packets from a sender to a receiver during a communication follow the same path. 
+The sender must specify the path they have to follow.
+
+Here is a comparison of virtual circuits versus packet routing :
+
+- Establishing connection beforehand
+   connection-full : Mandatory before emitting
+   connection-less : not necessary
+- Adresses management
+   connection-full : the identity of the virtual circuit is known among each router
+   connection-less : only the address of the sender and the receiver are known, embedded in the packet.
+- Routing
+   connection-full : the route is fixed at the start of the communication, all packets follow it
+   connection-less : each packet can follow a different route, at the discretion of intermediary routers.
+- What happens when a router fails
+   connection-full : all virtual circuits in which the failed router took  part are inoperative.
+   connection-less : only packets managed by the router at the time of failure are lost 
+- Guarantees of Quality of Service
+   connection-full : Easy to guarantee, ressources only have to be allocated before-hand
+   connection-less : hard to guarantee, mumbo jumbo of  heuristics, algorithms and packet tagged with a priority flag
+- Overflow control
+   connection-full : easy to guarente, ressources have been pre-allocated
+   connection-less :  hard to guarantee, again algorithms and heuristics hard at work 
+
+
+### MPLS , connection-full routing 
 
 
 ## Transport Layer 
+
+The Goal of this layer is to
+It uses the XXXX  layer to 
+This layer offers the following services to a higher layer :
+- XXXX
+- XXXX
+- XXXX 
+
 
 ## Application Layer
 

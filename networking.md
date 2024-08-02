@@ -856,6 +856,21 @@ Note that Reverse Poison does not work in the following networking topology :  A
 Here A B and C  will in turn believe that  one of the two other nodes knows how to reach D. 
 
 #### Routing by link information 
+- 1. Discover all neighbours  and their network adress
+  If multiple routers share a link (they are on a bus for example) create a "ghost router" to make
+  routers connected in point to point. One of the router on the shared link will act as itself and the ghost router.
+- 2. Give a cost to reach each neighbour
+  Depending on what matters on the network, latency, bandwidth ...
+     
+- 3. Broadcast a compiled version of all of what you have discovered to all your neighbours, and receive similar packets from your neighbours
+  it should carry a timestamp, your adress, a list of your neighbours and the cost you have affected to each of them.
+  To avoid overflow of the network by information packets each packets contains a sequence number.
+  At any time when an information packet is received by a router, if the sequence number of said packet is lower than the
+  highest  previously received from the same sender, the packet is dropped, as it is a stale duplicate. Otherwise it is broadcasted to all links except the one  where it came from. Packet AND their information can also become stale from old age, so if a router restarts or a corrupted sequence number goes unnoticed, or a packet starts looping around for any reason, after  a while the informations it broadcasted wil become stale and be removed, and the packet will no longer be broadcasted.
+The affected router will be again able to emit information that will be  taken into account by other routers.
+
+- 4. process the smallest link toward each device
+
 
 #### Hierarchical Routing
 #### Broadcast Routing 

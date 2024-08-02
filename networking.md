@@ -875,15 +875,29 @@ This routing method is used by some industrial grade protocol
 - Intermediate System-Intermediate System
 -  Open Shortest Path First
 
-#### Hierarchical Routing
+#### Routing Hierarchy 
 The problem of routing by link information is that when the network gets very large,
-processing dijkstra or Bellman-Ford gets costly. Moreover, in a very large network,
-failures are bound to happen somewhere, triggering frequent,costly, recalculations.
-One solution to this is to split routers into packets, and have near "gateway routers" to contact
-for far away recipient, instead of keeping track of everyone along the way. 
+processing Dijkstra or Bellman-Ford gets costly. Moreover, in a very large network,
+failures are bound to happen somewhere, triggering frequent, costly, recalculations.
+One solution to this is to split routers into clusters. Each router knows the complete intricacies of the cluster it belongs too,
+as well as the go to routers to reach when you want to send a message outside of your cluster, those are "gateway router".
+Thanks to this repartition, routers don't need to track every change in the network.  
 
 #### Broadcast Routing 
+When a host needs to be able to broadcast data among all devices in the network, the **Reverse Path Forwarding** algorithm
+comes to our help. When router receives a broadcasted packet, it checks the link from which it came from.
+If this is  the same link as the one this router would have 
+used to send a message to the emitter of the broadcasted packet, it means that the broadcasted packet probably came from the best route possible,
+and thus it should be broadcasted to all other links. If this is not the case, then the packet probably came looping around after 
+riding on the best route. It should be consequently discarded and not broadcasted again to avoid loops.
+This algorithm takes for granted though that link are bi-directional and are ranked symetrically from the sender and the receiver perspective.
+If this is not the case, the algorithm does not work at all.
+
+
 #### Multicast Routing
+Multicast is a very particular broadcasting system. In multicasting, you want to transmit a message to many nodes, yet not all of them.
+
+
 #### Anycast Routing 
 
 ### Overflow Management

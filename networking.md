@@ -871,8 +871,17 @@ The affected router will be again able to emit information that will be  taken i
 
 - 4. process the smallest link toward each device
 
+This routing method is used by some industrial grade protocol 
+- Intermediate System-Intermediate System
+-  Open Shortest Path First
 
 #### Hierarchical Routing
+The problem of routing by link information is that when the network gets very large,
+processing dijkstra or Bellman-Ford gets costly. Moreover, in a very large network,
+failures are bound to happen somewhere, triggering frequent,costly, recalculations.
+One solution to this is to split routers into packets, and have near "gateway routers" to contact
+for far away recipient, instead of keeping track of everyone along the way. 
+
 #### Broadcast Routing 
 #### Multicast Routing
 #### Anycast Routing 

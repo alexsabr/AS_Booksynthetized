@@ -781,7 +781,7 @@ separated by multiple networks and devices, yet the network layer is to bring pa
 It uses the link layer to send packets to the correct closest intermediary which is one step closer to bring the packet to the destination
 This layer offers the following services to a higher layer :
 - routing
-- 
+- overflow management alongside Transport layer 4 
 - 
 
 ### packet routing versus virtual circuits
@@ -895,10 +895,33 @@ If this is not the case, the algorithm does not work at all.
 
 
 #### Multicast Routing
-Multicast is a very particular broadcasting system. In multicasting, you want to transmit a message to many nodes, yet not all of them.
+Multicast is a  particular broadcasting system. In multicasting, you want to transmit a message to many nodes, yet not all of them.
+You can just do a broadcast, but if the packet ought to be private or the group it is intended to reach is small vs the size of the network,
+this is a massive waste of resources. If your routing is vector of distance based, you can use the minimal covering tree indicating you where to send packets,
+and trim it to reach only target nodes of the multicasting. this method is costly however, as if you have m groups,with nodes in each you have to retain n * m 
+more minimally covering trees.
+
+A Better Alternative is the "Core Based Tree" algorithm. All members of a tree agree to make a node in the group the "central node".
+A single minimally covering tree is derived, from the central node to all members of the group. This tree is shared among all members of the group.
+Any time a packet for the group is emitted, it shall travel following this tree of members. Note that it is absolutely not mandatory that the packet first 
+reaches the central node before reaching other members of the group.
+With this method, all routers of the network only needs to remember one tree per group in the network, and they don't even have to  take part in 
+it's conception only to remember it.
+This is why this Algorithm is used on internet, Notably with  **Protocol Independant Multicast** or PIM.
 
 
 #### Anycast Routing 
+When you only wish that your packet reaches a receiver but you do not care which one (for example when you have multiple server able to distribute a resource,
+like Content Delivery Network (CDN) or a time emitting server ) you want to exploit anycast.
+The solution is simple : the service provided should lie on a host, not a router, and said host shall all have the same adress.
+When trying to contact a given adress, all the routing algorithms  seen above ( distance vector, hierarchy, link information) will naturally (and unknowingly)
+route the packet to the closest (depending on the metric) host providing a service.
+Service provider shall not be routers because otherwise algorithm like distance vector, will see different routers as one single entity
+and think that this unique super cool router is the way to many  shortest path to other device in the network,
+when in reality it is really multiple scattered devices.
+
+
+
 
 ### Overflow Management
 

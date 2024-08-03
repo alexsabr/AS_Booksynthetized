@@ -781,7 +781,7 @@ separated by multiple networks and devices, yet the network layer is to bring pa
 It uses the link layer to send packets to the correct closest intermediary which is one step closer to bring the packet to the destination
 This layer offers the following services to a higher layer :
 - routing
-- overflow management alongside Transport layer 4 
+- Congestion management alongside Transport layer 4 
 - 
 
 ### packet routing versus virtual circuits
@@ -810,7 +810,7 @@ Here is a comparison of virtual circuits versus packet routing :
 - Guarantees of Quality of Service
    connection-full : Easy to guarantee, ressources only have to be allocated before-hand
    connection-less : hard to guarantee, mumbo jumbo of  heuristics, algorithms and packet tagged with a priority flag
-- Overflow control
+- Congestion control
    connection-full : easy to guarente, ressources have been pre-allocated
    connection-less :  hard to guarantee, again algorithms and heuristics hard at work 
 
@@ -864,7 +864,7 @@ Here A B and C  will in turn believe that  one of the two other nodes knows how 
      
 - 3. Broadcast a compiled version of all of what you have discovered to all your neighbours, and receive similar packets from your neighbours
   it should carry a timestamp, your adress, a list of your neighbours and the cost you have affected to each of them.
-  To avoid overflow of the network by information packets each packets contains a sequence number.
+  To avoid Congestion of the network by information packets each packets contains a sequence number.
   At any time when an information packet is received by a router, if the sequence number of said packet is lower than the
   highest  previously received from the same sender, the packet is dropped, as it is a stale duplicate. Otherwise it is broadcasted to all links except the one  where it came from. Packet AND their information can also become stale from old age, so if a router restarts or a corrupted sequence number goes unnoticed, or a packet starts looping around for any reason, after  a while the informations it broadcasted wil become stale and be removed, and the packet will no longer be broadcasted.
 The affected router will be again able to emit information that will be  taken into account by other routers.
@@ -923,7 +923,17 @@ when in reality it is really multiple scattered devices.
 
 
 
-### Overflow Management
+### Congestion Management
+First let us define some terms 
+Traffic Management : All measures related to having a working network able to dispatch data packets from emitters to receiver.
+
+Flow Control  : All measures pertaining to avoiding the situation of a sender sending too much packets for a receiver to receive,
+causing packet loss.
+
+Congestion Management  : All measures pertaining to avoiding the situation of  
+
+
+
 
 ### MPLS , connection-full routing 
 

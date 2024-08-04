@@ -971,7 +971,9 @@ than data packets.
 
 One of the solution is for the devices exploiting the network to mark packets as important or non-important.
 
+### Quality of Service
 
+### Network Inter-connection
 ### MPLS , connection-full routing 
 
 

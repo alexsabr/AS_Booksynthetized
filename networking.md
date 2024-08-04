@@ -925,14 +925,51 @@ when in reality it is really multiple scattered devices.
 
 ### Congestion Management
 First let us define some terms 
-Traffic Management : All measures related to having a working network able to dispatch data packets from emitters to receiver.
+Traffic Management : All measures related to having a working network able to dispatch as many data packets from emitters to receiver as possible  in a timely fashion.
 
 Flow Control  : All measures pertaining to avoiding the situation of a sender sending too much packets for a receiver to receive,
 causing packet loss.
 
-Congestion Management  : All measures pertaining to avoiding the situation of  
+Congestion Management  : All measures pertaining to avoiding the situation of Sender sending too much packets for the n
+etwork to handle, resulting in a loss of packets or even a collapse of the network.
+
+Here are a list of measures to be taken to manage congestion, ranked from the slowest to react,
+to the fastest.
+
+- Provisionning : Adding faster links and routers on most used routes.
+- Traffic based routing  : Changing the appeal of links based on the how much traffic is currently using it
+- Control of entry/admission : denying a sender from sending new packets to limit congestion
+- traffic throttling  :  reducing the number of packet sent by emitters on the network on a time frame 
+- load shedding :  routers dropping packets when they can no longer make up with the network charge
 
 
+#### Traffic based routing :
+This method has a drawback : the network can oscillate between links, congestionning them on a cyclic basis
+instead of exploiting them all to reduce congestion.
+
+
+
+#### Control of entry/admission
+This how the telephonic networks work, it denies new cellphones to communicate while all other slots are occupied.
+The task is more difficult in packet switching network, as you cannot predict which new connection
+could be a factor of increased congestion. For example, a movie  streamed has a smoother demande on network
+than web browsing, which is less intense, but also very subject to burst of demands.
+
+#### Traffic Shaping / throttling
+
+
+#### Load Shedding :
+Really the nuclear option of routers. Which packets to drop ?  It depends on the traffic. 
+If you are transferring a file, if you delete oldest packets first (example with sequence number 6 ) then the receiver 
+will have to keep newest packet (example sequence number 7,8,9) in a heap until the oldest had been transferred again, potentially worsening the situation. If you are transferring realtime data like Voice, 
+new packets are more important than older ones. 
+Third situation, the video compression algorithm MPEG transmits periodically base images and then lightweight differences,
+allowing the receiver to reconstruct other images from the base image and the differences. Here the base images
+are important but more numerous differences packet, less so.
+Fourth situation, state of network packets (or how I like to call them administrative packets) are also more important 
+than data packets.
+
+One of the solution is for the devices exploiting the network to mark packets as important or non-important.
 
 
 ### MPLS , connection-full routing 

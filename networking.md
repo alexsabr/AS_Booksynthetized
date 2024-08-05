@@ -781,7 +781,7 @@ separated by multiple networks and devices, yet the network layer is to bring pa
 It uses the link layer to send packets to the correct closest intermediary which is one step closer to bring the packet to the destination
 This layer offers the following services to a higher layer :
 - routing
-- Congestion management alongside Transport layer 4 
+- Congestion management and Quality of Service alongside Transport layer 4 
 - 
 
 ### packet routing versus virtual circuits
@@ -984,6 +984,19 @@ than data packets.
 A solution for effective load shedding is for the devices exploiting the network to mark packets as important or non-important.
 
 ### Quality of Service
+Applications (and people) require more guarantees  than just best effort.
+Quality of Service englobes defining and meeting demands.
+There is 
+- Reliability of the data being received is also the one being sent
+- Delay between data being sent and received
+- jig intempestive viariation of the delay 
+- Bandwidth requirements 
+
+How does the network layer manages when multiple packets from different emitters must follow the same route ?
+This is a scheduling problem. Multiple scheduling solutions exists,one of them is the fair queuing, where 
+the date of arrival, the expected lifetime and the size of the packet are taken into account to choose when a packet should be sent.
+
+
 
 ### Network Inter-connection
 ### MPLS , connection-full routing 

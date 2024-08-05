@@ -956,6 +956,18 @@ could be a factor of increased congestion. For example, a movie  streamed has a 
 than web browsing, which is less intense, but also very subject to burst of demands.
 
 #### Traffic Shaping / throttling
+The token bucket  algorithm (or it's cousin the leaky bucket) allows routers to manage sudden burst of communication without getting overflowed.
+A message emitter manages a bucket of tokens pertaining to a link with a router. When the emitter want's to send a message,
+it consumes a token from the bucket. If the bucket is empty, it cannot send any message until it has received a token to consume.
+If the sender has a burst of messages to send, it can send them as fast as the link can handle as long as it consumes token in relation
+to the messages it sends. when the bucket is empty, the sender will hold any new messages to the router, until the bucket starts to replenish.
+Thanks to this algorithm, burst of messages are allowed within reason, before smoothing it out to a more sustainable flow.
+Other options of traffic throttling involve:
+- router deleting random packets in the heap when it detects  early in a congestion, hoping that the transport layer interprets the packet loss as a congestion marker and
+  reduces the flow (transport protocol TCP correctly assesses packet loss this way )
+- Choke packets :  router sending a packet to the emitter asking it to reduce the flow of data 
+- Explicit Congestion Notification (ECN) : tagging a packet before it being delivered so the receiver detects the impeding congestion and notifies the sender to reduce the flow of packets
+
 
 
 #### Load Shedding :
@@ -969,7 +981,7 @@ are important but more numerous differences packet, less so.
 Fourth situation, state of network packets (or how I like to call them administrative packets) are also more important 
 than data packets.
 
-One of the solution is for the devices exploiting the network to mark packets as important or non-important.
+A solution for effective load shedding is for the devices exploiting the network to mark packets as important or non-important.
 
 ### Quality of Service
 

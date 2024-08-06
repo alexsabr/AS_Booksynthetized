@@ -996,9 +996,39 @@ How does the network layer manages when multiple packets from different emitters
 This is a scheduling problem. Multiple scheduling solutions exists,one of them is the fair queuing, where 
 the date of arrival, the expected lifetime and the size of the packet are taken into account to choose when a packet should be sent.
 
+To guarantee Quality of service for realtime data streaming, various protocols were designed, they all fall under one of two categories, 
+the **Integrated Services** and the **Differentiated Services**. 
+
+ 
+#### Integrated Services
+##### RSVP Protocol
+Defined in RFC 2205 and following, a layer 4 Protocol but we detail it here,
+as it does not carry any data and is closer to an "administrative" protocol like ICMP.
+This is really a multicast protocol but with sending a message in the group to allocate some resources specifically
+for a communication.
+
+
+#### Differentiated Services
+Unlike Integrated Services where resources are allowed on a per communication basis,
+almost like telephonic circuit switching, with differentiated services 
+resources are allowed on a per class basis. Think first class and second class packets,
+getting different treatment when they enter a router, for example variation in scheduling.
+Note that if a first class packet is going to get a better treatment than a second class packet,
+two first class packet facing one another will be treated the same.
+Differentiated Services have largely supplanted Integrated Services, because they do not require configuration
+and are more robust when a router fails.
+
+##### Expedited Forwarding (EF)
+Layer 3 Differentiated Services Protocol, with first class and second class packets.
+
+##### Assured Forwarding (AF)
+Layer 3 Differentiated Services Protocol, with four class of packets,
+each containing themselves 3 level of needed newtork congestion for the packet to be droppable.
 
 
 ### Network Inter-connection
+
+
 ### MPLS , connection-full routing 
 
 
@@ -1010,6 +1040,7 @@ This layer offers the following services to a higher layer :
 - XXXX
 - XXXX
 - XXXX 
+
 
 
 ## Application Layer

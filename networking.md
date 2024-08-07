@@ -784,6 +784,9 @@ This layer offers the following services to a higher layer :
 - Congestion management and Quality of Service alongside Transport layer 4 
 - 
 
+If you want to learn more about the architectural design principle of the network layer for  the internet,
+read the RFC 1958 (only 8 pages !). 
+
 ### packet routing versus virtual circuits
 Two big  routing methods exists,
 connection-less,
@@ -1027,7 +1030,13 @@ each containing themselves 3 level of needed newtork congestion for the packet t
 
 
 ### Network Inter-connection
-#### Tunneling
+If inside a given network, it is admitted  that all entities  use the same L3 Network Protocol,
+between networks this is much less obvious. Even if the same L3 Network protocol is used, other things can vary,  routing algorithm are a great example.
+Routing inside each Internet providers network of customer (called an **Autonomous System** or **AS**) should be confidential, otherwise 
+their competitor could know how much money they pay / invest to move data around. But those networks must be connected together,
+otherwise this is no longer the internet. The following sections  will expose problems that arises and solutions, when interconnecting multiple networks.
+
+#### Tunneling
 What to do when you want to allow two  network A and C  with the same L3 network protocol
 to communicate together when they are separated by a network B using a different L3 network Protocol ?
 Use Network Tunneling.
@@ -1040,8 +1049,21 @@ To do so, it will  encapsulate  the network data packets abiding to the L3 Netwo
 in packets to be conveyed through B. Routers on B will see those packets as normal packets carrying some data.
 The boundary router on C will then take the "data" and  translate it  back into  packets with the correct L3 Network protocol to navigate in C. 
 
-Virtual Private Networks (VPN) are a form of tunneling. An Other one is IP to IP (for example IPv4 to IPv6).
+Virtual Private Networks (VPN) are a form of tunneling. An other one is IP to IP (for example IPv4 to IPv6).
 
+#### Packet fragmentation
+When a packet crosses multiple networks, there is no guarantee as it is not too large for some networks and needs to be cut in smaller 
+packets or straight out dropped. In IP this  "size of packet" is called the **Maximum Transfer Unit** or **MTU**.
+Multiple solutions exist : 
+- cut the packet into smaller ones when needed, and reassemble immediately when possible along the way,
+- cut the packet and then route it as smaller packets, let the recipient reassemble them,
+- Design a packet which isn't too big for any network used during routin (i.e if the packet is too big, it is dropped and the emitter
+  is notified that the packet was too big)
+
+#### Inter Network Routing
+On the Internet, to route between Autonomous System (Internet providers network of customers) the Border GateWay Protocol is exploited.
+
+##### BGP
 
 ### MPLS , connection-full routing 
 

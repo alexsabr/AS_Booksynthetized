@@ -1027,6 +1027,20 @@ each containing themselves 3 level of needed newtork congestion for the packet t
 
 
 ### Network Inter-connection
+#### Tunneling
+What to do when you want to allow two  network A and C  with the same L3 network protocol
+to communicate together when they are separated by a network B using a different L3 network Protocol ?
+Use Network Tunneling.
+A and C have each at least one router which also takes part in B. Those routers, we'll call them here boundary routers
+can communicate on their respective network and on B network. 
+
+To establish a communication between A and C, an entity on A will send data  to it's boundary router.
+The boundary router from A will communicate with the boundary router of C  through the network B. 
+To do so, it will  encapsulate  the network data packets abiding to the L3 Network protocol of A and C
+in packets to be conveyed through B. Routers on B will see those packets as normal packets carrying some data.
+The boundary router on C will then take the "data" and  translate it  back into  packets with the correct L3 Network protocol to navigate in C. 
+
+Virtual Private Networks (VPN) are a form of tunneling. An Other one is IP to IP (for example IPv4 to IPv6).
 
 
 ### MPLS , connection-full routing 

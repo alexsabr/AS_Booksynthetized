@@ -1057,8 +1057,8 @@ packets or straight out dropped. In IP this  "size of packet" is called the **Ma
 Multiple solutions exist : 
 - cut the packet into smaller ones when needed, and reassemble immediately when possible along the way,
 - cut the packet and then route it as smaller packets, let the recipient reassemble them,
-- Design a packet which isn't too big for any network used during routin (i.e if the packet is too big, it is dropped and the emitter
-  is notified that the packet was too big)
+- Design a packet which isn't too big for any network used during routing. The sender sends a packet, if the packet is too big, it is dropped and the emitter
+  is notified that the packet was too big. The emitter tries again with a smaller packet. This is called **MTU Discovery**
 
 #### Inter Network Routing
 On the Internet, to route between Autonomous System (Internet providers network of customers) the Border GateWay Protocol is exploited.
@@ -1067,6 +1067,25 @@ On the Internet, to route between Autonomous System (Internet providers network 
 
 ### MPLS , connection-full routing 
 
+#### Header of an IPv4 Packet
+- IP version on 4 bits (IPv6 packets differ more from IPv4 packet  than just IP Version)
+- Header Length , max length of header is 60 bytes 
+- Type of Service, Used today to specify  differentiated service the packet (priority and when to drop)
+- Total Length, length of packet header included
+- Identification, to recompose a fragmented IP packet
+- Don't Fragment bit, specifies if  a packet can be fragmented or should be discarded if it is too bit for the network.
+  Today exploited for MTU Discovery (maximum size a packet can reach while travelling unfragmented)
+- More Fragment bit, All fragments of a fragmented packet have this flag raised, except the last fragment.
+- fragment position, position of the fragment in the packet, always a multiple of 8 bytes excepted the last fragment.
+- Time To Live, Time before a packet should be dropped. Can be real time based or number of hops.
+- Transport L4 Protocol used, to what layer this packet should be given.
+- Source IP Adress and Destination Ip Adress
+- Options, for various packet options
+  Here are options
+  - Strict Source and Record Route : Specify the entire path for the packet to follow 
+  - Loose Source and Record Route : specify some routes that must be used when routing the packet
+  - Record route : Each router should add its adress inside the option section of the packet so the route followed by the packet can be recorded.
+    
 
 ## Transport Layer 
 

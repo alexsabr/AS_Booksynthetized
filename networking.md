@@ -1085,7 +1085,22 @@ On the Internet, to route between Autonomous System (Internet providers network 
   - Strict Source and Record Route : Specify the entire path for the packet to follow 
   - Loose Source and Record Route : specify some routes that must be used when routing the packet
   - Record route : Each router should add its adress inside the option section of the packet so the route followed by the packet can be recorded.
-    
+
+#### Subnetworking, masks and CIDR 
+IPv4 adresses are noted as four packet of numbers separated by points. These numbers range
+between 0 and 255, as each packet represents the value of 8 bits. 
+To subdivide a set IP adresses we use a subnetworking mask noted /xx with xx a number between 0 and 32.
+The number defines how many bit of the adresses are to remain unchanged (starting from the left), to be part of the network.
+Example, 192.168.0.0/16 , this sub-network masks encapsulates all ip adresses from 192.168.0.0 to 192.168.255.255
+Another example 192.168.1.0/29 encapsulates all adresses from 192.168.1.0 to 192.168.1.7
+
+Routing using thoses prefixes and rule "route to the most specific prefix "
+(if for example I have the adress  81.57.151.237, and the choice betwween a route 81.57.0.0/16 and 81.57.151.0/24 I will use the latter one)
+is called **Classless Inter Domain Routing** or **CIDR**.
+
+It is called "Classless" because initially all IP adresses were split in classes ranging from A to E 
+intended for bigger and bigger networks
+
 
 ## Transport Layer 
 

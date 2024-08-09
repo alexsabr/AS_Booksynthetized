@@ -1101,6 +1101,51 @@ is called **Classless Inter Domain Routing** or **CIDR**.
 It is called "Classless" because initially all IP adresses were split in classes ranging from A to E 
 intended for bigger and bigger networks
 
+#### Network Address Translation (NAT)
+To face a growing lack of IPv4 Adresses, while waiting for a widespread use of IPv6
+a solution was found for multiple hosts to use the same IP adress : Network Address Translation.
+It first defines three IP ranges describing local network, that is, those ip adresses are to be used at will on any local network
+without any Interntional agreement, but they CANNOT be used on the internet. 
+10.0.0.0/8 allowing for 16 777 216 Hosts
+172.16.0.0/12  allowing for 1 048 579 Hosts
+192.168.0.0/ 16 allowing for 65.536 Hosts
+A router connected to an Internet Provider, takes part in this local network and also have an IP adress for the Internet.
+When a host wants to communicate with someone from the internet, it's packets are transmitted to the router.
+The router changes the IP adress and the source port of the packet from the local adress of the host  to it's own adress (of the router) on the internet
+and a port that suits him.
+It also feeds a table remembering the port from the emitter and the receiver and the IP adress of the receiver.
+The receiver will then receive the packet, and answer back to the router, thinking it is the router which emitted the packet.
+When the router receives an answer, it feeds the remote address and the ports involved to the table, to find which host on the local network 
+should receive the message. It then changes back the destination adress and the port to transmit the packet to said host.
+
+This method, widely used today for allowing ever more houses to access the internet while IPv6 is implemented,
+has drawbacks :
+
+- NAT by default forbids communication initiated by the outside world to the inside
+  forbidding the creation of servers unless it is configured appropriately
+
+- IP is thought as a connection-less networking L3 protocol, Nat inserts connection-full concerns,
+  if a NAT fails, all communication going through are lost.
+
+- NAT breaks the concept of layering, as it is concerned by what the layer above it does,
+  indeed it was initially designed with TCP and UDP in mind, what would happen if someone wanted to use
+  another transport protocol ? Or even a new version of TCP and UDP ?  It can't exploit it
+  (or it has to modify it's NAT router to accept the new L4 protocol )
+
+- The FTP Protocol, for file transmission, transmits multiple ports and IP to use, inside the payload of the packets.
+  If an host behind a NAT sends this kind of info, it will relate to local network adresses and be unusable for the distant host.
+
+- a NAT can only support about 61 440 connections at the same time as this is the number of TCP/UDP ports.
+
+#### IPv6
+128 Bits adresses, so
+- IP Version
+- Differentiated Services (class of packet to determine which has priority )
+- flow label
+- Payload Length
+-next header 
+- hop limit
+- source and destination address
 
 ## Transport Layer 
 

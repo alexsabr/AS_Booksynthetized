@@ -1138,14 +1138,53 @@ has drawbacks :
 - a NAT can only support about 61 440 connections at the same time as this is the number of TCP/UDP ports.
 
 #### IPv6
-128 Bits adresses, so
-- IP Version
-- Differentiated Services (class of packet to determine which has priority )
-- flow label
+Evolution of IPv4, aiming to solve and enhance multiple points,
+most notably Adresses exhaustion of IPv4, but also,
+reduce size of routing tables, allow the protocol to evolve, give more ability to better guarantee QoS,
+enhance Multicast ... .
+
+Notation :8 set of 4 hexadecimal digits separated by ":" character.
+"::" indicates one or more set of digits composed only of 0's
+IPv4 adresses can be legally  written this way in IPv6 : ::192.168.1.1
+
+- IP Version (always 6 for IPv6)
+- Differentiated Services, class of packet to determine which has priority, QoS indication 
+- flow label, initially a supplementary QoS indication, still searching for a real use today 
 - Payload Length
--next header 
-- hop limit
-- source and destination address
+- next header, indicate either Transport Layer 4 being used or a following optional header with more informations
+  optional header could convey informations about authentification (packet is encrypted), routing informations,
+  packet fragmentation, jumbo packet (for networks of super-computer) ....
+- hop limit, life expectancy of packet, to avoid it wandering for ever
+-  IPv6 source and destination address, 128 Bits per Address (which means Ideally 7 * 10^{23} IP adresses per m² on earth)
+
+There is no mandatory fragmentation header field  as hosts are expected to use MTU discovery algorithms,
+there is nevertheless an optional one as IPv6 packet  can be fragmented by the emitter (and only the emitter,not
+by intermediary routers).
+No checksum header field as the upper layer is now expected to catch errors.
+
+
+### Internet Control Message Protocol (ICMP)
+Small packets working administrative tasks, to notify  emitter / receiver about a problem
+here are a few example of messages : 
+- DESTINATION UNREACHABLE : Can't deliver packet because of fragmentation or can't find destination
+- TIME EXCEEDED : Packet reached it's EoL
+- PARAMETER PROBLEM : A header field has an illegal value
+- SOURCE QUENCH : almost forgotten, to notify an emitter to stop congesting the network with packets
+- REDIRECT : when a router judges that a packet is not routed effectively
+- ECHO / ECHO REPLY : Ping
+- TIMESTAMP REQUEST / REPLY : to measure network performance
+
+
+### ARP / NDP
+For an IP program to know to which Link L2 give the packet to reach it's destination it has two options
+- lookup in a pre-configured table which link is best to send data
+- use the ARP  (IPv4) or NDP (IPv6) protocol to determine which  link connectig to neighbour the IP packet should be transmitted
+to reach at the end the destination.
+
+It works as follows : 
+the emitter sends on the network a question : 
+
+### DHCP
 
 ## Transport Layer 
 

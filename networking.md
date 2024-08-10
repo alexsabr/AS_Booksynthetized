@@ -1063,9 +1063,36 @@ Multiple solutions exist :
 #### Inter Network Routing
 On the Internet, to route between Autonomous System (Internet providers network of customers) the Border GateWay Protocol is exploited.
 
-##### BGP
+##### BGP Border Gateway Protocol
 
-### MPLS , connection-full routing 
+### OSPF
+
+
+### MPLS MultiProtocol Label Switching , connection-full routing 
+MPLS is a routing protocol which allows packet to follow a predetermined path, to ensure 
+quality of Service. This not a L3 nor an L2 Protocol, not an L3 because it depends on IP adresses and header
+not an L2 because it manages routing more than just one link.
+Packet receive on top of the IP header an MPLS header,
+which is composed of 
+- one or more labels
+- 3 QoS bit flags
+- an MPLS Time To Live
+
+When an MPLS router receives a packet with a MPLS header, it looks up the labels in said header.
+The labels will help the router decide, which link to use next, and with what label to replace the current one.
+An emitter or an MPLS router can stack multiple labels in the header to dictate the path that must be followed by the packet
+for multiple routers.
+
+At the end of the MPLS network, the MPLS header can be removed, and then the packet can be router as a normal IP packet.
+
+An MPLS packet can also navigate on a network using MPLS and another network protocol than IP,
+as long as their is an IP network at the end of the MPLS one.
+
+The discovery and sharing of MPLS labels is defined alongside the MPLS protocol
+in RFC 3031, 3032 and following. They can exploit **Label Discovery Protocol LDP**  and **BGP** .
+
+
+
 
 #### Header of an IPv4 Packet
 - IP version on 4 bits (IPv6 packets differ more from IPv4 packet  than just IP Version)
@@ -1211,6 +1238,13 @@ therefore intercepting all traffic.
 ### DHCP Dynamic Host Configuration Protocol
 When a host connects itself to a network via a Link but doesn't have a preconfigured IP address,
 it can request an IP address to a DHCP server if there is one on the network.
+
+The hosts makes an L2 Broadcast asking for a DHCP server to provide IP address.
+The DHCP server answers, attributing the IP address to the host (it has the physical address of the host).
+The IP is given based on a lease, if after some time the DHCP server or the host doesn't renew the lease,
+the host loses it's IP address.
+
+More than just an IP address, DHCP server also provides network masks, gateways, DNS address, time server ... .
 
 
 

@@ -1176,7 +1176,11 @@ here are a few example of messages :
 
 
 ### ARP / NDP
-For an IP program to know to which Link L2 give the packet to reach it's destination it has two options
+
+For an IP program to know to which Link L2 give the packet to reach it's destination,
+wether it is on the same link or on a different link 
+
+it has two options
 - lookup in a pre-configured table which link is best to send data
 - use the ARP  (IPv4) or NDP (IPv6) protocol to determine which  link connectig to neighbour the IP packet should be transmitted
 to reach at the end the destination.

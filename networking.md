@@ -1176,19 +1176,44 @@ here are a few example of messages :
 
 
 ### ARP / NDP
+NDP (Neighbor Discovery Protcol) is the IPv6 version of ARP (intended for IPv4).
 
-For an IP program to know to which Link L2 give the packet to reach it's destination,
-wether it is on the same link or on a different link 
+For an IP program to know to which L2 Link  (and neighbour) give the packet to reach it's destination,
+wether  the destination lies on the same link (multiple links joined by switches or hub also work ) it uses the ARP protocol.
+When the destination lies on another network (or another link, with at least a router between them) the ARP protocol alone wont suffice.
 
-it has two options
-- lookup in a pre-configured table which link is best to send data
-- use the ARP  (IPv4) or NDP (IPv6) protocol to determine which  link connectig to neighbour the IP packet should be transmitted
-to reach at the end the destination.
+When the ARP protocol suffice, the host can 
+- lookup in a preconfigured ARP table what is the MAC address to send  the packet 
+- Send a broadcast L2 packet asking the MAC address of the host having the destination IP.
+Of course, if you see an ARP communication which doesn't involve you,
+you can nevertheless save the ARP answer in your table, requirnig less broadcast later.
+ARP entries in their table expire with time, so an IP address isn't linked for eternity to a MAC address.
 
-It works as follows : 
-the emitter sends on the network a question : 
+This works if hosts are on the same link (can be joined by hub and switches)
+but L2 broadcasts are stopped by L3 router, so ARP cannot propagate.
+There are 3 solutions 
+- configure an ARP proxy among the router on the same link as the emitter. This router
+  will say that it has the IP adress that emitter wants (when it is not the case) and give it's own MAC address.
+  It will then receive the packets for the destination and forward them to where they need to be.
+- configure the router to propagate the broadcasts (not possible on all routers, especially if they are the interface between two different link technologies)
+- configure on the emitter side the closest router as a gateway,
+  the emitter will ARP ask for the MAC address of the router, and will send packet to the router which will be
+  in charge of bringing them closer to the destination.
+  this solution is very similar to the arp proxy, but instead of the router lying to the emitter and saying that it has the searched IP
+  address, it is the emitter that resignates to send the data to the router. Here the emitter knows  that the router is not the physical
+  address of the destination, but rather just a hop.
 
-### DHCP
+ARP can be spoofed, an attacker can, just  like an ARP proxy, broadcast it's own MAC adress  as holding someone's else  IP,
+therefore intercepting all traffic.
+
+
+ 
+### DHCP Dynamic Host Configuration Protocol
+When a host connects itself to a network via a Link but doesn't have a preconfigured IP address,
+it can request an IP address to a DHCP server if there is one on the network.
+
+
+
 
 ## Transport Layer 
 

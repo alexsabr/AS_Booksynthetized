@@ -858,7 +858,7 @@ N broadcasts on I that the shortest distance from N toward D is infinite.
 Note that Reverse Poison does not work in the following networking topology :  A linked to B, A linked to C, B linked to C , C linked to D, link between C and D broken.
 Here A B and C  will in turn believe that  one of the two other nodes knows how to reach D. 
 
-#### Routing by link information 
+#### Routing by link state 
 - 1. Discover all neighbours  and their network adress
   If multiple routers share a link (they are on a bus for example) create a "ghost router" to make
   routers connected in point to point. One of the router on the shared link will act as itself and the ghost router.
@@ -875,11 +875,11 @@ The affected router will be again able to emit information that will be  taken i
 - 4. process the smallest link toward each device
 
 This routing method is used by some industrial grade protocol 
-- Intermediate System-Intermediate System
--  Open Shortest Path First
+- **Intermediate System-Intermediate System (IS-IS)**
+- **Open Shortest Path First (OSPF)**
 
 #### Routing Hierarchy 
-The problem of routing by link information is that when the network gets very large,
+The problem of routing by link state is that when the network gets very large,
 processing Dijkstra or Bellman-Ford gets costly. Moreover, in a very large network,
 failures are bound to happen somewhere, triggering frequent, costly, recalculations.
 One solution to this is to split routers into clusters. Each router knows the complete intricacies of the cluster it belongs too,
@@ -917,7 +917,7 @@ This is why this Algorithm is used on internet, Notably with  **Protocol Indepen
 When you only wish that your packet reaches a receiver but you do not care which one (for example when you have multiple server able to distribute a resource,
 like Content Delivery Network (CDN) or a time emitting server ) you want to exploit anycast.
 The solution is simple : the service provided should lie on a host, not a router, and said host shall all have the same adress.
-When trying to contact a given adress, all the routing algorithms  seen above ( distance vector, hierarchy, link information) will naturally (and unknowingly)
+When trying to contact a given adress, all the routing algorithms  seen above ( distance vector, hierarchy, link state) will naturally (and unknowingly)
 route the packet to the closest (depending on the metric) host providing a service.
 Service provider shall not be routers because otherwise algorithm like distance vector, will see different routers as one single entity
 and think that this unique super cool router is the way to many  shortest path to other device in the network,
@@ -1060,12 +1060,46 @@ Multiple solutions exist :
 - Design a packet which isn't too big for any network used during routing. The sender sends a packet, if the packet is too big, it is dropped and the emitter
   is notified that the packet was too big. The emitter tries again with a smaller packet. This is called **MTU Discovery**
 
-#### Inter Network Routing
-On the Internet, to route between Autonomous System (Internet providers network of customers) the Border GateWay Protocol is exploited.
+
+
+
+
+### OSPF Open Shortest Path First
+Very similar to IS-IS (Intermadiate System-Intermediate System)
+from which it is inspired. When introduced, was to implement ameliorations in routing __inside__ 
+Autonomous System routing for ISP.
+A link state routing protocol (routers know about most router of the network and process shortest path)
+excpected ameliorations were : 
+- multiple distance metrics (latency, number of hops, geography...)
+- routing with hierarchy network is split in smaller chunks
+   and every router does not need to know what happens everywhere on the network
+- load balancing, instead of throwing all packets on the single best route
+- a minimum of security
+
+OSPF represents the network as a directed valued graph, mapping routers and links between them.
+OSPF allows routing by hierarchy and thus routers can be split in groups.
+A group is one composed of one or more contiguous networks.
+Routers outside of a group cannot see the architecture inside of it. Routers can be groupless. There is also the the backbone group 0,
+all groups must be directly connected to it (notice we said connected, not take part in) either directly or via a tunnel.
+This forces groups to take a star hierarchy, with the backbone at it's center.
+Router inside the backbone group are called __backbone routers__.
+Like other groups, the hierarchy inside backbone group is unknown to those who do not take part in it.
+A router connected to two groups or more must take part in the backbone group, those routers are called __group border routers__.
+
+A router between two autonomous system is called __autonomous system's border router__.
+Routing usually takes this form, packet goes from inside a group to a group border router,
+into the backbone, to one of the destination's group border router.
+
+A newly connected router broadcasts a HELLO message on all of it's link.
+One elected router per LAN answers the message with link state information.
+
 
 ##### BGP Border Gateway Protocol
+Routing Protocol between  autonomous systems.
+This is not as simple as routing inside autonomous system, because inside you are interested
+by speed and efficiency. Between autonomous system, you have political or monetary incentive to
+use or not use a router.
 
-### OSPF
 
 
 ### MPLS MultiProtocol Label Switching , connection-full routing 

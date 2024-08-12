@@ -298,7 +298,7 @@ NGO responsible of maintaining name spaces on the web.
 - No blocking content
 - No slowing down connection
   (for example if your customer uses another streaming service thant the one you promote)
-- No favoritism among packets
+- No **paid** favoritism among packets (time sensitive traffic like video games or calls has usually priority) 
 - Transparency on any measure that would infringe one of the rules above
 
 
@@ -780,9 +780,9 @@ The Goal of this layer is to route packet from a sender through intermediaries t
 separated by multiple networks and devices, yet the network layer is to bring packets to their destination regardless.
 It uses the link layer to send packets to the correct closest intermediary which is one step closer to bring the packet to the destination
 This layer offers the following services to a higher layer :
-- routing
+- routing based on packets (more common) or on virtual circuits (rarer)
 - Congestion management and Quality of Service alongside Transport layer 4 
-- 
+
 
 If you want to learn more about the architectural design principle of the network layer for  the internet,
 read the RFC 1958 (only 8 pages !). 
@@ -1098,7 +1098,19 @@ One elected router per LAN answers the message with link state information.
 Routing Protocol between  autonomous systems.
 This is not as simple as routing inside autonomous system, because inside you are interested
 by speed and efficiency. Between autonomous system, you have political or monetary incentive to
-use or not use a router.
+use or not use a router or an autonomous system when it would have been wise from a routing perspective.
+
+To allow this kind of routing, BGP is a distance vector algorithm.
+Each Autonomous System broadcasts to other what routes it can reach and with what distance (varying distance).
+If an Autonomous system doesn't want packets from Autonomous System to go through it to reach another
+destination, it simply does not broadcast to those autonomous system routes it can reach. 
+If the whole path is emitted, only crossed autonomous system are specified except for the last router.
+This has the benefit of detecting routing loop between autonomous system.
+All the border routers of given autonomous system know about destination that can be reached by other 
+border routers of said autonomous system, allowing an autonomous system to be though of as a single entity.
+
+
+Consult RFC 4271 for more informations.
 
 
 
@@ -1166,10 +1178,11 @@ intended for bigger and bigger networks
 To face a growing lack of IPv4 Adresses, while waiting for a widespread use of IPv6
 a solution was found for multiple hosts to use the same IP adress : Network Address Translation.
 It first defines three IP ranges describing local network, that is, those ip adresses are to be used at will on any local network
-without any Interntional agreement, but they CANNOT be used on the internet. 
+without any International (or national) agreement, but they CANNOT be used on the internet. 
 10.0.0.0/8 allowing for 16 777 216 Hosts
 172.16.0.0/12  allowing for 1 048 579 Hosts
 192.168.0.0/ 16 allowing for 65.536 Hosts
+224.0.0.0/24 for local network multicasting only, 255 IP adresses available 
 A router connected to an Internet Provider, takes part in this local network and also have an IP adress for the Internet.
 When a host wants to communicate with someone from the internet, it's packets are transmitted to the router.
 The router changes the IP adress and the source port of the packet from the local adress of the host  to it's own adress (of the router) on the internet

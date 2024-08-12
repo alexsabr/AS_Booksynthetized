@@ -782,7 +782,8 @@ It uses the link layer to send packets to the correct closest intermediary which
 This layer offers the following services to a higher layer :
 - routing based on packets (more common) or on virtual circuits (rarer)
 - Congestion management and Quality of Service alongside Transport layer 4 
-
+- routing regardless of number and technology of intermediate routers (tunneling)
+- adressing is consistent, from LAN to WAN 
 
 If you want to learn more about the architectural design principle of the network layer for  the internet,
 read the RFC 1958 (only 8 pages !). 
@@ -791,10 +792,13 @@ read the RFC 1958 (only 8 pages !).
 Two big  routing methods exists,
 connection-less,
 where packets of data are each being indepently routed. As long as they arrive to the receiver,
-the sender couldn't care less about the path they follow (he can't specify it neither).
+the sender couldn't care less about the path they follow (he can't specify it neither  
+(some connection-less protocol may allow this feature )). The routing decisions are made at each
+individual router in "realtime".
 
 connection-full or virtual circuits, where all packets from a sender to a receiver during a communication follow the same path. 
-The sender must specify the path they have to follow.
+The sender must specify the path they have to follow (or it can be forced upon him). The path is agreed
+upon in advance and then respected. Very useful when you have stringent  Quality of Services requirements.
 
 Here is a comparison of virtual circuits versus packet routing :
 
@@ -1298,13 +1302,25 @@ More than just an IP address, DHCP server also provides network masks, gateways,
 
 ## Transport Layer 
 
-The Goal of this layer is to
-It uses the XXXX  layer to 
+The Goal of this layer is to bring packets to their destination with a variable level of reliance,
+regardless of the quality of the networks used.
+It uses the Network  layer to  send packet 
 This layer offers the following services to a higher layer :
-- XXXX
-- XXXX
-- XXXX 
+- reliability that the data sent will be the data received
+- uniformity, allowing software developper to conceive App that work on a variety of types of network (without them even knowing !)
+- networking protocols which executes on the users hardware versus L3 and below which mostly executes on router and switches,
+  outside of the control of the user.
 
+Just like the Network Layer, the Transport Layer promotes two type of "means of transportation"
+Connection-oriented and Connection-less
+
+The usage of  TCP layer protocols can be reduced to 6 generic functions :
+- LISTEN : Block until someones tries to connect to you
+- CONNECT : Actively try to connect to someone 
+- SEND : Data to someone you are connected
+- RECEIVE : block until you receive data from someone you are connected 
+- DISCONNECT : Make known that you no longer wish to communicate
+  
 
 
 ## Application Layer

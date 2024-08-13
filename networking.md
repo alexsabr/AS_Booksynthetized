@@ -1310,6 +1310,7 @@ This layer offers the following services to a higher layer :
 - uniformity, allowing software developper to conceive App that work on a variety of types of network (without them even knowing !)
 - networking protocols which executes on the users hardware versus L3 and below which mostly executes on router and switches,
   outside of the control of the user.
+- demultiplexing of networking flows, allowing multiple process inside the same host to communicate at the same time
 
 Just like the Network Layer, the Transport Layer promotes two type of "means of transportation"
 Connection-oriented and Connection-less
@@ -1321,7 +1322,15 @@ The usage of  TCP layer protocols can be reduced to 6 generic functions :
 - RECEIVE : block until you receive data from someone you are connected 
 - DISCONNECT : Make known that you no longer wish to communicate
   
+***Transport Service Access Point TSAP***, entities allowing multiple processes on a same host to use the network at
+the same time,  those are ports in TCP and UDP.
 
+Port mapping program
+inetd 
+
+
+### SCTP
+### QUIC
 
 ## Application Layer
 

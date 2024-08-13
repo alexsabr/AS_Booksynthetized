@@ -1328,6 +1328,47 @@ the same time,  those are ports in TCP and UDP.
 Port mapping program
 inetd 
 
+### Establishing a connection and three way handshake 
+When establishing a Transport Layer connection, to avoid the risk of multiple connections
+being opened at once because of a  packet received twice  for any reason (late arrival, accidental duplication, ...)
+The **Three way handshake** has been retained in TCP : 
+Host A chosses a sequence number to enumerate packets it will send.
+Host A  sends a Connection request with  the sequence number .
+Host B chooses a sequence number and sends it to host A with an acknowledgement that 
+Host B answers that it has acknowledged the sequence number chosen of the first host and also joins
+it's own sequence number to enumerate of the packets.
+Host A answers that it has received the acknowledgment alongside it's first packet of data. 
+
+Host A and B shall pick a new sequence number each time they send a message during the handshake,
+so if at any time during this handshake a packet is duplicated, it will be detected and discarded.
+
+### Releasing an established connection
+Releasing an established connection is harder than establishing one,
+this problem is known as "the two general's problem" :
+If two remote hosts want to decide something on an unreliable link (say, to end communication),
+they can't if they rely only on acknowledgments coming from the unreliable link.
+Indeed, in all cases one of the host will never have a strong guarantee that it's latest message 
+arrived to the other, thus he can't with certainty be sure that the other host also agrees on the decision.
+
+The solution to this is two fold : first introduce the notion of timer,
+if after a certain amount of time no packets are received, or a disconnection request is not acknowledge,
+consider the connection lost. Second, let the process above the transport layer decide when the connection is lost.
+
+
+### Error and flow control 
+
+Transport Layer is entrusted in providing guarantees that the data which arrives is correct,
+and that the sender does not overflows the receiver.
+consequently this layer implements Error detection / correction codes / algorithms,
+sequence number, and flow control by sliding windows. 
+
+Those mecanisms are important, because there are no guarantees that the link exploited 
+has error detection, or that packets wont be interverted on the network.
+
+
+
+
+
 
 ### SCTP
 ### QUIC

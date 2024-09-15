@@ -1311,6 +1311,7 @@ This layer offers the following services to a higher layer :
 - networking protocols which executes on the users hardware versus L3 and below which mostly executes on router and switches,
   outside of the control of the user.
 - demultiplexing of networking flows, allowing multiple process inside the same host to communicate at the same time
+- flow and congestion control with the L3 Network Layer
 
 Just like the Network Layer, the Transport Layer promotes two type of "means of transportation"
 Connection-oriented and Connection-less
@@ -1355,24 +1356,62 @@ if after a certain amount of time no packets are received, or a disconnection re
 consider the connection lost. Second, let the process above the transport layer decide when the connection is lost.
 
 
-### Error and flow control 
+### Error, flow Control and Congestion Control
 
 Transport Layer is entrusted in providing guarantees that the data which arrives is correct,
-and that the sender does not overflows the receiver.
+and that the sender does not overflows the receiver. It also works with the Network Layer to not congest the network.
 consequently this layer implements Error detection / correction codes / algorithms,
-sequence number, and flow control by sliding windows. 
+sequence number, congestion control , and flow control by sliding windows. 
 
 Those mecanisms are important, because there are no guarantees that the link exploited 
 has error detection, or that packets wont be interverted on the network.
 
+#### Max-Min fairness 
+To avoid congestion in the network, we need to decide how to share bandwidth among multiple transport entity.
+We usually aim for max-min equity. This is when  you cannot raise the bandwidth given to a connection, without lowering
+the bandwidth of another equal or smaller connection.
+This situation translates that whe have __Maximized__ the size of the __minimum__ flow rate (the smallest flow is as big as it can get.)
 
+#### Additive Increase and Multiplicative Decrease
+To do congestion Control, the sender acts on the same lever as flow control, how fast it sends the data to the receiver.
+To know how fast it can send data without congestin the network,it has few options
+- rely on the sender sending him notifications of imminent congestion, which it had received from a flag raised on packets by  intermediary routers
+- Be contacted itself by congested routers which asks for a lower rate of data
+- Detect Packet loss and assum thatit is because the network is congested (the choice of TCP)
+- adopt a behavior which minimises the time spent in congestin the network, while maximising the data rate, this is what **AIMD** is for
 
+#### Additive Increase, Multiplicative Decrease (AIMD)
+Starting from a fact, it is faster to create a congestion than to resolve it,
+we can adapt the sender behavior to make it slower for it to create a congestion than to resolve it.
+To do this, the sender increases the data rate Linearly (Additive Increase)
+and decreases it Exponentially when a problem is detected, (Multiplicative Decrease).
+Since Strictly linear increase can be a bit too harsh for the sender, the method used now is more
+"Multiplicative decrease until a threshold, then linear increase until congestion occurs, then it that case go back to the threshold
+or even lower if necessary".
+This is all assuming that the flow rate wont be too big for the receiver.
 
+Another problem of this technique is that you need to be sure of how you are identifying congestion, for example if it is packet loss,
+and you use a wireless network, you run the risk of having a very low flow rate without a network congestion necessity, because
+packets are lost on wireless link fairly easily (that's why some network links usually have auto retransmit a few times without informing L4 layer).
 
-
+### UDP
+Connection-less, congestion-less, flow control-less protocol, guarantees of delivery-less
+really just a Transport Wrapper for IP which adds Multiplexing and a Checksum.
+Very small Header though, only 64 bits.
+### RPC
+### RTP & RTCP
+###TCP
+#### Establishing Connection in TCP
+#### Congestion Management Connection in TCP
+##### Fast Retransmit
+##### Fast Recovery
+##### Selective Acknowledgment
 ### SCTP
 ### QUIC
 
 ## Application Layer
+
+### DNS
+### Email
 
 ## Security

@@ -1398,9 +1398,23 @@ packets are lost on wireless link fairly easily (that's why some network links u
 Connection-less, congestion-less, flow control-less protocol, guarantees of delivery-less
 really just a Transport Wrapper for IP which adds Multiplexing and a Checksum.
 Very small Header though, only 64 bits.
-### RPC
-### RTP & RTCP
-###TCP
+
+###  Remote Procedure Call (RPC)
+Another Transport protocol than TCP or UDP is RPC. It allows a programm to call a function in another program on the same system,
+or, in relation to the topic of this book, in another program in another system via network.
+There are some caveats though, like what happens if the remote system is unreachable.What happens when you pass a memory pointer in 
+the arguments of the function you call, which will point to something else entirely on the remote system ? Or even just is goal to reach worth the slowdown ? (tens or hundreds of milliseconds  versus nanoseconds) A thing of distributed architecutre an micro-services really.
+
+### Realtime Transport Protocol (RTP) and it's Manager Real Time Control Protocol  (RTCP)
+At the border between a L4 and L7 Protocol lies RTP, a protocol which relies on UDP to move around video and audio flow.
+Quality of Service is to the surprise of no one at the center of this protocol.
+To ensure it multiple tricks are used mixing timestamps, sampling rate, udp multiplexing and usage of network buffers.
+RTCP is to transport information to maintain good Quality of Service, it displays to the sender information about the network :
+jitter, latency, bandwidth... .
+
+### TCP
+multiplexing, connection setup, point to point communication, timestamp and sliding windows 
+
 #### Establishing Connection in TCP
 #### Congestion Management Connection in TCP
 ##### Fast Retransmit

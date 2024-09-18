@@ -1412,8 +1412,17 @@ To ensure it multiple tricks are used mixing timestamps, sampling rate, udp mult
 RTCP is to transport information to maintain good Quality of Service, it displays to the sender information about the network :
 jitter, latency, bandwidth... .
 
+#### Transport Service Access Point (TSAP)
+multiplexing solution of transport protocol to allow a single L3 network address
+to be used by multiple program on a same host to communicate on the network at the 
+same time. In TCP and UDP, these are ports.
+
 ### TCP
-multiplexing, connection setup, point to point communication, timestamp and sliding windows 
+THE transport protocol. Connection-full, with timestamp, sliding windows, with
+mutiplexing (ports) multiplexing, connection setup, point to point communication,
+timestamp and sliding windows 
+
+
 
 #### Establishing Connection in TCP
 #### Congestion Management Connection in TCP
@@ -1427,5 +1436,6 @@ multiplexing, connection setup, point to point communication, timestamp and slid
 
 ### DNS
 ### Email
+### inetd
 
 ## Security

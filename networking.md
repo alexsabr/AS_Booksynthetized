@@ -1418,17 +1418,50 @@ to be used by multiple program on a same host to communicate on the network at t
 same time. In TCP and UDP, these are ports.
 
 ### TCP
-THE transport protocol. Connection-full, with timestamp, sliding windows, with
-mutiplexing (ports) multiplexing, connection setup, point to point communication,
-timestamp and sliding windows 
+THE transport protocol. Connection-full, with timestamp, congestion and flow protocol with sliding windows / tmestamps , with
+mutiplexing (ports). The communication is point to point.
+When a communication is established, the receiving and the emitting host both create a socket to communicate.
+Note that both hosts use a port (rarely the same) when they create a socket.
+Connection are established via three-way handshake
+
+A TCP header has a size of 20 bytes + some additional bytes for options. The maximum size of a TCP packet is 65 KBytes.
+In the fixed size header we find
+- Source Port
+- Destination port 
+- sequence number 
+- Acknowledgment Number  (the next expected sequence number, all packets before it have been received)
+- Some unused bits (still in the fixed header) for futureproofing the protocol
+- flags to notify network congestion, that action have been taken to reduce said congestion, an "emergency flag" to signify something at the discretion of the user,
+  a flag to ask that data be forwarded to the application immediatly without sitting in a network buffer, ...
+In the various options that can be added we find for example, the ability to specify a maximum segment size,
+the ability to increase drastically the size of the sliding window... .
+
+TCP also offers **the Nagle Algorithm**, since it is not mandatory in the protocol
+to emit an acknowledgment immediately when a packet is received, the nagle algorithm offers
+to wait as long as possible to send a maximum of acnowledgement at once to better use bandwith.
+This can be enabled and disabled via TCP_NODELAY and TCP_CORK. 
 
 
-
-#### Establishing Connection in TCP
 #### Congestion Management Connection in TCP
+#### The use of AIMD in congestion control
 ##### Fast Retransmit
 ##### Fast Recovery
-##### Selective Acknowledgment
+##### Ack Clock
+##### Slow Start 
+#### Cumulative Acknowledgement
+Instead of acknowledging sequence numbeer after sequence number, 
+if you receive a number of packets (the order does not matter as long as they are all contiguous in the end),
+you only acknowledge the packet with the biggest sequence number you received. The Sender will understand that this packet,
+and all other before it were correctly received. 
+
+#### Selective Acknowledgment
+Cumulative acknowledgement on steroids, you can acknowledge ranges of values. The sender
+will only retransmit missing packets  while also being able to go forward on the transmission of data.
+In TCP, up to three distinct ranges are possible.
+
+#### The Silly Window Problem
+
+
 ### SCTP
 ### QUIC
 

@@ -1443,11 +1443,52 @@ This can be enabled and disabled via TCP_NODELAY and TCP_CORK.
 
 
 #### Congestion Management Connection in TCP
+TCP was primarily designed to run on wired connection. This means that the rate 
+of packet loss is low, and that a lost packet has much more chance of meaning that the network is congested
+thank there is problem with a L2 link. This idea shapes many of the congestion management mechanism
+employed in TCP. Particularly, one method used is to maintain a network congestion window, to know when the network is congested
+in supplement to the flow control window to not overload the recipient of the connection.
+
 #### The use of AIMD in congestion control
-##### Fast Retransmit
-##### Fast Recovery
+TCP congestion control algorithm tend to adhere with the AIMD idea,
+slow increase of the number of packets sent, and sharp decrease if a problem arise
+
 ##### Ack Clock
+To determine the fastest rate at which packet can be emitted without overflowing the network,
+a sender can send a short burst of four packets. These packets will arrive to the receiver, in a burst
+slower than when they were emitted. The length of this burst is dictated by the slowest link.
+The sender should acknowledge these packets at the same rate that they were received.
+The emitter now knows the highest rate at which it can send packet without overlooding the slowest link.
+
+
+
 ##### Slow Start 
+The problem with AIMD is that when the increase is slow when you start at a ridiculously slow rate,
+it can much time to reach the tipping point. To solve this issue, we commit a small infraction to the paradigm.
+The increase is multiplactive until a point, then it rises additively to reach slowly the point where it is 
+sending data too fast.
+
+
+##### Fast Retransmit
+If a packet is lost, we have to wait for it to timeout before re-emitting it.
+To enhance performance, we can realise that 
+if packet x is lost, but packets x+1 x+2 and x+3 arrived correctly
+the recipient will send four times the same  acknowledgment.
+This acknowledgement says that  the last received packet is x-1 and that the next expected packet is x.
+We can consider that after three duplicate acknowledgment (four acknowledgement received in total)
+the packet was lost, and resend it without having to wait for it to timeout.
+We know that it is packet x that is lost because otherwise we would have received 
+an acknowledgement that packet x is arrived and x+1 is expected.
+This method was used in the implementation TCP tahoe.
+
+##### Fast Recovery
+With fast retransmit in TCP tahoe, when a packet is lost, the congestion sliding window is completely closed before
+being reopened with slow start. But we can do better by exploiting the duplicated acknowledgements as an ACK clock.
+when a packet is lost (we have detected it thanks to multiple duplicated ackwnoledgements) we halve the congestion 
+window and wait for the ACK to come back from the packet inflight. When enough packet have reached their destination,
+We can start emitting again, with a smaller congestion window, but one which was not completely shut beforehand.
+This algorith was used with TCP Reno.
+
 #### Cumulative Acknowledgement
 Instead of acknowledging sequence numbeer after sequence number, 
 if you receive a number of packets (the order does not matter as long as they are all contiguous in the end),
@@ -1460,8 +1501,18 @@ will only retransmit missing packets  while also being able to go forward on the
 In TCP, up to three distinct ranges are possible.
 
 #### The Silly Window Problem
+When data is emitted or consumed slowly we can reach a silly window problem,
+where data is sent immediately when present (slow emitter)
+or requested immediately when a very small ammount is processed (slow receiver).
+The result is a very inefficient use of the network as big header are used to transmit  small amount
+of data (can be down to the byte !).
+To avoid this few solution : wait until their is much data to send (slow emitter) or
+much room to receive data (slow receiver)
+
+#### TCP Cubiv
 
 
+### Long Fat Network (LFN)
 ### SCTP
 ### QUIC
 

@@ -1459,7 +1459,9 @@ a sender can send a short burst of four packets. These packets will arrive to th
 slower than when they were emitted. The length of this burst is dictated by the slowest link.
 The sender should acknowledge these packets at the same rate that they were received.
 The emitter now knows the highest rate at which it can send packet without overlooding the slowest link.
-
+This mechanism is not self sufficient. IF for any reason acknowledgement are retained for a variable period of time
+(for example because the receiver uses the Nagle Algorithm), the algorithm falls apart, or it's efficiency is greatly reduced.
+It is also not fair for small connections 
 
 
 ##### Slow Start 
@@ -1509,16 +1511,86 @@ of data (can be down to the byte !).
 To avoid this few solution : wait until their is much data to send (slow emitter) or
 much room to receive data (slow receiver)
 
-#### TCP Cubiv
+#### TCP Cubic
+Designed for Long Fat Network to offer better congestion control pertaining to these kinds of network.
 
+### QUIC
+Multiplexed Conncetion Protocol over UDP, designed  by Google in 2012
+to enhance performance of website browsing. Still mainly used by google today,
+accounts for 10% of website worldwides.
 
 ### Long Fat Network (LFN)
+Highbandwidth over long distance network (think Gbit/s and more  fiber optic over a few hundred kilometers)
+brings up unique challenges, like high latency and very poor usage due to the sheer capacity of the link.
+Let's take two host connected by a one Gigabit per second fiber optic with a RTT of 50 miliseconds.
+To occupy fully the link we use the product of bandwidth over time which here gives 0.05 seconds * 1 Gigabit =
+50 Mbit burst data to fully use the link.
+This also means that sequence numbers are burned through very rapidly ( 34 seconds to go through 2^32 numbers ! )
+and we run the risk with older protocols of multiple packets wandering in the network, having different payload, yet the same
+sequence number (life expectancy inside internet is 120 seconds).
+
 ### SCTP
-### QUIC
+
 
 ## Application Layer
 
-### DNS
+### Domain Name System (DNS)
+This protocol allows an entity on the network to get the IP address of another entity,
+based on a name using alphanumerical characters, a domain name. Domain names can be made of other characters than latin (like cyrillic) since 2012.
+Domain Name follows a hierarchy, the most generic to the right, the least generic to the left.
+In www.example.com , the most generic part of the domain is ".com." (millions of websites end in ".com.")
+Followed by example (maybe a handful of network services have "example.com." at the start of their domain name).
+It is Finished by "www.", only one service is linked to "www.example.com.", A web server.
+
+#### How a DNS Request is resolved
+It works as follows, an entity asks to the closest dns solver, "the stub"
+the IP adress associated with a name. The stub is usually running on the entity (a daemon, or a function call).
+The stub will then forward the request towards the nearest "local recursive resolver"
+which will emit multiple queries to various Domain Authorities  from the most generic towards the most specific, to
+determine what is the IP given to the associated name.
+In the present day (was not true at the start), the IP adress of the initial entity is
+also provided in the request from the local recursive resolver towards the Domain Authorities,
+so Content Delivery Network can provide the closest server for the 
+When found, the answers then comes back toward the initial entity.
+
+#### Fully Qualified Domain Name
+Think like Absolute Path on an operating System.
+the whole name is present, up to the "global name" which is just a dot ".".
+www.example.com. Is a fully qualified domain name (the last dot is usually "hidden" by web browsers)
+
+#### Qualified Domain Name
+Think like relative path on a operatin system.
+Only part of the name is present.
+www.example is a qualified domain name of www.example.com. .
+
+#### Governing Body of DNS
+The ICANN is responsible for managing domain names distribution.
+The most generic domain names, called Top Level Domain, can be generic like .com . biz or .edu
+or they can be country codes like .ja .fr .uk .ch .de ... . Top Level Domain names
+can also be made of other than latin character, since 2019.
+
+#### DNS Record and DNS entry
+group of entries Detailing what IP adress is associated to which domain name.
+A DNS entry is composed of
+A domain name, a lifetime expectancy before the name will be forgotten if not refreshed,
+a class  ("IN" for Internet, other types are rare) and a Type.
+Here are some possible types that a domain name can have:
+A for an IPV4
+AAAA for an IPv6
+MX for a web mail server
+NS for another dns server
+PTR an alias for another IP
+TXT generic text 
+CNAME alias for another domain name
+...
+
+All DNS records start with an SOA entry, which points to the area's main DNS.
+
+
+### Content Delivery Network (CDN)
+### DHCP
+
+
 ### Email
 ### inetd
 

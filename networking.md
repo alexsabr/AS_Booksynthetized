@@ -1676,11 +1676,38 @@ Protocol ::// the.domain.name./the/path/to/the/resource
 various protocol
 the "about"  protocol keyword
 
-#### Hyper Text Transfer Protocol
+#### Hyper Text Transfer Protocol (HTTP / HTTPS)
+Protocol based on TCP (although HTTP/v3 also works on UDP) for transmitting web pages.
+Based on a Request Response model, this Application Layer 7 protocol is in plain ascii text (when not encrypted, see HTTPS).
+The requests are called "method" and are quit generic,
+which allows HTTP to be used not only by websites but also by other programs such
+as media player for example to convey information on the Internet.
+Here are some (not all!) methods along what they mean
+GET When you want to receive a resource
+PUT When you want for the server to save data in this request
+DELETE Delete information pertaining to a resource
+OPTIONS What are the available options with this resource
+The response come with codes 
+1xx Information  (rarely used)
+2xx Resource processed Correctly, data follows if any
+3xx Tells the browser to redirect it's request to someone else
+4xx When the Client committed an Error
+5xx When the Server experiences an Error
+
+The requests can carry a header which enriches it with additional information,
+type of client, languages preferred, understood data compression shceme ... .
+
 
 #### Cookies
+Small text files saved by websites inside the client web browser to remember 
+informations about it like account automatic reconnection, it's shopping cart, ... .
 
-####  HTTP and HTTPS
+#### Caching
+A web browser can save a web page to display it faster to the user the next time it visits the page.
+The browser, will ask the web server beforehand if the resource has changed since it was last cached.
+
+#### Trackers
+
 #### Proxy 
 #### VoIP
 #### Peer To Peer

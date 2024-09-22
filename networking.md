@@ -1669,6 +1669,15 @@ Body composed of numerous organiaztions which detach permanent personel to work
 on writing new standards for websites.
 They maintain among other things, HTML, CSS, Javascript.
 
+#### Hyper Link 
+#### Unified Resource Locator (URL) and Unifier Resource identifier (URI)
+##### URL
+Protocol ::// the.domain.name./the/path/to/the/resource
+various protocol
+the "about"  protocol keyword
+
+#### Hyper Text Transfer Protocol
+
 #### Cookies
 
 ####  HTTP and HTTPS

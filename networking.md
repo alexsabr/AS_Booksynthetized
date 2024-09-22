@@ -1536,11 +1536,29 @@ sequence number (life expectancy inside internet is 120 seconds).
 
 ### Domain Name System (DNS)
 This protocol allows an entity on the network to get the IP address of another entity,
-based on a name using alphanumerical characters, a domain name. Domain names can be made of other characters than latin (like cyrillic) since 2012.
+based on a name using alphanumerical characters, a domain name. Domain names are case insensitive.
+Domain names can be made of other characters than latin (like cyrillic) since 2012. 
 Domain Name follows a hierarchy, the most generic to the right, the least generic to the left.
 In www.example.com , the most generic part of the domain is ".com." (millions of websites end in ".com.")
 Followed by example (maybe a handful of network services have "example.com." at the start of their domain name).
 It is Finished by "www.", only one service is linked to "www.example.com.", A web server.
+
+#### Governing Body of DNS and top level domain names
+The ICANN is responsible for managing domain names distribution.
+The most generic domain names, called Top Level Domain, can be generic like .com . biz or .edu
+or they can be country codes like .ja .fr .uk .ch .de ... . Top Level Domain names
+can also be made of other than latin characters, since 2019.
+
+#### Fully Qualified Domain Name
+Think like Absolute Path on an operating System.
+the whole name is present, up to the "global name" which is just a dot ".".
+www.example.com. Is a fully qualified domain name (the last dot is usually "hidden" by web browsers)
+
+#### Qualified Domain Name
+Think like relative path on a operatin system.
+Only part of the name is present.
+www.example is a qualified domain name of www.example.com. .
+
 
 #### How a DNS Request is resolved
 It works as follows, an entity asks to the closest dns solver, "the stub"
@@ -1553,21 +1571,6 @@ also provided in the request from the local recursive resolver towards the Domai
 so Content Delivery Network can provide the closest server for the 
 When found, the answers then comes back toward the initial entity.
 
-#### Fully Qualified Domain Name
-Think like Absolute Path on an operating System.
-the whole name is present, up to the "global name" which is just a dot ".".
-www.example.com. Is a fully qualified domain name (the last dot is usually "hidden" by web browsers)
-
-#### Qualified Domain Name
-Think like relative path on a operatin system.
-Only part of the name is present.
-www.example is a qualified domain name of www.example.com. .
-
-#### Governing Body of DNS
-The ICANN is responsible for managing domain names distribution.
-The most generic domain names, called Top Level Domain, can be generic like .com . biz or .edu
-or they can be country codes like .ja .fr .uk .ch .de ... . Top Level Domain names
-can also be made of other than latin character, since 2019.
 
 #### DNS Record and DNS entry
 group of entries Detailing what IP adress is associated to which domain name.
@@ -1591,7 +1594,89 @@ All DNS records start with an SOA entry, which points to the area's main DNS.
 ### DHCP
 
 
-### Email
+
+### Email 
+Every program attempts to expand until it can read mail, Zewinskie law.
+
+Email are exchanged as follows, the agent user of the sender connects to it's message server, to transmit an email it wishes to d
+send to areceiving  agent user located on the same or on another message server (the sender and the receiver can also be identical).
+The message server contacted by the sender then sends the email to the message server of the recipient agent user.
+When the agent user will next connect to it's message server, the message server will notify it that 
+a new email is available.
+The receiver can also be a diffusion list, in which case the receiver is a collection of multiple agent user
+which have all subscribed to the diffusion list, to receive everything sent to the email address of the diffusion list.
+
+
+####  Simple Mail Transfer Protocol (SMTP)
+Server messages exchanges email of agent user through the SMTP protocol.
+Here is in short what happens during an exchange of email 
+```
+220 recipientserver.com SMTP Service READY
+HELO emittingserver.com
+250 receivingserver.com says hello to emittingserver.com
+MAIL FROM coolsender@emittingserver.com
+250 sender ok
+MAIL TO nicereceiver@receivingserver.com
+250 receiver ok
+DATA
+354 Send Mail
+thedata of the email ...
+.
+S 250 message accepted
+QUIT
+221 receivingserver.com closing connection
+```
+Note that in SMTP data are sent in clear, which is a huge security concern.
+This Among other limitations, prompted the creation of **Extend SMTP (ESMTP)**.
+To know if a client accepts ESMTP, instead of sending HELO,
+the client sends EHLO, if the connection is accepted with this anagram, the server
+understands ESMTP.
+
+
+### Email adress
+an email adress is a domain name (the one of the server message)
+preceded by an @ and a username. Just like domain names, email adresses are case insensitive.
+
+
+#### Agent User
+program able to connect to a message server to send and receive  emails.
+The agent user can be light (if it is a website to which one connects through a web browser)
+or heavy (a program installed on the machine of the host).
+
+
+#### MultiPurpose Internet Mail Extension (MIME)
+IF at the start emails were expected only to send text (just ascii characters !)
+It quickly became evident that this would not suffice.
+Enter MIME, a format to send content in emails that is not text, but  type of files.
+MIME are today used not only in emails but also in web development.
+files can be sent in email through ascii characters which needs to be recomposed into a
+file (provided that there is a MIME header beforehand)
+
+#### Internet Message Access Protocol (IMAP)
+SMTP and ESMTP are for message server to exchange emails. 
+Communication between an agent user and a message server can be done
+through various protocols, one of them is IMAP.
+IMAP is the newer version of an older protcol, ***Post Office Protocol (POP)***.
+
+#### World Wide Web (WWW)
+Applicative framework which allows user to access content disseminated in the entire world.
+Designed by Tim Berners Lee at the CERN, a european physics laboratary located in switzerland next to the french border.
+Here is a snapshot of the first website :
+http://info.cern.ch/hypertext/WWW/TheProject.html
+
+#### World Wide Web Consortium (W3C)
+Body composed of numerous organiaztions which detach permanent personel to work
+on writing new standards for websites.
+They maintain among other things, HTML, CSS, Javascript.
+
+#### Cookies
+
+####  HTTP and HTTPS
+#### Proxy 
+#### VoIP
+#### Peer To Peer
+#### VOD
+
 ### inetd
 
 ## Security

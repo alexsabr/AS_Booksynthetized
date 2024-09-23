@@ -1669,7 +1669,7 @@ Body composed of numerous organiaztions which detach permanent personel to work
 on writing new standards for websites.
 They maintain among other things, HTML, CSS, Javascript.
 
-#### Hyper Link 
+#### HyperLink 
 #### Unified Resource Locator (URL) and Unifier Resource identifier (URI)
 ##### URL
 Protocol ::// the.domain.name./the/path/to/the/resource
@@ -1701,12 +1701,31 @@ type of client, languages preferred, understood data compression shceme ... .
 #### Cookies
 Small text files saved by websites inside the client web browser to remember 
 informations about it like account automatic reconnection, it's shopping cart, ... .
+Cookies are only accessible by domain's name website which initially  put the cookie, this is the "same origin rule".
+Cookies can be also used to track users in their navigate, with what's called third parties cookies.
+A website owner signs an agreement with an advertisement agency, which will provide for the website to send to each user.
+This code will call the website of the announcer and allow it to deposit it's own cookie, the third party cookie.
+If the user then browses toward another website which has also signed an agreement with the same advertisement company
+the same scenario will repeat, allowing the the advertisement company to access the cookie stored earlier, and thus, extracting
+information about the browsing of the other website. The advertisement company can also store other informations,
+like the IP adress used when accessing the website, so it can later on link users together or nomadic and static devices of a same
+user together.
 
 #### Caching
 A web browser can save a web page to display it faster to the user the next time it visits the page.
 The browser, will ask the web server beforehand if the resource has changed since it was last cached.
 
-#### Trackers
+#### Tracking and Numerical fingerprint
+Cookies aren't the only way to track a user on the internet.
+Browser allow website, for performance reason, a variety of informations about the device
+such as available fonts, screen size, battery state, languages installed, web browser, GPU 
+
+We can only recommand this website of a university
+which determines if with finger printing technologies only if you can be isolated 
+from any other user who also browsed their website :
+https://www.amiunique.org/fingerprint
+
+
 
 #### Proxy 
 #### VoIP

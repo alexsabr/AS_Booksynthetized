@@ -1729,8 +1729,26 @@ https://www.amiunique.org/fingerprint
 
 #### Proxy 
 #### VoIP
+A particularly demanding problem,
+data is generated in realtime, no chance to preload it, and
+accepted delay before communication is perceived as  bad is between 150 and 400 ms.
+Compression must be optimized to gain time, and jitter is a feirce problem.
+Differentiated Services or Integrated services with their orientation on Quality of Service (QoS)
+can help VoIP, if only they are implemented on the network where the packets go.
+
 #### Peer To Peer
+
 #### VOD
+##### Dynamic Adaptive Streaming over HTTP (DASH)
+Networking protocol to send over the network recorded video files.
+This open-source protocol requires a video to be split into multiple files with
+varying refresh rate and quality. The protocol can then which small part of the video to send
+when required, to best match with the current congestion level of the network.
+The protocol frequently probes the network to know the congestion level of the network.
+All available format and video qualities are listed in a file called a manifest, which is then sent to the client
+for it to decide which one to choose based on the network conditions.
+HLS is an Apple  concurrent of DASH.
+
 
 ### inetd
 

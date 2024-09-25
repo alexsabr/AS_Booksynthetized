@@ -1590,7 +1590,7 @@ CNAME alias for another domain name
 All DNS records start with an SOA entry, which points to the area's main DNS.
 
 
-### Content Delivery Network (CDN)
+
 ### DHCP
 
 
@@ -1715,7 +1715,7 @@ user together.
 A web browser can save a web page to display it faster to the user the next time it visits the page.
 The browser, will ask the web server beforehand if the resource has changed since it was last cached.
 
-#### Tracking and Numerical fingerprint
+#### Tracking and Numerical fingerprint
 Cookies aren't the only way to track a user on the internet.
 Browser allow website, for performance reason, a variety of informations about the device
 such as available fonts, screen size, battery state, languages installed, web browser, GPU 
@@ -1728,6 +1728,7 @@ https://www.amiunique.org/fingerprint
 
 
 #### Proxy 
+
 #### VoIP
 A particularly demanding problem,
 data is generated in realtime, no chance to preload it, and
@@ -1736,19 +1737,46 @@ Compression must be optimized to gain time, and jitter is a feirce problem.
 Differentiated Services or Integrated services with their orientation on Quality of Service (QoS)
 can help VoIP, if only they are implemented on the network where the packets go.
 
-#### Peer To Peer
 
 #### VOD
 ##### Dynamic Adaptive Streaming over HTTP (DASH)
 Networking protocol to send over the network recorded video files.
 This open-source protocol requires a video to be split into multiple files with
-varying refresh rate and quality. The protocol can then which small part of the video to send
+varying refresh rate and quality. The protocol can then tell which small part of the video to send
 when required, to best match with the current congestion level of the network.
 The protocol frequently probes the network to know the congestion level of the network.
 All available format and video qualities are listed in a file called a manifest, which is then sent to the client
 for it to decide which one to choose based on the network conditions.
 HLS is an Apple  concurrent of DASH.
 
+
+#### Zipf law 
+The most popular content is X times more likely to be requested than the Xth one.
+Useful when you want to ponder the need for resources between different content / actors.
+
+#### Peer To Peer
+
+### Content Delivery Network (CDN)
+A service provider places multiple servers at strategic points of the Internet.
+Internet Exchange point or even inside the network of internet providers are an example
+of good strategic points.
+Those servers use the internet to sync between themselves.
+When a client request information to the service provider, 
+it is unknowingly (to it) routed towards the closest server, reducing 
+the delay between asking for a resource and receiving it.
+A good architecture for CDN is the tree architecture,
+there is one (or more) CDN mother server which distributes content to CDN child servers,
+which are those which all client interact with.
+
+
+### Computer farm
+To make a cluster of computer behave like a cohesive single entity, (or at least that's what the user sees)
+multiple solutions are possible
+- using anycast routing to route to the closest server which will then process the request
+- configure a DNS server to equally distribute load among servers 
+- have a single machine acting as a proxy be the single point of entry before sharing load among servers.
+  the proxy server can even answer request itself if it is about a static resource, which will be at it's disposal
+  
 
 ### inetd
 

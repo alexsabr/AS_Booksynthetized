@@ -1286,7 +1286,7 @@ therefore intercepting all traffic.
 
 
  
-### DHCP Dynamic Host Configuration Protocol
+###  Dynamic Host Configuration Protocol (DHCP)
 When a host connects itself to a network via a Link but doesn't have a preconfigured IP address,
 it can request an IP address to a DHCP server if there is one on the network.
 
@@ -1591,10 +1591,6 @@ All DNS records start with an SOA entry, which points to the area's main DNS.
 
 
 
-### DHCP
-
-
-
 ### Email 
 Every program attempts to expand until it can read mail, Zewinskie law.
 
@@ -1754,7 +1750,41 @@ HLS is an Apple  concurrent of DASH.
 The most popular content is X times more likely to be requested than the Xth one.
 Useful when you want to ponder the need for resources between different content / actors.
 
-#### Peer To Peer
+#### Peer To Peer (P2P)
+Network Protocol / Architecture / service where multiple machines collaborate together to provide 
+content. They can both be client and host at the same time, giving it's name to the protocol
+from one peer, to another peer.
+The first P2P widespread service was Napster, it's flaw was a centralized database of content.
+It caused it's downfall since the service became well known for illegally sharing music,
+by closing the main website no one was able to continue sharing and research for content on a widespread scale.
+To create peer to peer, three questions must be answered
+1 How can a peer find other peers which have the content they seek ?
+2 How is replicated content among peers to ensure a fast download for many ?
+3 How do peers incentivize themselve and other to share and take part in the network ?
+
+To Answer the first (1) Question, torrent  were born. These are small files which informs 
+- about the hash code of the chunks of the content (to verify that received content is valid)
+- the address of a tracker, a machine in charge of guiding new peers which want said information to peers who have it
+  (by using DHT)
+
+To  Answer the second question, the sharing of chunks must be not in order. If a chunk is hard to find, it must be downloaded
+in priority to be replicated among multiple peers to make it easier to find. This is especially true when
+P2P networks have a high rotation, where many peers usually don't stay for long after their download is complete.
+
+To answer the third question, regularly, peers evaluate who tries it's best to share shunk (seeders)
+and who tries it's least, while trying to download as much as possible (leechers).
+Peers will then make a choice to share a bit more with well behaved peers and less with ill-behaved peers.
+They also chose some peers randomly, to allow for redemption, and to allow  new peers to take  part in the network.
+
+
+##### Distributed Hash Tables 
+To be more resillient than a single database creating a Single Point of Failure on a large scale,
+the concept of distributed hash table was created.
+Each peer is reponsible for a small part of the subnetwork in charge of providing data,
+and guides request to the nearest peer who may have the answer ... a bit like a networking algorithm.
+
+
+
 
 ### Content Delivery Network (CDN)
 A service provider places multiple servers at strategic points of the Internet.
@@ -1781,3 +1811,7 @@ multiple solutions are possible
 ### inetd
 
 ## Security
+
+### Firewall
+### Asymetric keys
+### Virtual Private Network(VPN)

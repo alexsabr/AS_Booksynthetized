@@ -1811,6 +1811,75 @@ multiple solutions are possible
 ### inetd
 
 ## Security
+The first hack goes through network goes back the 1960's era,
+the goal then was to be able to engage in telephonic conversation to the other
+side of the world without having to pay the salty fee associated to it.
+The fault came from a sound tone used to authorize the caller to make the call,
+which a whistleblower sold with breakfast cereals was able to reproduce close enough,
+that with a little diy and technical knowledge, you could use to call for free.
+Today, the world, the  tools and the consequences have changed.
+
+### The security triptych / triangle
+But what does it mean to be safe ? Actually it boils down to three objectives:
+- Confidentiality
+  Data is only known by those who are intended to.
+- Integrity
+  Data has not been tampered with or falsified
+- Availability
+Data can be accessed by those who are meant to access it in due time.
+
+If Integrity is always necessary, sometimes Confidentiality or availability isn't
+
+stock market status needs to have integrity and availability, but confidentiality
+is unnecessary, it is public data.
+Offline offsite backup saves of critical data  needs to be confidential and have integrity,
+but the immediate availability secondary (not in all cases).
+
+Two very important ideas about users emerges from this triangle 
+- authentification
+  Identification is saying who you are,
+  authentification is proving that you are who you pretend to be
+- non-denial
+  An author cannot deny (without immeasurable amounts of bad faith)
+  deny acts that it has accomplished.
+
+### Seven fundamental principles about security 
+To reach the objectives of the security triangles, their are seven principles to guide
+our hand
+-1 Simplicity & Restrain of means
+  When there is more than one way to reach a goal,
+  the one which uses the least amount of resources / the least complicated must be preferred.
+  Because the more means you invest, the more  changes are that something goes wrong (the bigger the attack surface)
+  "Perfection is not reached when nothing can be added, but when nothing can be withdrawn" also see "Ocam's Razor".
+
+-2 explicit safety
+  choices made must be clearly documented, and set everythin. Default /unknown / floating values or states must be assumed to be unsafe.
+-3 Complete mediation 
+  Any access to any resource must be authentified.
+-4 Principle of Least Authority
+  Any system or user shall be given the least amount of power / authority which it needs to perform it's tasks.
+  By doing so, if a user or system is compromised, the whole system does not automatically crumples like a house of cards.
+-5 Separation of concerns
+  Very similar to principle 4. Each user/system does one thing, does it well and safely but one thing only.
+  Note that this principle is also plebiscited in programming.
+-6 No unnecessary sharing 
+  Data shared among multiple systems make them more complicated (see principle 1)
+  and can potentially open new pathways for attackers.
+-7 open construction / white box principle
+  All of your security measures should see their efficiency unchanged even if the attacker knows that they are in place.
+  Particularly important for cryptography, if your cryptographic algorithm is vulnerable the moment 
+  the attacker knows that you are using it,without knowing what is your key, it is not a good algorithm.
+-8 Agreeableness and tolerable
+  Choices in place  must be documented and explained. No technical measure can guard against a frustrated 
+  human being who thinks your system is only slowing it down. 
+  This principle surely explain why vulnerability mitigations are always thoroughly justified.
+
+### Offensive Fundamentals
+- Recon
+- sniffing and snooping
+- spoofing
+- disturbing
+
 
 ### Firewall
 ### Asymetric keys

@@ -1,3 +1,4 @@
+[[_TOC_]]
 # Networks 6th edition
 Andrew Tanenbaum, Nick Feamster, David J Wetherall
 
@@ -1875,12 +1876,46 @@ our hand
   This principle surely explain why vulnerability mitigations are always thoroughly justified.
 
 ### Offensive Fundamentals
+When on the attacking side, you must be dilligent and organized if you want
+to succeed, the following points are frequently if not always of the foundation of
+an attack
 - Recon
+  First you need to obtain as much informations as possible about your target, without
+  taking any action that could yet make you spotted, these are
+  - searching all and any freely accessible resource about the target (OSINT)
+  - searching in trashcans (yes really) although it might get you spotted 
+  - going near (not too much) the physical location of the target and inspecting if
+    something could be exploited (easily accessible networking cabinet, informations about hardware used, wireless communications ... )
 - sniffing and snooping
+  Like recon but maybe a bit more involved, and also may get you spotted. You're looking for
+  firewalls, IP adresses, open connections, hardware informations , some L2 packets, useful DNS entries  etc.
 - spoofing
+  An aggressive action without any reasonable doubt, you try to spoof the identity of the target or someone
+  related to it, to attain your goal. You can try to spoof DNS server, TCP connections, to poison ARP cache ....
 - disturbing
-
-
+  Another aggressive action, you try to disturb services used or hosted by the target, or the access of the target to those services.
+  You can flood the victim with useless connections (Denial of Service or even Distributed Denial of Service), force it to perform many hard
+  tasks making it unusable for tohers, or just crash it. To protect oneself against DoS / DDOS attacks, one can
+  - force clients to resolve a hard problem first, so the burden is on the attacking side
+  - use a powerful third party to analyze and delete dubious packets (with strange options for example)
+  - use a powerful third party DNS to reroute request first to a proxy which can act as buffer and even treat some requests.
+  - make disappear a /24 segment (16 M adresses) on the internet by making a powerful third party announce it via BGP.
+  this third party will then reroute traffick inside it's Autonomous System  toward yours.
+  
+  
 ### Firewall
+A program that inspects all traffic between a part of the network labeled "the outside "
+(the internet, a particular network submask, everything outside the host ...)
+and the inside. Only allowed packets will be accepted, others will be discarded and stopped from travelling further.
+to decide if a packet must be kept or discarded, a firewall reads a rule table, indicating discriminating factors.
+these rules can now also depend not only of the date avaiable on the currently monitored packets,
+but also of prior packets beforehand, allowing for a more fine grained monitoring.
+with **Application level gateway** the firewall can now make decisions based not only on connection state and L2 to L4
+informations but also because it "understands" the L7  Application used (or the content).
+
+### Intrusion Detection System (IDS)
+
+### Cryptography
+
 ### Asymetric keys
 ### Virtual Private Network(VPN)

@@ -1972,5 +1972,88 @@ Now onto some very important considerations to be taken account about the data w
   is open to replay attacks, where an attacker having an idea of what means a message, without having broken the encryption,
   just sends it again to cause an unwanted action to take place.
 
-### Asymetric keys
-### Virtual Private Network(VPN)
+### Encryption algorithms
+####substitution And transposition cipher 
+Also called "Caesar-cipher" A well-known toy cipher, even taught to kids under 15 !
+Each letter of the alphabet is replaced by one another, in the whole message.
+Very easy to implement, but also very easy to break, you only have perform a statistical analysis on a message
+big enough and you can deduce which letter has been replaced by which, since not all letters are used at an equal rate
+in any given language.
+Transposition cipher work by altering the location of the letter instead of the letter itself,
+also easily breakable.
+
+#### One time pad 
+A random generated set of data called a pad is XORed with the real data before being sent.
+The receiver only has to XOR again the result with the same set of data to obtain the text in clear.
+A bullet proof technique. Yes really ! because from the ciphered text,
+Any clear text is possible, the only way to know which one is correct is to know which pad was used.
+Change the pad, and the same ciphered text know means something else.
+One drawback though it requires that both users have the same pad (how to distribute it ?).
+The pad is one time use because if reused, information leakage can happen and reveal information
+about this message or other ones.
+
+#### Quantum encryption
+Relies on the use of optical filters, fiber optics and laws of quantum mechanics
+to be resilient even against Man In the Middle Attack. BB84 is a "famous" quantum key distribution protocol.
+Some products using quantum encryption  do already exists but they come with limitations.
+
+#### Symetric Keys  Cipher
+These algorithms use the same key to encrypt and decrypt data.
+
+They rely on a cascade of permutations and substitutions to cipher data.
+Which permutation / substitution is applied is depending of the key. Reminder, permutation is changing the position of the bits, substitution is changing the value of the bits.
+You can stack those operations on one another, each level of the stack is called a stage. (a single stage can be made of multiple encryption / decryption algorithm)
+The resulting  of clear data which when through a full stack is called a cipher product.
+if you feed a cipher product  multiple times  in the same full stack in a row , this is called an encryption round.
+These operations can happen very fast, and even faster on custom made hardware (almost the speed of light !)
+
+##### Data Encryption Standard (DES)
+encryption standard developed by IBM, used by the US government, once widespread and a reference, 
+today deemed obsolete and weak it is no longer used. The same applies for it's variant  the "Triple-DES".
+
+##### Advanced Encryption Standard (AES)
+This algorithm is the result of an open cryptography competition, stemmed by the US administration to
+find a replacement for DES.
+This algorithm (and all other which were proposed at the competition) had to abide to five rules 
+- Symetric cypher, one block of data after the other 
+- Full conception and innerworkins ought to be public
+- 128 192 and 256 bits keys
+- could be implemented on hardware and on software
+- algorithm should be released in the public domain or alike, granting anyone the freedom to use it.
+the rinjdael algorithm, designed by cryptographer Joan Daemn and Vincent Rijmen both originating from Belgium was chosen.
+The fact that the designers are originating from outside the USA is a plus, the fear of the time, that the
+NSA would influence cryptographers to have a backdoor in the winning algorithm is greatly reduced.
+It is today a widely used standard, even implemented in the hardware of some processors.
+
+##### Electronic Cook Book(ECB)
+TODO
+##### Cipher block chaining
+TODO
+##### Flow Cipher
+TODO
+
+#### Asymetric Key cipher (or public-private key pair)
+The main problem with symetric keys cipher is always the same: how to distribute safely the key to both communicating parties.
+Even worse, what do you do when you have many people you want to talk to, or who wish to talk among themselves ?
+In 1976, Diffie and Hellman publicly proposed their algorithm which was of a new kind, they were using asymetric keys.
+(In 1969 a british intelligence agency already had proposed this idea internally.)
+Those kind of algorithm have 3 fundamental properties
+Here P is a clear text message, D() is the use of the Decryption Key and E() is the use of the encryption key.
+- D(E(P)) = P (obvious, or the algorithm does not work)
+- It is excessively hard to deduce D from E (like algorithmically difficult problem)
+- E cannot be broken, even with a chosen clear text attack.
+
+An algorithm which respects those three properties yields interesting results :
+the E() (encryption key) can be made publicly available !
+Anytime someone wants to talk to you, it can use your __publicly available__ Encryption key,
+and only you will be able to read the content of what was ciphered. 
+The problem of the Man in the middle Attack still stands though, as if A and B wants to communicate
+an attacker E can silently come between them , provide it's public key decrypt, read and then re-encrypt
+the content, without A and B ever noticing.
+This is because this family of algorithm alone doesn't provide any mean of checking who apublic key belongs to.
+
+
+##### Rivest Shamir Adleman (RSA)
+The most widely known asymetric key cipher algorithm.
+Designed in 1977, it stands the test of time and is still widely used today.
+Slower than a symetric key cipher though.

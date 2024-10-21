@@ -1973,7 +1973,7 @@ Now onto some very important considerations to be taken account about the data w
   just sends it again to cause an unwanted action to take place.
 
 ### Encryption algorithms
-####substitution And transposition cipher 
+#### Substitution And transposition cipher 
 Also called "Caesar-cipher" A well-known toy cipher, even taught to kids under 15 !
 Each letter of the alphabet is replaced by one another, in the whole message.
 Very easy to implement, but also very easy to break, you only have perform a statistical analysis on a message
@@ -1997,7 +1997,7 @@ Relies on the use of optical filters, fiber optics and laws of quantum mechanics
 to be resilient even against Man In the Middle Attack. BB84 is a "famous" quantum key distribution protocol.
 Some products using quantum encryption  do already exists but they come with limitations.
 
-#### Symetric Keys  Cipher
+#### Symetric Keys Cipher
 These algorithms use the same key to encrypt and decrypt data.
 
 They rely on a cascade of permutations and substitutions to cipher data.
@@ -2047,13 +2047,70 @@ An algorithm which respects those three properties yields interesting results :
 the E() (encryption key) can be made publicly available !
 Anytime someone wants to talk to you, it can use your __publicly available__ Encryption key,
 and only you will be able to read the content of what was ciphered. 
+It is like selling locks to talk to you, only you have the key, so the attacker 
+can buy as many locks as he wants he will not be able to understand your communications !
+Two agent that wish to communicate with this kind of algorithm  proceed as follow,
+they encrypt data they wish to send to the other agent with the public key of said agent,
+and they decrypt incoming ciphered data with their own private key.
+
 The problem of the Man in the middle Attack still stands though, as if A and B wants to communicate
 an attacker E can silently come between them , provide it's public key decrypt, read and then re-encrypt
 the content, without A and B ever noticing.
 This is because this family of algorithm alone doesn't provide any mean of checking who apublic key belongs to.
 
+Asymetric key algorithms usually rely either on either the arithmetic difficulty
+of factorizing big products of prime numbers (1000's bits long) or on the 
+arithmetic difficulty of studying ellipses of big prime numbers.
+
 
 ##### Rivest Shamir Adleman (RSA)
 The most widely known asymetric key cipher algorithm.
 Designed in 1977, it stands the test of time and is still widely used today.
-Slower than a symetric key cipher though.
+It relies on an arithmetic property,
+that factorizing a big  prime nubmer is algorithmically difficult.
+This algorithm being  slower than a symetric key cipher, it is usually used to exchange
+"publicly"  symetric key pairs.
+
+
+### Electronic Signatures
+An algorithm which has the following three properties 
+is called an electronic signature :
+- the recipient can check the true identity of the emitter
+- the emitter cannot deny information it has emitted
+- the recipient (or anyone) cannot forge a valid message
+  which could be thought as originating from the emitter.
+
+You could make signature with symetric key algorithms but then
+the keys would have to be held in a trusted third party, something not always available.
+Instead  RSA is prefferred,
+indeed this algorithm has the nice perk that public and private key can be used in either way.
+If you can of  course cipher with a public key and decipher with the associated private key, 
+the algorithm also work if you cipher with the private key, and decipher with the associated public key.
+Note that this is a particular property of RSA, **NOT**  of asymetric cipher in general.
+Now if two entity use cleverly their respective private and public key,
+they can be sure that a message is originating from the rightful emitter,
+and reaching the correct recipient (provided their is no Man In the Middle when the public key were exchanged.)
+Note that this does not solve alone the issue of replay attacks (though you can ensure it with the addition of a timestamp).
+Also note that the emitter can for example voluntarily leak it's private key and say
+that a message it really emitted was in fact forged.
+
+#### Hash function  in electronic signatures 
+Guaranteeing authentication alone, rather than authentication AND secrecy is easier.
+Hash functions come to our rescue.
+Any good hash function must exhibit four properties
+We will call "message" data  provided to a hashing function, 
+and "hashed value" the result of data being processed by the hashing function.
+- For any message,  it is easy to process the hash value
+- For any hashed value, it is __impossible__ to guess the original message
+- You cannot find (easily) two different messages such as one hashed they both exhibit the same hashed value.
+  If you do find one (they exist considering a hash value accepts a message of infinite size,
+  and converts it into a hash value in a finite result domain) you have found a **collision**
+- A slight change of message must result in a drastic change of hashed value 
+Some widely used hashing algorithm are SHA-1 (already broken),SHA-2 (stands to this day) and SHA-3(already ready for the future).
+
+you can now process the hash value of your message, cipher it with your private RSA key.
+You have now a signature which proves at the same time that  your message was not alered in any way 
+and that you are the true emitter of the message.
+
+### Public Key management
+#### Certificate 

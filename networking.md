@@ -2112,5 +2112,290 @@ you can now process the hash value of your message, cipher it with your private 
 You have now a signature which proves at the same time that  your message was not alered in any way 
 and that you are the true emitter of the message.
 
-### Public Key management
-#### Certificate 
+#### Managing Public keys 
+If Asymetric keys algorithms allows two entities to securely converse
+and exchange keys once the connection is established,
+they don't protect against Man In The Middle Attack
+at the start of the connection.
+if the emitter and the recipient don't know each other public key initially,
+how do they get them ? they query it through the network.
+Here comes a third party which inserts itself between the emitter and recipient.
+It exposes it's own public key to both agents  so it
+can decipher their communication, before forwarding it to the other agent.
+Both agents cannot realizes that they are being listened upon.
+
+##### Certificate
+A possible solution is to have a third party trusted by everyone,
+distributing the public keys of agents, and checking
+who is the owner of a public key.
+A single third party could be compromised or overwhelmed,
+or even hard to trust. We instead can have multiple third parties
+to choose which we'd like to rely upon.
+This is where certificates comes to place.
+
+
+##### Public Keys Infrastructure (PKI) using certificates 
+This how the use of multiple certificates and multiple certification 
+authority renders a system more robust than a single
+global certification authority.
+Signature algorithms are heavily employed here so check the signature section
+with hash functions.
+
+ 
+The agent exposes a public key  inside a certificate,
+this certificate is signed by a Local PKI, 
+this local PKI also has a certificate, signed by  a regional PKI,
+this regional PKI has a certificate signed with the key of a root certificate authority.
+The key of the root certificate is known by everyone.
+The key of the root certificate  is bundled with your Operating System,
+Browser, or you added it yourself to your computer.
+
+This forms a daisy chain of certification called 
+a **chain of trust** or a **certification path**.
+
+
+###### X.509
+The today's  standard of electronic certificates first published in 1988.
+
+Some important fields in a X.509 certificate :
+- X.509 version used 
+- a unique  serial number with the name of the certification Authority embedded into it.
+- Signature algorithm employed
+- Name of the certification authority in an X.500 format 
+- name of the owner of the certified data
+- the certified data (usually a public key)
+- facultative identifier for what kind of data is certified here.
+- some extentions
+- Certification authority signature.
+
+
+###### Certificate directory
+Root certification authority signature are known by everyone.
+The final client user certificate is gladly provided by the party
+which wishes to prove itself trustworthy.
+Who provides the certificates of the intermediate certification bodies ?
+Effectively it is also the hte party which wishes to prove itself
+trustworthy, as there aren't any Certificate directory where to find 
+other certificates.
+
+###### Certificate revokation
+Certificates can be revoked AND reinstated which adds many problems,
+for the following, we now define CRL as Certificate Revokation List,
+a list of revoked certificate.
+
+To check if a certificate is valid,
+you not only have to check signatures for forgery,
+but also if a certificate in the chain has not been revoked.
+- Where do you find the CRL ? what if the adress changes ?
+
+- An out of date CRL denies reinstated certificates, and allows
+now illegal certificates.
+
+- what if the CRL provider is unreachable ?
+Do you stop trusting the certificate ? 
+the CRL provider is now mandatory, if it goes out of action
+the whole system crumbles. 
+
+Do you trust the certificate  nonetheless ?
+In this case you have "A safety belt that works except when you have an accident."
+(Adam Langley, 5 February 2012 Imperial Violet)
+
+
+
+#### Authentication protocol
+Authentication is a surprisingly difficult and subtle problem.
+it's goal is to prove that both parties
+are indeed who they pretend to be.
+It has to defend against replay attacks, reflexive attacks (see below)
+and man in the middle attacks.
+
+A good authentication system follows four rules
+
+- The emitter/client first authenticates itself, THEN the server/receiver,
+	in the reverse order, an attacker can open two connections,
+	and use one connection to get the server to solve the challenge provided by the 
+	same server on another connection. this is called a **reflexive attack**
+- at least two different keys must be used during authentication
+	a protection against replay and reflexive attacks.
+- The challenges set for the emitter and the receiver must be separated
+	to protect from man in the middle attacks where an intermediary
+	plays as a server/receiver for one party, and emitter/client for the other party 
+- The system must be proofed after attacks where knowledge gained in one session
+	(valid or not) allows to hijack another session.
+
+##### HMAC
+TODO 
+
+##### Diffie-Hellman
+See the section on public asymetric keys.
+
+##### Needham-Schroeder / Oatway-Rees
+This algorithm is about authentication between two entities using a trusted third party.
+Here there is no notion of client and server so we will think of each entity as A,B and the trusted  third party T.
+A establishes communcation with B, and sends a message containing a challenge that only someone possessing the the key of A can create and resolve,
+and also a nonce to protect against replay attacks.
+B contacts T, forwards the message of A and also sends a challenge that only B can create and resolve, alongside a seconde nonce.
+T, who is also in possession of the keys of A and B solves both challenges and checks the two nonces.
+If everything is good, it generates a session key which will be sent to both parties.
+They can now both communicate.
+
+
+##### Kerberos 
+An authentication algorithm which uses two trusted third party. 
+Aimed primarily at allowging user to access resources on the network, it is still widely used Today.
+All stakesholder in this algorithm must have a close enough synchronized clock,
+otherwise some valid requests will be marked as stale and denied.
+
+The two third parties are 
+an Authentication Server, AS, which authenticate clients before forwarding them to 
+a Ticket Granting Server, TGS, which provides clients with tickets to  communicate with servers.
+the client sends a request to the authentication server,
+the authentication server answers to A with a challenge for A, a challence for the TGS containing a session key and a timestamp.
+the client solves the challenge.
+the client  forwards to the TGS the challenge alongside a message requesting the communication to a specific server, ciphered with the session key. Also comes with another timestamp.
+the TGS solves the challenge and has now a communication established with the authenticated client, secured via the session key.
+the TGS sends to the client  a challenge for the server containing another  session key to communicate with the client only.
+the client can now send the challenge to the server, and begin communicating with it using the specific communication key.
+
+TGS can also establish a "network" called a **realm**  allowing user to interact with server related to different TGS.
+
+##### Asymetric key authentication
+All algorithms exposed this far made use of symetric cipher,
+asymetric cipher algorithm also work, they make use of certificates and public key infrastructure.
+
+
+### IPsec
+Where should network security happen ? 
+- at the application layer, creating the need to modify
+applications and educate user ?
+- at the transport layer, bloating it with one more service ?
+
+the latter was decided, and IPsec was born. Concerned user can still
+add encryption on their end / applications if they wish to.
+
+this protocol provides "a la carte" security,
+allowing participant to choose their desired level of security (and speed)
+This is a layer L3 protocol us based on IP with the adition of new fields in the header.
+It can be used as the foundation of the creation VPN,
+and can provide security between network gateways, network hosts,
+or host and gateway.
+
+### Virtual Private Networks (VPN)
+If  you want to link  two (or more entities) on different networks together (or even link network together),
+and if you cannot physically link them together because it is too costly ?
+
+You can tunnel the traffic between them, just like you would if they were separated by different network L3 technologies.
+This alone counts as a VPN, and you usually add a cryptographic cipher on top of this.
+Think of it as a normal network, but the hardware L2 links of the VPN are in fact L4/L3 nodes of the network
+on which the VPN relies upon !
+VPN technologies can collaborate with / rely on firewalls and IPsec to communicate.
+
+
+I'd like also to  take moment here to thank digital influencers,
+for selling VPN 
+- as glorified Gateways / DNS 
+- as a third party "protecting" your communications from hackers
+The cloud is someone else's computer, and the VPN company, absolutely not a man in the middle.
+
+
+### Wifi Security
+One of the quality of wifi, allowing remote devices to communicate,
+is also a security defect. Since wifi signal can be far reaching,
+an attacker can simply place itself not far of it's target, but in the public space,
+and listen for wifi packets  to intercept.
+Consequently, WiFi communications needs to be protected, but we are going to see that 
+this is sometimes lacking.
+
+#### Wired Equivalent Privacy (WEP)
+The first security algorithm for wifi connections.
+Containing multiple severe flaws which would allow an attacker to connect to the network,
+it can be now broken in a few minutes.
+
+#### WiFi Protected Access 1,2,3 (WPA)
+The evolutions of wifi security algorithm after WEP,
+they all still bear some flaws and are  vulnerable to some  attacks 
+(to a lesser degree than WEP and it's whopping 6 minute cracking time). 
+##### WPA handshake and TKIP 
+TODO
+
+### Security of emails 
+#### PGP
+" If private life is outlawed,
+then only outlaws will have a private life "
+A software first redacted in 1991 by Phil Zimmermann which manages for emails 
+- encryption
+- authentication
+- signature
+- compression 
+When first released, a criminal investigation was opened against the author,
+for illegal exportation of military hardware (encryption was treated much more harshly back in the USA in 1991),
+no prosecution was ever initiated, and the investigations were closed in 1996.
+Funnily, if sharing the source code on a website was deemed illegal,
+printing it in a book and selling it worldwide, was protected by the first amendment as free speech, and thus seen as legal.
+
+
+Today multiple private and open source version exists,
+such as PGP Desktop, OpenPGP and Gnu Privacy Guard. 
+Many encryption algorithm are now supported like AES-256 and RSA. 
+Key management in PGP has been carefully crafted, with a  Private Keyring
+for the private-public keys couple of the user,
+and a Public Keyring containing the keys of any other penpal whith whom the user has conversed.
+
+
+#### S/MIME
+Another security standard, for signing and encrypting MIME format messages and data.
+
+### Web Security
+Securing the web can be split up in roughly three parts
+- How to Securely name resources  (DNSSEC)
+- How to establish secure and authenticated connections (SSL/TLS)
+- What happens when a website sends an executable to a client ? (JavaScript and browser extensions)
+
+#### DNSSEC
+extensions of the DNS protocol aiming to provide
+- spoofing protection by proving the origin of messages
+- record authentication
+- record integrity
+This system uses asymetric keys cipher and electronic signatures. 
+X.509 certificate are sadly too big for DNSSEC.
+It is not widely adopted as of today.
+
+#### Secure Socket Layer / Transport Layer Security (SSL)/(TLS)
+SSL, developped around 1996 is a security package to ensure various properties
+about the communication between a client and a server :
+- negotiation of client-server security-level
+- server authentication 
+- communication secrecy
+- data integrity protection
+This package act a bit like a L4 transport layer, but above TCP and below the application layer L7.
+Web / HTTP is not the only application using SSL/TLS SMTP/ FTP also uses them to secure communication. 
+Clients aren't authenticated by SSL/TLS, only the server is. It is  a the will and the responsability of the server
+to authenticate the client, at an upper layer.
+An SSL/TLS connection is established as follows:
+- 1 The protocol versions supported by the client and the server are exchanged
+- 2 The server provides the necessary X.509 certificates
+- 3 A session key is exchanged via asymetric key ciphers alongside some nonces to avoid replay attacks
+- 4 a secure connection is now fully established between the client and server 
+various flaws have been revealed, and after SSL 3.0 a similar yet incompatible protocol
+was devised, TLS.
+
+
+#### JavaScript  and browser extensions.
+Web Pages are no longer static, they require code to react to network messages or user actions.
+This means that the hardware of the user is running foreign code downloaded from the internet.
+This can be a dangerous situation, opening the user to attacks
+like "Cross Site Scripting" (CSS) (not to be confused with Cascade Style Sheets)
+where an attackers makes the user's hardware execute dangerous code that is not originating from the website
+or even worse, "Cross Site Request Forgery" (CSRF) where the attacker can even make itself pass for the user
+and execute requests to the website in its place.
+A mitigation is using a programming language unable to perform dangerous actions like opening file,
+and running it in a secure program called a sandbox.
+In today's day and age, browser have their own sandbox, and the programming language is Javascript.
+
+Users may also want to extend the capabilites of their web browser. They can using browser extensions.
+These are usually written by third party, and after the obvious fact that the third party itself can be an attacker,
+these extensions usually process new data formats in varying way, widening the attack surface.
+Adobe Flash for example was a widely available software package designed to enhance
+user experience, and gigantic security concern led to it's discontinuation 
+in 2016 after more than 23 years of use.
+

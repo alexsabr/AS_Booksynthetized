@@ -155,8 +155,37 @@ to perform an action for it (like opening a file, getting more memory or communi
 #### Various Type of Kernel in operating systems
 
 ### Monolithic systems
+In monolithic systems, everything pertaining to the os is packed together in one giant program running.
+Only user programs are running in user mode.
+Very practical from a development standpoint, it is also the most dangerous,
+as a faulty driver could bring to a halt the whole system.
+Caution though, it doesn't mean that the operating system is in one big source code file and that their can't be code module,
+but in the end everything is running as one single program.
+
+### Layered Systems
+The Operating system is split into layers, each one depending on the one below and
+providing service to the one above.
+| 5 | The User             |
+|---|----------------------|
+| 4 | User Program         |
+| 3 | IO Management        |
+| 2 | Process Management   |
+| 1 | Memory Management    |
+| 0 | Processor Management |
+
 
 ### Micro Kernel
+Micro kernels are a subcategory of layered systems, where only the most vital pieces of software of the operating system
+are running in kernel Mode, everything else (including piece of the OS ) are running in user space mode.
+They can be slower than monolithic systems though, as even part of the OS  are now also running back and forth between
+user mode and kernel mode.
+
+| User Programs | Shell, Make,gcc, firefox,Doom,minecraft,blender                         |
+|---------------|-------------------------------------------------------------------------|
+| Services      | File System, Processes, Process scheduling                              |
+| Drivers       | Audio, Networking,TTY,Graphical driver,USB,...                          |
+| Micro Kernel  | Clock, RAM, Processor,Threading,Interrupts, Inter Process Communication |
+
 
 ### Layered System
 

@@ -236,10 +236,104 @@ All abstraction engines adding more or less abstraction between the real hardwar
 and a hypthetical one on which another operating system, a  "guest OS" works.
 
 
-
+### Terminology that doesn't fit in any other category
+#### POSIX
+TODO
+#### UNIX
+TODO
+#### LINUX
+TODO
+#### GNU
 
 
 ## Processes and Threads
+
+### Why process and what they really are
+If you aren't stuck with a mainframe in the 1950's
+your computer has to perform multiple tasks simultaneously,
+or seemingly so (if you are unfortunate enough to have one single core).
+It might juggle with hundreds of them for example :
+- a web browser is playing a song in your speakers
+- while you draw on a painting program,
+- all of this during a daily system backup on your external drive
+- finally your mail daemon (program running in the background) checks periodically if you have new mails.
+That's not even taking account all the drivers that may be running too as independant
+tasks if  you have a layered / micro kernel system.
+Maybe even these tasks have to communicate with each other during their execution,
+take the example of a video game that talks with the driver of your keyboard
+to make it light up when something happens.
+All of this to say operating system need a way to organized task and to manage them.
+Enter processes.
+
+### Memory in processes 
+Their memory is separated in four distinct parts
+- the text area, where all hard coded values lie, things like images and icons displayed inside the app,
+  text for the user to read, ... .
+- the instruction area
+  Where all the code to be executed lies 
+- the stack
+  which is memory allocated each time a new function is called, holding
+  all the processor context (the state of all the variables) inside a function.
+  It is deallocated each time a function finishes.
+- the heap
+  which is memory dynamically allocated by the program in a somewhat irregular pattern
+
+Now this is for what is strictly inside a process,
+but there are also things that the operating system manages that are gravitating around it.
+
+### side information on processes managed by the operating system
+
+The operating system for each process keeps track of the following:
+- the unique id  of the process to identify it among others.
+- the user who launched the process
+- a table of file descriptors (what files is the process currently using)
+- a table of signals, communication switches to indicate a process or the OS that something is happening
+- a status,
+    - currently running
+    - dead but has not been cleaned yet also called "zombie"
+    - not running, blocked  because it is waiting for a resource from the OS
+    - not running, but ready to run (the OS has currently decided that some other process is more worthy of cpu time.)
+- in UNIX, the id of the parent process who gave birth to it using the **"fork"** system call.
+  all UNIX processes take part in hierarchies of processes called **Process Group**,
+  all of them in the end being children of the first  process **init** running as long as
+  the operating system is online. (not the case in windows)
+
+### Signals and interruptions
+#### Signals
+Sometimes a process needs to be notified of something in a timely fashion.
+So this notification is so critical in fact that the process
+should stop everything it is doing  to treat this notification.
+these are **signals**. 
+They are exclusively ***software based***, born from the mind of software engineers 
+and implemented in the OS.
+Processes can bind to them signal handlers, which are piece of code 
+executed anytime a particular signal reaches the process.
+As signal can happen anytime during the normal execution of the process,
+they should be carefully crafted as little (if any) assumption can be made
+about the state of the process.
+When a process receives a signal,
+- if it doesn't have any signal handler for it, 
+the signal will be armed in the  signal table waiting for the process to manually check on it.
+- if  the process has subscribed earlier a signal handler to receive this type of signal,
+  the process context will be immediately stopped, saved and signal-handler instructions will be
+  loaded instead. At the end of the execution of the signal handler, the process former context
+  will be loaded back and previous execution resumed
+
+####  Interruptions
+Sometimes a piece of hardware needs to notify the processer of something in a timely fashion.
+It can be even be the cpu notifying itself with the example of division by zero error.
+This notification is so critical in fact that the cpu should stopped everything
+They are exclusively ***hardware based***
+
+Sometimes
+
+
+
+
+
+
+
+
 
 ##  Memory Management
 ### Why is good memory management so important 

@@ -379,6 +379,22 @@ in kernel space (increasing the overhead of making new threads) or both, that is
 running on one or more kernel space threads (kind of the best of both worlds).
 
 
+### Event driven programming, finite State Machine and Nonb blocking system calls
+An alternative to process splitting and threading is
+Having in your operating system non blocking system calls.
+Let's say for example you are a web server.
+When someone connects it requests a web page, if the file is on the disk
+you can make the call to open and read it. Because it is non blocking,
+you can start listening for another connection and see what is the request,
+while the operating system is hard at work to get the file from the disk.
+At a later time you can check to see if the operating system has granted you the content of the file
+( you can check via an interrupt for example),
+and send the content to the recipient  on the network (via another system call which may also be ran in the background).
+This is called Event driven as systems events are driving forward your execution.
+This method can seem a bit special, yet it is implemented in nginx, a very serious web server 
+used in industrial grade settings.
+
+
 
 ##  Memory Management
 ### Why is good memory management so important 

@@ -379,7 +379,7 @@ in kernel space (increasing the overhead of making new threads) or both, that is
 running on one or more kernel space threads (kind of the best of both worlds).
 
 
-### Event driven programming, finite State Machine and Nonb blocking system calls
+### Event driven programming, finite State Machine and Non blocking system calls
 An alternative to process splitting and threading is
 Having in your operating system non blocking system calls.
 Let's say for example you are a web server.
@@ -393,6 +393,88 @@ and send the content to the recipient  on the network (via another system call w
 This is called Event driven as systems events are driving forward your execution.
 This method can seem a bit special, yet it is implemented in nginx, a very serious web server 
 used in industrial grade settings.
+
+
+### Concurrent programming peculiarities
+#### Definitions
+__Critical Region__
+ Part of Code where access to a shared ressource between multiple concurrent entities is made.
+ 
+__Race Condition__
+A situation where the result of work between concurrent entities with the same input yields
+different results based on when each has executed and how they managed to share (or fight for) resources.
+Usually generates wrong/catastrophic results
+
+__Mutual exclusion__
+When multiple concurrent entites cannot execute in parallel a same action and must wait their turn.
+Method used to control access to a shared resource.
+
+
+### Removing race conditions
+Three part strategy
+- Mutual exclusion on critical regions (for obvious reasons)
+- no assumptions made about speed and number of CPU (otherwise you're just making a gimmick of who does what when,
+   this is then  bad scheduling, not good race condition prevention)
+- A concurent entity  outside of a critical region cannot hinder/stop a concurrent entity inside a critical region
+- No concurent entity shall be starved forever of access to a critical region, we must guarantee that everyone
+  who requires will, one day have access to a critical region.
+
+#### The Peterson Algorithm
+This algorithm prevents two concurent entities to suffer from a race condition.
+This algorithm does not violate the "no assumption about number of processor",
+here we "force" number of entities, regardless of the number of processor available.
+If you have more than two concurrent entities, you can organize a tournament made of multiple duel,
+since this algorithm provides you a mean to choose a "winner" and a "looser".
+
+``` pseudocode 
+bool interestedflag[2] = [False, False] # shared resource by both entities
+int turn # shared resource by both entities
+MY_ID= XXX
+OTHER_ID = XXX # this information is of course reversed for the other entity
+interestedflag[MY_ID] = true;
+turn = MY_ID;
+# trying to enter critical section 
+ while (interestedflag[OTHER_ID] is True  and turn == MY_ID)
+ {
+  # busy waiting while the other is in the critical resource, 
+ }
+  # Now inside the critical region
+.....
+  # Now leaving the  critical region
+ turn = OTHER_ID;
+ flag_interested[MY_ID] = false;
+```
+This algorithm works because there are two indicators which allows to 
+- know if the other entity is already in the critical region
+- know who goes first if both entities wishes to enter the critical region
+
+We will draw a simple truth table to know what each combination of indicator states means:
+
+"O" means the other  entity has raised it's flag_interested in the array, not "O" means it's set to False.
+"T" means your ID is in the turn variable, "not T" means the other ID is in the turn variable.
+"Not O" and "Not T" : Impossible state but even if it occurs the other entity does not wish to enter the critical region, you can go.
+"Not O" and "T" : The other entity does not want to enter the critical region ,you can enter safely.
+"O" and "T" : The other entity is either already in the critical region, or about to give you the way to enter
+critical region by changing the state of indicators to "O" and "not T".
+"O" and "not T" : The other entity is also interested in entering the critical section but you can go, it will wait. 
+
+Note that this algorithm only works with two concurrent entities  because there isn't enough 
+states in the truth table to allow at all to depict the state of more than two concurrent entities.
+
+#### TSL Test and Set Instruction Lock; when the hardware comes to the rescue
+TSL is a CPU command which allows a program to test and set the value of a register in memory 
+atomically. It gives the guarantee that the reading of a register, and writing in it if it contains
+a certain value will happen with another core stepping in and also writing to same register.
+Effectively given the programmer a hardware lock which greatly eases the establishment
+of locks to access a shared resource.
+
+
+### Priority inversion problem, or why ensuring the absence of race condition does not guarantee a working concurrent system.
+Given two task, High and Low with High and Low priority in execution respectively,
+If Low gets a hold a of a shared resource, then is sent to sleep for the High task to be executed,if the High
+task also needs the shared resource, it wont be able to obtain it until the Low task has resumed operation
+and released it. Even though the Low task is of Low priority, it is stopping the High priority task from executing.
+Priority has been inversed.
 
 
 

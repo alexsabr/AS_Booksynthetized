@@ -469,13 +469,61 @@ Effectively given the programmer a hardware lock which greatly eases the establi
 of locks to access a shared resource.
 
 
-### Priority inversion problem, or why ensuring the absence of race condition does not guarantee a working concurrent system.
+
+Both of these solutions to race conditions make the process waiting for the resource in active waiting.
+This wastes energy and CPU time, which can lead to a problem called priority inversion.
+
+
+### Priority inversion , or why ensuring the absence of race condition does not guarantee  that a concurrent system works smoothly.
 Given two task, High and Low with High and Low priority in execution respectively,
 If Low gets a hold a of a shared resource, then is sent to sleep for the High task to be executed,if the High
 task also needs the shared resource, it wont be able to obtain it until the Low task has resumed operation
-and released it. Even though the Low task is of Low priority, it is stopping the High priority task from executing.
-Priority has been inversed.
+and released it. If it is busy waiting it can wait like this until the CPU preemptively stops it and gives way to another task.
+This is wasted CPU time. In a scenario where the scheduler is nonpreemptive, the system is blocked.
+Even though the Low task is of Low priority, it is stopping the High priority task from executing.
+Priority has been inversed. This problem is a special kind of deadlock where the problem comes from priority level.
 
+
+#### The random boosting solution
+From time to time, a random process sees it's a priority greatly raised temporarily.
+A non-deterministic way to solve the problem.
+
+#### The Priority ceiling solution
+Forbids entities with a priority higher than a given threshold to acquire a lock
+allowing low priorities tasks to continue it's work.
+
+#### The priority inheritance
+If a low priority task holds a resource that a high priority task requests,
+the low priority taks gains temporarily high priority.
+
+
+### Semaphores
+If Busy waiting with the peterson algorithm and or through a dumb use  of TSL locks work,
+it is far from optimal and wastes valuable CPU time. Introducing semaphores:
+A counter which has two atomic operations
+- Try to decrement the counter. If it is already to zero, I go to sleep
+  and it is to the semaphore to wake up the concurrent entity when the decrementation operation can be performed.
+- increment the counter
+This is very used in POSIX to synchronize threads and/or processes.
+It is mainly used in this form to avoid a producer-consumer problem where a producer
+floods the consumer with too much data.
+
+### Mutex
+Semaphores with only two states: locked and unlocked.
+Used to lock access to resources.
+
+### Futex "Faster User Space Mutex"
+Using Mutex and semaphores is good with a lot of contention,
+but when there is little contention it generates 
+unnecessary kernel calls. Instead,
+by a clever use of the TSL instruction to first try to grab a lock without going into kernel mode,
+we can minimize the kernel calls in period of small contentions and have a robust mechanism
+in period of high contention.
+
+### Condition Variables
+
+
+### Monitors
 
 
 ##  Memory Management

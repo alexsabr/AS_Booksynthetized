@@ -521,10 +521,22 @@ we can minimize the kernel calls in period of small contentions and have a robus
 in period of high contention.
 
 ### Condition Variables
+Allows to release an owned mutex,
+go to sleep and wake up with the mutex llocked again, all atomically.
 
+The atomic feature is important as it helps to protect against deadlock.
+For example when you need multiple locks but only managed to acquire a few,
+you can relinquish those which you have acquired for a time, for other to uses.
+This is in the hope that when you wake up, other will have had time to finish their work and 
+release the locks that you need so you will
+be able acquire them.
+Java as well as C++ have condition variables. 
 
 ### Monitors
-
+Programming language feature where variables and methods to interact with said variables are grouped
+together such as only on concurrent entity at a time can interact with them.
+Effectively giving protection for critical region, at the discretion of the programmer.
+One example of this feature is  "synchronized" keyword of Java
 
 ##  Memory Management
 ### Why is good memory management so important 

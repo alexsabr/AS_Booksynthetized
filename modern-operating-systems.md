@@ -538,6 +538,72 @@ together such as only on concurrent entity at a time can interact with them.
 Effectively giving protection for critical region, at the discretion of the programmer.
 One example of this feature is  "synchronized" keyword of Java
 
+
+### Message Passing
+Instead of locks and mutex and condition variables,
+concurrent entities send and receive message through the intermediary of
+the operating system to synchronize on who does what when.
+Allows for concurrent operation across network (unlike semaphores and mutex).
+The Message Passing Interface or MPI, is a standard 
+designed specially to deliver this service in high performance computing.
+Implemented in many well known language like Python, Java,R, Matlab ... .
+
+
+### Synchronization Barrier
+Concept of concurrent programming where multiple concurrent entity have to wait each other
+at some milestone before continuing execution. Particularly useful again in
+High Performance Computing.
+Also useful in Operating System, for example with Super Scalar CPU where 
+multiple instructions of a program are executed out of order,
+to ensure everyone has finished computing it's instruction before reassembling the result
+into a coherent result for the program.
+
+
+### Read-Copy Update
+Is it possible to have multiple concurrent entities operate on a shared
+data structure like a list, a tree or a table,
+concurrently, without locks, or mutexes on **the whole structure** (allowed on a smaller sample)
+and still be able to operate without race condition and inconsistent results ?
+After all we have listed earlier it should seem impossible yet it is
+enter the world of Read-Copy Update.
+
+Some  operations do need to be atomic, wether through the use of algorithm,
+mutexes, locks, monitors ... but only on a very small scale.
+Let's say the data structure is a stree, only the reading and writing operations of a
+single node need to be atomic.
+
+Here we have a  concurrent entity which wishes to implement an update on a node. 
+Leaf or node with children, does not matter.
+It firsts copies atomically  the part of the data structure concerned by the change (a node in this example).
+It then perform the modification it wishes on the copy (updating a value changing a child, even deleting the node
+and making all children unreachable).
+Then it reintroduces the modified part, again atomically.
+
+After the part has been re-introduced other concurrent entities navigating the structure are now either in one of three state:
+
+- not yet reached the part modified, they will see it already updated when they encounter it if they do.
+- was just about to encounter the part  our concurrent entity was updating but had to wait for the lock while our entity was writing.
+    Just like the not yet reached part.
+- On a part related to the changed part but beyond it  (for example a child of the updated node wether direct child or very down the tree):
+  + the change either does not affect their work and all is good (example of a value update inside the node)
+  + they are now unknowingly working for nothing (example if parent node was deleted and child were not rattached)
+    their work will be lost but it is deemed acceptable.
+    
+One small detail to manage though is when to free part of the data structure
+which are no longer reachable by newer concurrent entities (i.e parts are old).
+They are maybe still being browsed by older concurrent entities who weren't aware of the change as they had
+already passed the modified part of the data structure when it was updated.
+
+One solution is to have **a grace period**. If you know how much time concurrent entity can spend at maximum in any part of
+the data structure, you can simply wait until this time has elapsed. You are now sure that all concurrent entities
+which had to work are now no longer browsing the part which is about to be deleted.
+You can thus delete it safely.
+
+This data structures trades space efficiency  for faster speed
+This data structure is very used in the linux Kernel, and in my opinion 
+has it's place in databases system and some AI training shenanigans.
+
+
 ##  Memory Management
 ### Why is good memory management so important 
 Let's say we have three places for a processor to access needed data 
@@ -550,6 +616,7 @@ You can have a processor that can execute instructions at a 1 nano second rate  
 and it will be as fast as a processor  running at a 100 nano second rate (10 Mhz)
 during data heavy period of times ! and processor always joggle with lots of data !
   
+
 
 
 ## File Systems

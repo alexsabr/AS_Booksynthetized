@@ -395,7 +395,7 @@ This method can seem a bit special, yet it is implemented in nginx, a very serio
 used in industrial grade settings.
 
 
-### Concurrent programming peculiarities
+### Concurrent programming  peculiarities for threading and high performance computing
 #### Definitions
 __Critical Region__
  Part of Code where access to a shared ressource between multiple concurrent entities is made.
@@ -410,7 +410,7 @@ When multiple concurrent entites cannot execute in parallel a same action and mu
 Method used to control access to a shared resource.
 
 
-### Removing race conditions
+#### Removing race conditions
 Three part strategy
 - Mutual exclusion on critical regions (for obvious reasons)
 - no assumptions made about speed and number of CPU (otherwise you're just making a gimmick of who does what when,
@@ -419,7 +419,7 @@ Three part strategy
 - No concurent entity shall be starved forever of access to a critical region, we must guarantee that everyone
   who requires will, one day have access to a critical region.
 
-#### The Peterson Algorithm
+##### The Peterson Algorithm
 This algorithm prevents two concurent entities to suffer from a race condition.
 This algorithm does not violate the "no assumption about number of processor",
 here we "force" number of entities, regardless of the number of processor available.
@@ -474,7 +474,7 @@ Both of these solutions to race conditions make the process waiting for the reso
 This wastes energy and CPU time, which can lead to a problem called priority inversion.
 
 
-### Priority inversion , or why ensuring the absence of race condition does not guarantee  that a concurrent system works smoothly.
+#### Priority inversion , or why ensuring the absence of race condition does not guarantee  that a concurrent system works smoothly.
 Given two task, High and Low with High and Low priority in execution respectively,
 If Low gets a hold a of a shared resource, then is sent to sleep for the High task to be executed,if the High
 task also needs the shared resource, it wont be able to obtain it until the Low task has resumed operation
@@ -484,20 +484,20 @@ Even though the Low task is of Low priority, it is stopping the High priority ta
 Priority has been inversed. This problem is a special kind of deadlock where the problem comes from priority level.
 
 
-#### The random boosting solution
+##### The random boosting solution
 From time to time, a random process sees it's a priority greatly raised temporarily.
 A non-deterministic way to solve the problem.
 
-#### The Priority ceiling solution
+##### The Priority ceiling solution
 Forbids entities with a priority higher than a given threshold to acquire a lock
 allowing low priorities tasks to continue it's work.
 
-#### The priority inheritance
+##### The priority inheritance
 If a low priority task holds a resource that a high priority task requests,
 the low priority taks gains temporarily high priority.
 
 
-### Semaphores
+#### Semaphores
 If Busy waiting with the peterson algorithm and or through a dumb use  of TSL locks work,
 it is far from optimal and wastes valuable CPU time. Introducing semaphores:
 A counter which has two atomic operations
@@ -508,11 +508,11 @@ This is very used in POSIX to synchronize threads and/or processes.
 It is mainly used in this form to avoid a producer-consumer problem where a producer
 floods the consumer with too much data.
 
-### Mutex
+#### Mutex
 Semaphores with only two states: locked and unlocked.
 Used to lock access to resources.
 
-### Futex "Faster User Space Mutex"
+#### Futex "Faster User Space Mutex"
 Using Mutex and semaphores is good with a lot of contention,
 but when there is little contention it generates 
 unnecessary kernel calls. Instead,
@@ -520,7 +520,7 @@ by a clever use of the TSL instruction to first try to grab a lock without going
 we can minimize the kernel calls in period of small contentions and have a robust mechanism
 in period of high contention.
 
-### Condition Variables
+#### Condition Variables
 Allows to release an owned mutex,
 go to sleep and wake up with the mutex llocked again, all atomically.
 
@@ -532,14 +532,14 @@ release the locks that you need so you will
 be able acquire them.
 Java as well as C++ have condition variables. 
 
-### Monitors
+#### Monitors
 Programming language feature where variables and methods to interact with said variables are grouped
 together such as only on concurrent entity at a time can interact with them.
 Effectively giving protection for critical region, at the discretion of the programmer.
 One example of this feature is  "synchronized" keyword of Java
 
 
-### Message Passing
+#### Message Passing
 Instead of locks and mutex and condition variables,
 concurrent entities send and receive message through the intermediary of
 the operating system to synchronize on who does what when.
@@ -549,7 +549,7 @@ designed specially to deliver this service in high performance computing.
 Implemented in many well known language like Python, Java,R, Matlab ... .
 
 
-### Synchronization Barrier
+#### Synchronization Barrier
 Concept of concurrent programming where multiple concurrent entity have to wait each other
 at some milestone before continuing execution. Particularly useful again in
 High Performance Computing.
@@ -559,7 +559,7 @@ to ensure everyone has finished computing it's instruction before reassembling t
 into a coherent result for the program.
 
 
-### Read-Copy Update
+#### Read-Copy Update
 Is it possible to have multiple concurrent entities operate on a shared
 data structure like a list, a tree or a table,
 concurrently, without locks, or mutexes on **the whole structure** (allowed on a smaller sample)
@@ -602,6 +602,64 @@ You can thus delete it safely.
 This data structures trades space efficiency  for faster speed
 This data structure is very used in the linux Kernel, and in my opinion 
 has it's place in databases system and some AI training shenanigans.
+
+### Scheduling
+Making process internal and processes compete and cooperate with one another is good and all,
+but CPU time is not a free-access resource, it is the operating system that allocates it.
+Enter the world of scheduling. This subject became a bit archaic for todays user confort on a regular pc,
+but it still plays a significiant role in smartphones, IOT and critical systems.
+
+#### CPU bound and IO bound tasks
+when talking about scheduling, it is important to first notice something,
+all tasks aren't created equally.
+Some tasks will spend a lot of their lifetime crunching data 
+with relatively little IO in comparison. These tasks which benefit 
+the most from more CPU time or a faster CPU are called **CPU-BOUND**.
+An example of IO-bound task could be a physical simulation,
+where the input parameters fit in a little file,
+but the calculations are quite complexe.
+
+On the other side we have tasks whic spend the majority of their lifetime
+waiting for IO operations to happen, wether it be network,user action,disk ... .
+These tasks are called **IO-bound**. They will not benefit very much 
+from more CPU time or a faster CPU, the main thing that speeds them up is 
+alloting them CPU time just after an IO they were waiting for has finished.
+By doing so, the task can immediately react and start doing something else.
+An example of IO-bound task could be a disk shredder, or a program sending
+massive amounts of data through the network.
+
+Scheduling algorithm comes in many flavour but first we have to discuss,
+how the operating system behaves when a task has used up it's alloted CPU time so far.
+
+#### Cooperative scheduling
+The scheduler decides which process has a right to CPU time and starts it.
+It is up to the process then to voluntarily yield to allow the sheduler to run another process.
+Alternatively it can also yield automatically when waiting for an IO.
+Mainly seen in embedded and critical applications where a tight control loop
+is made on what is running at any given time because if  a bugged / rogue process
+came into execution, it could hold up the CPU forever and stall the whole computer.
+Embedded systems have a hardware component called a Watch dog to rest the hardware
+in case such thing would happen, but this is far from optimal.
+
+#### preemptive scheduling 
+The scheduler decides for how long each process can hold up CPU time.
+Once the time is up, the CPU is forcibly taken away from the process
+and given to another one, according to the used scheduling algorithm.
+
+
+#### Scheduling in an environment 
+##### Batch work
+##### in an interaction with a human user
+##### in a realtime system.
+
+#### First Come First Served
+
+
+#### Shortest Job First and Shortest Remaining time 
+
+#### Round Robin Scheduling 
+
+#### Priority Scheduling
 
 
 ##  Memory Management

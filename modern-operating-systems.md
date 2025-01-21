@@ -648,18 +648,62 @@ and given to another one, according to the used scheduling algorithm.
 
 
 #### Scheduling in an environment 
+Scheduling algorithm do not operate in a vacuum,
+they are dependant on the kind of environment they take place,
+and the accepted balance beween responsiveness and "stability".
+
 ##### Batch work
-##### in an interaction with a human user
+No human interaction, CPU and IO bound operation are possible.
+Longer time between process switch, better overall performance
+(as fewer time lost on context switching) but worse instantenaous performance
+(one process can be running for a "long" time).
+
+##### Interactive environment, with a human on the other end of the line 
+There is a human interacting with process at work.
+A human which can get easily bored, and maybe jumps around doing multiple things.
+Here we aim for more frequent process switching, giving an overall
+worse performance but better responsiveness.
+
 ##### in a realtime system.
+Highly  specialized environment when task must finish within tight time constraints,
+or else ... .
+Sometimes events can be predicted in advance and thus the selection of certain task
+will be dependant on this.
+
+
 
 #### First Come First Served
+Simplest algorithm to implement. 
+Non preemptive it has some  major flaws, it  does not
+give way to a short task if it comes after a very long one 
+even if it could be completed very fast and then reduce the number 
+of pending task waiting for CPU time.
 
 
 #### Shortest Job First and Shortest Remaining time 
+Typical of bacth work evironment as time of execution required to complete a task
+must be known in advance.
+
+The difference between shortest job first and shortest remaining time is that
+in shortest remaining time, if a short task comes but a long task
+has already being executing from a while and would finish in less time than what is needed
+to complete the short task, the long task will continue to execute until completion.
+
 
 #### Round Robin Scheduling 
+Really First come First served but preemptive,
+after a process has used up it's alloted time,
+CPU is withdrawn from it  and said process goes to the back
+of the queue, until CPU is given to it once again.
+Here all process are equally important
+
 
 #### Priority Scheduling
+Unlike round robin, Priority scheduling does not assume that all process are equal.
+They are instead segregated in level of priorities and process with higher priority 
+are either given more CPU time, more frequently, or both.
+One main issue with this kind of algorithm  is to ensure that low priority
+process don't starve of CPU time.
 
 
 ##  Memory Management

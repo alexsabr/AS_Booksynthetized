@@ -424,7 +424,7 @@ This algorithm prevents two concurent entities to suffer from a race condition.
 This algorithm does not violate the "no assumption about number of processor",
 here we "force" number of entities, regardless of the number of processor available.
 If you have more than two concurrent entities, you can organize a tournament made of multiple duel,
-since this algorithm provides you a mean to choose a "winner" and a "looser".
+since this algorithm provides you a way to choose a "winner" and a "looser".
 
 ``` pseudocode 
 bool interestedflag[2] = [False, False] # shared resource by both entities
@@ -652,23 +652,38 @@ Scheduling algorithm do not operate in a vacuum,
 they are dependant on the kind of environment they take place,
 and the accepted balance beween responsiveness and "stability".
 
+####  Process turnaround Time  and mean process turnaround time
+One way of measuring performance of a scheduling algorithm is to study the Mean Turnaround Time.
+Turnaround time is the time needed by process when it first becomes ready until it has completed it's 
+task and can be discarded from memory.
+It includes time spent waiting to be alloted some CPU time as well as time spent executing.
+The mean turn around time is the sum of turnaround timmes of all process, divided by the number of process.
+This is only A way and not THE way of measuring scheduling algorithm performance,
+because sometimes other criterion also have importance like responsiveness (see the interactive environment example)
+
+#### Responsiveness
+Responsiveness can be defined as the duration between the moment a process is forced to release the CPU,
+and when it gains again control of it.
+
 ##### Batch work
 No human interaction, CPU and IO bound operation are possible.
-Longer time between process switch, better overall performance
-(as fewer time lost on context switching) but worse instantenaous performance
-(one process can be running for a "long" time).
+Longer time between process switch, better turnaround time because fewer time lost on context switching.
+Worse responsiveness as one process can be running for a "long" time.
 
 ##### Interactive environment, with a human on the other end of the line 
 There is a human interacting with process at work.
 A human which can get easily bored, and maybe jumps around doing multiple things.
 Here we aim for more frequent process switching, giving an overall
-worse performance but better responsiveness.
+worse turnaround time but better responsiveness.
 
 ##### in a realtime system.
 Highly  specialized environment when task must finish within tight time constraints,
 or else ... .
 Sometimes events can be predicted in advance and thus the selection of certain task
 will be dependant on this.
+Scheduling take advantage of events coming at a regular time interval is called **periodic scheduling**,
+and if events are random it is then **aperiodic scheduling**
+
 
 
 
@@ -705,6 +720,28 @@ are either given more CPU time, more frequently, or both.
 One main issue with this kind of algorithm  is to ensure that low priority
 process don't starve of CPU time.
 
+
+#### Guaranteed scheduling and the "completely fair scheduler"
+Simple Guarantee "your process will get as much CPU time as everyone else"
+Just pick the process which had so far the least amount of execution time alloted
+and give it some CPU time. Rinse and repeat everytime you need to choose a process.
+
+#### Lottery Scheduling
+Non deterministic scheduling, each process has one or more "lottery tickets".
+Every time CPU time slice must be alloted, a ticket is picked and the process
+holding it is granted the CPU time.
+This system offers priority, as the more "tickets" a process has, the
+more he is likely to get a CPU time slice.
+This system offers also "priority boosting"
+as other process of a pool can lend their ticket to a process of their choice
+to increase temporarily it's change to get picked and run.
+For example a master process and multiple workers process, when one worker is finished,
+it can send it's tickets to the master process in the hope of getting more work or an answer.
+
+
+
+Some words of wisdom before going into the next chapter,
+"Threads are meant to cooperate. Processes are made to compete"
 
 ##  Memory Management
 ### Why is good memory management so important 

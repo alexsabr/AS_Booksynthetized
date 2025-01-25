@@ -756,9 +756,84 @@ and it will be as fast as a processor  running at a 100 nano second rate (10 Mhz
 during data heavy period of times ! and processor always joggle with lots of data !
   
 
+###  No Memory Abstraction
+historically the first type of memory management scheme, the simplest,
+and also the one offering the least amount of flexibility.
+Only one program at the time runs in memory,
+otherwise they could overwrite each other or access to data they are not supposed to.
+In a worst case scenario, they could even overwrite the Operating System!
+Still used in the least intelligent embedded system, as the programmer has complete control over them.
 
+### Adressing Space
+After the process, an abstraction for CPU time and access,
+presenting the adressing space, an abstraction for memory access for programs.
+Each program think it is alone in memory, when it fact it is running in a sandbox
+made by the Operating System and the hardware.
+Each time a process references memory, the "virtual adress" it uses
+is first translated into a real adress by the Memory Management Unit (a piece of hardware in the CPU) 
+before the data is fetched from memory.
+But how does this translation take place ?
+
+#### Base and limit register
+The CPU has two additional registers, the "base" and the "limit" register.
+They both contain adresses to the real memory.
+To perform a translation, the "virtual adress" is simply added to the one in the base register.
+The limit register is here to ensure that the process does not attempt to read memory it 
+is not supposed to have access to.
+
+#### Swapping
+All the mechanisms we have described so far work great if there is enough memory to fit all process' needs. 
+But what happens if it isn't the case ? With swapping we have one more solution
+before just killing process, trying to make space.
+Here a part of the hard drive is used as supplemental memory.
+Process data is moved to the disk when not immediately in use by the CPU to free up some main memory
+for process which are currently using the CPU. Since hard drive are slower than main memory, it can be a costly 
+operation, but it is nonetheless less extreme than killing processes just to obtain some more memory.
+This is even more useful   in some high computing settings where there wouldn't be enough  memory space just for even one whole process.
+Swapping and base / limit registers can absolutely work together.
+
+#### Tracking memory 
+Before going into more detailed memory management scheme, and even for adressing space,
+we need to talk about how free and used memory is tracked.
+##### Bitmaps
+An array tracking the state of each chunk of memory.
+Big array means fine granularity when allocating memory, 
+but potentially longer search time for a free space in memory.
+Small array means smaller search time for a free space in memory,
+but some memory space will be potentially wasted as big chunks of memory
+will be allocated for small memory needs.
+
+##### Linked List
+Each space of reserved memory is tracked by an entry in a list.
+Trying to allocate memory simply means searching the list 
+for an entry specifying free memory that is big enough.
+Potentially much smaller search space than the bitmaps system,
+due to the limited number of entry. Better granularity as just
+the right amount of memory is allocted (disregarding hardware limitations concerning memory allocation size).
+We can  even keep two linked list, one with entries tracking free memory and one entries tracking reserved memory.
+The two linked list system is faster when allocating new memory chunks for process, than when freeing them.
+
+#### Allocating memory
+Finding free memory space where to write is good, but is there a way of choosing 
+between multiple adequate memory space, such as to minimize fragmentation  ?
+The easiest one is first fit, the first memory space which suits the need is used.
+Then there is best fit, the smallest adequate space to the need is used, ensuring minimum
+memory waste.
+Worst fit, selecting the biggest free memory space and allocating only what we need.
+Contrary to the intuition, worst fit is better than best fit,
+because in a best fit scenario, the remaining free memory after allocation has a very high 
+likelyhood of being useless, that is too small to being used by other processes.
+In a worst fit scenario, the remaining chunk is big and more likely to be big enough to be used 
+by other processes.
+This is all assuming that all the memory used by a process  is adjacent and not spread in multiple chunks.
+Even with best fit, the free memory isn't lost, but to be used the memory of the computer will need to be compacted / defragmented.
+That is all memory used by process will need to be tightly grouped together to obtain again one adjacent chunk of free memory.
+This operation uses up precious CPU cycles, and can be even slower if the hard drive through the swapping mechanism has to be involved.
+
+Virtual Memory.
 
 ## File Systems
+
 
 ## Input / Output
 

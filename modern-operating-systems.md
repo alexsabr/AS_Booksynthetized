@@ -830,7 +830,88 @@ Even with best fit, the free memory isn't lost, but to be used the memory of the
 That is all memory used by process will need to be tightly grouped together to obtain again one adjacent chunk of free memory.
 This operation uses up precious CPU cycles, and can be even slower if the hard drive through the swapping mechanism has to be involved.
 
-Virtual Memory.
+### Virtual Memory
+Everything of the  adressing space method plus some nice additions.
+Here the memory of each program is split in chunks of equal sizes called  **memory pages**.
+All the memory used by a page is adjacent, but multiple pages of a same program do not need
+to be adjacent to work.
+**Frame slot** is the name of the real chunk  of main memory used by a memory page.
+When the program (which doesn't know anything about pages). starts requesting data from a 
+page not in memory, this is called a **page fault**.
+The MMU of the CPU generates a trap which the Operating System can hook on 
+to load the page from the hard drive into the main memory.
+The program (and the programmer when he writes code) do not know anything about those pages.
+The operating system like any other program is also dependant of this system.
+
+For the operating system to manage pages correctly,
+a header is joined to each page. 
+
+This header contains:
+- Page number to know for each pages what is inside.
+- Right flags to know if the content of the page can be just read, also written on, or executed.
+- Flag telling if the page is loaded in the main memory or if it is still only on the hard drive.
+- A Dirty flag to know if the page has been written on, which means that before discarding it, it needs
+    to be wrote back on the disk, not just simpply erased.
+
+### Issues of virtual memory
+Virtual memory is an abstraction technique ubiquituous of todays operating system.
+As all abstractions, it exchanges complexity for speed.
+It adds an overhead which must be kept at a minimum to ensure performances
+goes "to business task"
+- in memory terms, as the page system, headers and component must not be too large
+- in speed terms, as memory is used all the time, translation between pages adress and
+  real adress must be fast.
+
+### Speeding up translation from page to memory slot 
+
+#### Translation Lookaside Buffer(TLB)
+A Piece of memory inside the MMU which keeps informations on a small number of pages.
+When the CPU requests data (that is, always) the MMU
+first interrogates the TLB to see if it has information on the required page.
+If it has, it can directly retrieve it from the main memory, or perform the operation of 
+a page fault.
+If it hasn't, the MMU must go to the process of searching for the page in the whole system table 
+containing all the pages, the **page table** which is slower.
+If the TLB can be purely hardware-based,
+some CPU allow the OS to interact with the TLB.
+
+#### Managing huge main memory efficiently
+Managing big memory can be done using a tactic similar to 
+an array of pointers. Let's have an example with a 2 level array.
+The header of each pages 
+contains two virtual page number .
+The first number select is used to select an entry in a table.
+This entry points to a page table where the second number is used to extract the page.
+if N is a fixed maximum number of entries a table can have,
+this system allows to manage N * N = N² number of pages in total 
+(N table of pages with N pages inside each)
+Since this system involves traversing 2 tables, it can sometimes be slower than just having a single array,
+but sometimes the CPU architecture limits the size an array can have.
+
+#### Inverted Page Table
+Another solution instead of array pointers 
+is to store in the page table only the pages which 
+already have a memory slot in the main memory plus some eventual swap.
+The resulting page table array is smaller (as we only track the real hardware memory space at any given time
+instead of the possibly much larger virtual one ).
+The downside is that now in case of a page fault you have first  to lookup through all the pages loaded in memory to 
+realise the page of your liking is in the hard drive. A hash table and the TLB can help mitigate those issues.
+
+
+### Page replacement algorithm
+
+#### Absolute optimal yet impossible algorithm : hindsight 
+
+#### Local vs Global Replacement Policies
+
+#### First in first out page replacement
+#### Second Chance Algorithm
+#### Least Recently Used (LRU)
+#### Not Frequently Used (NFU)
+#### Working Set (WS) (WSClock)
+
+### Sharing Pages
+
 
 ## File Systems
 

@@ -1,8 +1,9 @@
-# AS_Booksynthetized
+# AS_Booksynthesis
 Synthesis of many books which marked the IT domain 
-Books curently synthesized along with their status:
+Books currently planned :
 - [X] Design Patterns : Elements of Reusable Object Oriented Software 
 - [X] The pragmatic programmer 20th Anniversary Edition 
 - [X] Networking 6th Edition Andrew Tanenbaum, Nick Feamster, David J Wetherhall 
+- [ ] Modern Operating Systems 5th Edition Andrew Tanenbaum Herbert Bos ***WIP***
 - [ ] Clean Craftsmanship: Disciplines,Standards , and ethics 
-- [ ] Modern Operating Systems 5th Edition Andrew Tanenbaum Herbert Bos
+

@@ -899,10 +899,49 @@ realise the page of your liking is in the hard drive. A hash table and the TLB c
 
 
 ### Page replacement algorithm
+When memory is full and you need to add a new page,
+before resorting to extremes such as deleting an entire process,
+you can first just delete some currently unused page,
+which are not needed currently, but will be at a later date.
+They will in turn generate page faults and the need to replace other pages
+when they are needed again, if the memory situation is still dire.
+How do we choose what page to delete ? Enter page replacement algorithm
 
 #### Absolute optimal yet impossible algorithm : hindsight 
+We shall first start with an optimal yet impossible algorithm
+to serve as a basis of comparison.
+Let's say we have a history of all the pages fetched during the execution of a computer 
+from boot to shutdown.
+Inside this history is included a timeline recording when each page was needed.
+The best algorithm does this : 
+given that it knows when each page would've been required, and then temporarily unused,
+or even not used for the remainder of the execution of the computer,
+it, at any given point of the eecution
+- 1 deletes pages which are not to be used anymore, or are the furthest away from now from being used again
+- 2 loads in advance pages before they are being used to minimize page fault.
+
+Such algorithm is impossible in realtime because it requires knowing the future. However
+in a repeating execution setup where the same thing happens each time, like in a high performance computing
+or a particularly special  embedded environment, this algorithm is totally feasible.
 
 #### Local vs Global Replacement Policies
+When selecting which page must be evicted from main memory,
+we first have to delimit the search space.
+Are only pages related to the process experiencing a page fault 
+considered for eviction (**Local Replacement Policy**) or are all pages from all process
+considered ? (**Global Replacement Policy**).
+Local  policy has only one advantage from global policy,
+the search space is much smaller. Otherwise, unless the number of pages 
+per process can variate, it may end up overwriting 
+a page that will also soon be used by the process, lacking better solutions.
+This will trigger a chain of page fault, called **trashing**,
+because each time a page fault situation is solved, a page which will be used 
+in the near future is evicted, which will trigger another page fault when it is needed.
+Global Policy allow for number of page per process to grow and shrink,
+ensuring process with little pages do restrain process with many pages 
+for nothing.
+
+#### Choosing when all process have the adequate number of pages
 
 #### First in first out page replacement
 #### Second Chance Algorithm

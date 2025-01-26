@@ -942,12 +942,156 @@ ensuring process with little pages do restrain process with many pages
 for nothing.
 
 #### Choosing when all process have the adequate number of pages
+In a setting where there may not be enough memory for all process,
+meaning page fault are bound to happen, how many
+pages must have a memory intensive vs a memory conservative program ?
+Evaluating this is in fact very easy.
+You simply aim that all process have about the same page fault frequency.
+If you have a process that has many page fault and one that has little
+if any page fault, you reduce the number of pages that is allowed to be held by the process with little 
+page fault and you raise the number of pages that is allowed to be held by the process with many page faults.. 
+
+#### Not Recently Used (NRU)
+
+
+Pages headers are augmented with two flags,
+- R flag for the page has been read recently
+- W flag for the page has been written on (can also be  the  "dirty" flag )
+at regular time interval the R flag is reset.
+The W flag is lowered until the page is written upon once,
+then it stays up until the page is saved back into the hard drive.
+
+The rationale is as follows : pages  very used 
+will see  their R flag raised up frequently and thus,
+be marked as high priority and be less likely to eviction 
+to avoid triggering more page fault.
+Pages which have been written upon must be first saved back to the hard drive,
+so it takes longer to evict them, than a page which hasn't written on which
+can simply be overwritten.
+
+This explains why When a page fault occurs, pages are split into 4 classes.
+And why the pages with the lower class number are selected first for eviction.
+- class 0 Page has not been read nor written
+- class 1 Page has not been read but it has been written
+- class 2 Page has been read but not  written
+- class 3 Page has  been read and written
+
+class 0 page can simply be discarded,
+class 1 page must be wrote back to hard drive memory as they have been modified
+(they are class 3 pages which haven't been read again after the  R flag reset)
+class 2 page can simply be discarded but are more likely of triggering a page fault later on
+because they have been used recently and are likely to be used again
+class 3 pages have been written on at sometimes and have been read recently,
+they will be slow to evict as they must be written back on the hard drive first,
+and they are likely to be required again soon, triggering a page fault.
+
+
 
 #### First in first out page replacement
+The oldest / easiest page replacement algorithm to implement,
+but it does not work very well.
+The rationale is old pages are more likely to be unused
+than page just recently loaded in the memory. And thus are selected first for eviction
+But this is not always a  good strategy.
+For example, in an operating system, the first pages loaded
+contains absolutely necessary libraries likely to be heavily used.
+with this FIFO algorithm, these pages will be selected first for eviction,
+and likely trigger a page fault in a near future.
+
 #### Second Chance Algorithm
+A mix of FIFO and NRU,
+here when a page fault occurs, the page table is searched.
+the oldest class 1 page is converted into a class 0 page,
+while a true class 0 page is searched.
+If it is found, the true class 0 page is evicted and the oldest class 1 page will
+remain in memory and thus has a change of being read/modified again  although it is now currently  a class 0 page. 
+If no true class 0 page are found, the fake class 0 page is selected.
+This algorithm tries to combine both advantages/rationale of FIFO and NRU,
+while mitigating the main downside of FIFO.
+
 #### Least Recently Used (LRU)
+This algorithm is NRU with more intelligence.
+Rationale: a page heavily used, but which wasn't just recently,
+like in the last few instruction cycle is still very likely to be used again soon.
+A page sparingly used but which was used very recently, is likely
+to be sparingly used again and thus a better candidate for eviction.
+The idea is to follow usage frequency of pages, but with memory than just
+the last few instruction cycle, which is what NRU tracks.
+The problem is that effectively tracking usage frequency  for all pages 
+is a costly software operation and/or requires dedicated hardware using precious space
+on the CPU which could be used for something else.
+Thus the following  NFU algorithm try to apply this rationale,
+but use good enough approximation to avoid the costly tracking of usage frequency.
+
 #### Not Frequently Used (NFU)
-#### Working Set (WS) (WSClock)
+Here, in supplement to the NRU 
+R and W flags, an integer is also kept.
+at each R flag "reset" of NRU,
+the status of the flag is written to the most significant bit of the integer,
+and the other bit are left-sfhited.
+With this method, a page frequently and recently used has the most significant bit set to one
+and many 1 bits at lower position, giving a very high value to the frequency integer of the page.
+
+A page not frequently used but recently used will have only the most significant bit set to one
+plus few bits set to one at a lower position.
+This provides a high value to the frequency integer of the page.
+
+
+A page not recently used but which was frequently used earlier has it's most significant bit 
+set to 0 but many bits at lower position set to 1, providing a medium value to the frequency integer.
+
+A page not recently used and not frequently used will see not many bit set to 1 in the frequency integer,
+providing it with a low value.
+
+We can see four class of pages appearing, with the pages
+having a high frequency integer the least likely to be evicted,
+and the pages with a low frequency integer the most likely to be evicted.
+
+
+#### Working Set (WS) and working set clock (WSClock)
+By studying the behaviour of page usage by process,
+we realize that among all the page that a process will use during it's lifetime,
+a small subsection will be haheavily used, and others will be 
+much less intensively queried. This is called **locality of reference**.
+We can use this knowledge and the pareto 80/20 rule 
+to keep in priority these pages and evict other pages which are less frequently used.
+This small subsection of heavily used page is called a **working set**.
+Even better, if before providing a process with CPU time we ensure 
+that all pages in it's working set are already loaded in memory,
+we drastically reduce the risk of a page fault happening.
+Sadly, like LRU, keeping an accurate picture  of the working set
+of each program is too costly, and we must again rely on approximation.
+
+Here we will use again the R and W flags of NRU, and a time counter 
+which measures the time since the page was last used.
+when a page fault occurs we search for a class 0 page with an old time counter.
+Indeed if the time counter is recent, it is deemed that the page is in fact still
+in the working set of the process and should not be deleted unless we are in a dire need
+for memory.
+
+Small note, the time tracked by the clock is the time elapsed inside the process when it was executing also called **virtual time**.
+This is not the absolute time known by humans and the main clock of the Operating system.
+Indeed if it was the absolute time, a process which would have little interval of CPU time separated by long sleeping phase
+would see pages still in the working set to be very old and thus try to discard them.
+
+The working set clock is an enhancement of working set
+where pages are stored in a circular list and optimization
+are made to perform multiple page write back to disk in bulk.
+
+
+#### A table presenting all algorithms nicely
+| **Algorithm** | Comment                                                                                  |
+|---------------|------------------------------------------------------------------------------------------|
+| **Optimal/hindsight** | Not implementable but provides a basis for comparison                            |
+| **NRU** |LRU but very dumb, only considering the last few cycle of execution, fast but not very optimal. |
+| **FIFO** |might evict important pages just because they are old.                                         |
+| **Second Chance** | combines the good side of FFO and NRU                                                |
+| **Clock** | Not treated here as I really don't see the point                                             |
+| **LRU** | Excellent but too costly to implement without approximation                                    |
+| **NFU with aging** | Approximation of LRU                                                                |
+| **Working Set** | like LRU Good principle, but expensive to implement. Approximation made it more usable.|
+
+
 
 ### Sharing Pages
 

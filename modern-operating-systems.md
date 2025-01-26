@@ -1091,9 +1091,62 @@ are made to perform multiple page write back to disk in bulk.
 | **NFU with aging** | Approximation of LRU                                                                |
 | **Working Set** | like LRU Good principle, but expensive to implement. Approximation made it more usable.|
 
+### Out Of Memory Killer (OOM)
+When all else has failed, that memory and swap is no longer sufficient
+to satisfy everyone's need, the last resort solution
+is to kill a process and free it's memory for other.
+It is the job of the OOM (on Linux) to select process
+to kill to regain some memory.
+
+
+### Small pages, big pages and transparent huge pages.
+What size should a page be ? too small and the page table will be huge, there will be a lot 
+of overhead, and the TLB will be of limited use. Small process will be able to run efficiently though,
+as space is less likely to  be wasted.
+Too big and we run the risk of seeing memory wasted (reserved for a page that only use a fraction it ).
+The TLB is more useful, and  it is more efficient writing big pages to the harddrive rather than small pages.
+By taking into account
+- the average process size
+- the size of a page header
+- the size occupied by all overhead
+- the memory wsted on partially used pages
+- the ratio of memory used to perform task versus memory allocated to overhead
+we can determine an optimal size.
+There is also the idea of **transparent huge pages**,
+the operating system has a right to big pages unbeknownst to user process
+which use smaller pages. This reduces the page fault of Operating system processes.
 
 
 ### Sharing Pages
+Up to this point we haven't discussed about a very important possible optimization,
+the sharing of pages. Indeed user processes often rely on many different 
+libraries for many task that aren't directly related to the service they offer.
+These libraries tend to be the same among multiple user processes.
+Why then load the same library in different process when we could load it just once
+and make it available to multiple processes ?
+This idea comes with some tricky issues to solve and fine choices to make, notably
+- When a process dies, if the library page is removed, other processes which use this library
+  will all trigger a page fault when they will want to interact with it.
+- what happens when a data page is shared and one process wants to write soemthing on
+  said page ? One solution is **copy on write** where the page is shared in read mode,
+  and when someone wants to write on it, it is duplicated and the process can now modify freely it's own copy.
+
+### Page fault handling, the full breakdown
+- 1 The hardware / CPU emits a trap of a page fault, trap which is caught by the kernel of the Operating System.
+- 2 the context of the executing process it saved. Then the operating system page fault handler is called.
+- 3 The operating systems determine which page is missing, by studying the process context when the CPU trapped.
+- 4 Once determined, the OS checks that the process is not trying an illegal read/write. If not, it selects
+- a free page frame / runs the page replacement algorithm to select a used page frame to overwrite
+- 5 while the page frame is written back to the hard drive if needed, and then overwritten. Some other process
+ is given some CPU time to execute. The page frame is protected to not be interacted on by any other entity.
+- 6 The hard drive signals to the operating system that page is now available in main memory as requested
+ the operating system no longer protects the page frame and the process which was put to sleep by the page interruption
+ sequence can now be eligible again for some CPU time.
+- 7  when the process is elected, everything is put back in order and the process can now continue executing... until the next page fault !
+
+
+### Backing process through disk when page fault happens
+### Segmentation
 
 
 ## File Systems
